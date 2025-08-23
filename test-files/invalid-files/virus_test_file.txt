@@ -1,1 +1,0 @@
-This file has 'virus' in the name to test virus scanning
