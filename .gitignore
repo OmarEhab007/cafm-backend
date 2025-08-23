@@ -241,3 +241,97 @@ gen/
 .bzr/
 desktop.ini
 .directory
+
+### Documentation & Non-Core Files ###
+# Claude and AI assistant files
+CLAUDE.md
+.claude/
+
+# Documentation files (keep only essential ones)
+HELP.md
+BACKEND_CODE_STANDARDS.md
+AUTHENTICATION_TEST_RESULTS.md
+CAFM_Backend_Working_Examples.md
+CAFM_Simple_Test_Collection.postman_collection.json
+CRITICAL_TABLES_MIGRATION_SUMMARY.md
+FILE_UPLOAD_TEST_RESULTS.md
+IMPLEMENTATION_PLAN.md
+MIGRATION_TODO_LIST.md
+MISSING_COMPONENTS_ROADMAP.md
+MULTI_TENANT_SECURITY_REPORT.md
+PERFORMANCE.md
+PERFORMANCE_ANALYSIS_REPORT.md
+QUICK_START_COMMANDS.md
+SECURITY_AUDIT_REPORT.md
+SECURITY_FIXES_IMPLEMENTATION.md
+SUPABASE_TO_SPRINGBOOT_MIGRATION_PLAN.md
+
+# Test and utility scripts
+*.sh
+test-*.sh
+run-*.sh
+quick_test.sh
+test-endpoints.sh
+test-user-creation*.sh
+!mvnw
+scripts/test/
+scripts/utils/
+
+# Postman collections
+*.postman_collection.json
+*postman*.json
+CAFM_*.json
+cafm-backend-postman*.json
+cafm_backend_collection*.json
+
+# Log files from development
+app-startup.log
+app.log
+server.log
+spring-boot.log
+*.log
+!**/src/main/resources/logback*.xml
+!**/src/test/resources/logback*.xml
+
+# Test data and fixtures
+test-files/
+test-data/
+fixtures/
+sample-data/
+
+# Performance test files
+performance-tests/
+load-tests/
+stress-tests/
+benchmark/
+
+# Monitoring configuration (for local dev)
+monitoring/
+monitoring.disabled.backup/
+docker-compose.monitoring.yml
+
+# Documentation and reports
+docs/temp/
+docs/drafts/
+docs/archive/
+reports/
+analysis/
+
+# Development notes and todos
+TODO.md
+NOTES.md
+notes/
+todos/
+*.todo
+
+# Keep essential files
+!README.md
+!CONTRIBUTING.md
+!LICENSE
+!CHANGELOG.md
+!.env.example
+!docker-compose.yml
+!Dockerfile
+!pom.xml
+!mvnw
+!mvnw.cmd
