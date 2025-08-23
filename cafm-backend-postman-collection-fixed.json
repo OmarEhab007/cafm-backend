@@ -1,0 +1,911 @@
+{
+    "info": {
+        "_postman_id": "12345678-1234-1234-1234-123456789abc",
+        "name": "CAFM Backend API - Fixed",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": "Fixed Postman Collection for CAFM School Maintenance Management System Backend API"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080/api/v1",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "refreshToken",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "companyId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userType",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "categoryId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "schoolId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "assetId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "reportId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "workOrderId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "itemId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "notificationId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "technicianId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "taskId",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"admin@cafm.local\",\n    \"password\": \"admin123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/login",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "login"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Login Successful\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    ",
+                                    "    // Set authentication tokens",
+                                    "    pm.collectionVariables.set(\"token\", jsonData.accessToken);",
+                                    "    pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);",
+                                    "    ",
+                                    "    // Set user information",
+                                    "    pm.collectionVariables.set(\"userId\", jsonData.userId);",
+                                    "    pm.collectionVariables.set(\"companyId\", jsonData.companyId);",
+                                    "    pm.collectionVariables.set(\"userType\", jsonData.userType);",
+                                    "    ",
+                                    "    console.log(\"Login successful!\");",
+                                    "    console.log(\"Token: \" + jsonData.accessToken.substring(0, 50) + \"...\");",
+                                    "    console.log(\"User ID: \" + jsonData.userId);",
+                                    "    console.log(\"Company ID: \" + jsonData.companyId);",
+                                    "    console.log(\"User Type: \" + jsonData.userType);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Refresh Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/refresh",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "refresh"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Token Refreshed\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"token\", jsonData.accessToken);",
+                                    "    pm.collectionVariables.set(\"refreshToken\", jsonData.refreshToken);",
+                                    "    console.log(\"Token refreshed successfully\");",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/logout",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["auth", "logout"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/users?page=0&size=20&sort=createdAt,desc",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["users"],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "createdAt,desc"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/users/{{userId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["users", "{{userId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"newuser@cafm.com\",\n    \"password\": \"SecurePass123@\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"userType\": \"TECHNICIAN\",\n    \"companyId\": \"{{companyId}}\",\n    \"phoneNumber\": \"+966501234567\",\n    \"department\": \"Maintenance\",\n    \"preferredLanguage\": \"en\",\n    \"timezone\": \"UTC\",\n    \"isActive\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/users",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["users"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"User Created\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"createdUserId\", jsonData.id);",
+                                    "    console.log(\"User created with ID: \" + jsonData.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"firstName\": \"Updated\",\n    \"lastName\": \"Name\",\n    \"phoneNumber\": \"+966507654321\",\n    \"department\": \"Updated Department\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/users/{{userId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["users", "{{userId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/users/{{userId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["users", "{{userId}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Assets",
+            "item": [
+                {
+                    "name": "Get All Assets",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/assets?page=0&size=20",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["assets"],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Asset",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"assetCode\": \"ASSET-001\",\n    \"name\": \"HVAC System Unit 1\",\n    \"categoryId\": \"{{categoryId}}\",\n    \"location\": \"Building A - Floor 1\",\n    \"status\": \"ACTIVE\",\n    \"serialNumber\": \"SN-12345\",\n    \"manufacturer\": \"Carrier\",\n    \"model\": \"XC15\",\n    \"purchaseDate\": \"2023-01-15\",\n    \"warrantyExpiry\": \"2026-01-15\",\n    \"description\": \"Central air conditioning unit\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/assets",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["assets"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Asset Created\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"assetId\", jsonData.id);",
+                                    "    console.log(\"Asset created with ID: \" + jsonData.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Asset by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/assets/{{assetId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["assets", "{{assetId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Asset",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Updated HVAC System\",\n    \"location\": \"Building B - Floor 2\",\n    \"status\": \"MAINTENANCE\",\n    \"description\": \"Central air conditioning unit - under maintenance\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/assets/{{assetId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["assets", "{{assetId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Asset",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/assets/{{assetId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["assets", "{{assetId}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Work Orders",
+            "item": [
+                {
+                    "name": "Get All Work Orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/work-orders?page=0&size=20",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["work-orders"],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Work Order",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"reportId\": \"{{reportId}}\",\n    \"title\": \"Fix HVAC System\",\n    \"description\": \"HVAC system not cooling properly\",\n    \"priority\": \"HIGH\",\n    \"category\": \"HVAC\",\n    \"assignedToId\": \"{{technicianId}}\",\n    \"scheduledStart\": \"2025-08-25T09:00:00\",\n    \"scheduledEnd\": \"2025-08-25T17:00:00\",\n    \"estimatedCost\": 1500.00\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/work-orders",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["work-orders"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Work Order Created\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"workOrderId\", jsonData.id);",
+                                    "    console.log(\"Work Order created with ID: \" + jsonData.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Work Order by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/work-orders/{{workOrderId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["work-orders", "{{workOrderId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Work Order Status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"IN_PROGRESS\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/work-orders/{{workOrderId}}/status",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["work-orders", "{{workOrderId}}", "status"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "item": [
+                {
+                    "name": "Get All Reports",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports?page=0&size=20",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["reports"],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Report",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"supervisorId\": \"{{userId}}\",\n    \"schoolId\": \"{{schoolId}}\",\n    \"companyId\": \"{{companyId}}\",\n    \"title\": \"HVAC System Issue\",\n    \"description\": \"The HVAC system in Building A is not cooling properly\",\n    \"priority\": \"HIGH\",\n    \"category\": \"HVAC\",\n    \"location\": \"Building A - Room 201\",\n    \"building\": \"Building A\",\n    \"roomNumber\": \"201\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/reports",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["reports"]
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Report Created\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "if (pm.response.code === 201) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"reportId\", jsonData.id);",
+                                    "    console.log(\"Report created with ID: \" + jsonData.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Get Report by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/{{reportId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["reports", "{{reportId}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Notifications",
+            "item": [
+                {
+                    "name": "Get My Notifications",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/notifications?page=0&size=20",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["notifications"],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "20"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Notification",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"title\": \"Work Order Assigned\",\n    \"body\": \"You have been assigned a new work order\",\n    \"notificationType\": \"WORK_ORDER\",\n    \"priority\": \"HIGH\",\n    \"data\": {\n        \"workOrderId\": \"{{workOrderId}}\"\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/notifications/send",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["notifications", "send"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Mark as Read",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/notifications/{{notificationId}}/read",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["notifications", "{{notificationId}}", "read"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register FCM Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"token\": \"fcm_device_token_here\",\n    \"deviceType\": \"ANDROID\",\n    \"deviceId\": \"unique_device_id\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/notifications/fcm/register",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["notifications", "fcm", "register"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Companies",
+            "item": [
+                {
+                    "name": "Get Company Details",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/companies/{{companyId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["companies", "{{companyId}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Company",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"displayName\": \"Updated Company Name\",\n    \"contactPhone\": \"+966501234567\",\n    \"address\": \"123 Main Street\",\n    \"city\": \"Riyadh\",\n    \"timezone\": \"Asia/Riyadh\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/companies/{{companyId}}",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["companies", "{{companyId}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "item": [
+                {
+                    "name": "Get Dashboard Stats",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/dashboard/stats",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["dashboard", "stats"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Recent Activities",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/dashboard/recent-activities?limit=10",
+                            "host": ["{{baseUrl}}"],
+                            "path": ["dashboard", "recent-activities"],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

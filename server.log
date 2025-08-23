@@ -1,0 +1,688 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/opt/homebrew/Cellar/maven/3.9.11/libexec/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.cafm:cafm-backend >------------------------
+[INFO] Building CAFM Backend 1.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.3:run (default-cli) > test-compile @ cafm-backend >>>
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ cafm-backend ---
+[INFO] argLine set to -javaagent:/Users/omar/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/Users/omar/Developer/CAFM/cafm-backend/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ cafm-backend ---
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 48 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ cafm-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 274 source files with javac [debug parameters release 23] to target/classes
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/main/java/com/cafm/cafmbackend/dto/asset/AssetCreateRequest.java: Some input files use or override a deprecated API.
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/main/java/com/cafm/cafmbackend/dto/asset/AssetCreateRequest.java: Recompile with -Xlint:deprecation for details.
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/main/java/com/cafm/cafmbackend/service/PushNotificationService.java: Some input files use unchecked or unsafe operations.
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/main/java/com/cafm/cafmbackend/service/PushNotificationService.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ cafm-backend ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ cafm-backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 25 source files with javac [debug parameters release 23] to target/test-classes
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/exception/GlobalExceptionHandlerTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/exception/GlobalExceptionHandlerTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[9,2] cannot find symbol
+  symbol: class Suite
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[10,2] cannot find symbol
+  symbol: class SuiteDisplayName
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[11,2] cannot find symbol
+  symbol: class SelectPackages
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[12,2] cannot find symbol
+  symbol: class IncludeTags
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[13,2] cannot find symbol
+  symbol: class ExcludeTags
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[3,32] package org.junit.platform.suite.api does not exist
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[619,13] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[655,13] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[79,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[150,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[165,35] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[183,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[206,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[215,35] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[298,42] constructor PasswordResetResponse in record com.cafm.cafmbackend.dto.auth.PasswordResetResponse cannot be applied to given types;
+  required: java.lang.String,boolean
+  found:    java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[362,41] no suitable constructor found for ChangePasswordRequest(java.lang.String,java.lang.String)
+    constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(java.lang.String,java.lang.String,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(@jakarta.validation.constraints.NotBlank(message="Current password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="New password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password confirmation is required") java.lang.String,java.lang.Boolean) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[383,41] no suitable constructor found for ChangePasswordRequest(java.lang.String,java.lang.String)
+    constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(java.lang.String,java.lang.String,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(@jakarta.validation.constraints.NotBlank(message="Current password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="New password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password confirmation is required") java.lang.String,java.lang.Boolean) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[406,40] constructor VerifyEmailResponse in record com.cafm.cafmbackend.dto.auth.VerifyEmailResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,boolean,java.lang.String
+  found:    java.util.UUID,java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[443,40] constructor CurrentUserResponse in record com.cafm.cafmbackend.dto.auth.CurrentUserResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.util.Set<java.lang.String>,boolean,boolean,boolean
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,boolean,boolean
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[480,44] constructor TokenValidationResponse in record com.cafm.cafmbackend.dto.auth.TokenValidationResponse cannot be applied to given types;
+  required: boolean,java.util.UUID,java.lang.String,java.lang.Long,java.lang.String
+  found:    boolean,java.util.UUID,java.lang.String,long
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[502,44] constructor TokenValidationResponse in record com.cafm.cafmbackend.dto.auth.TokenValidationResponse cannot be applied to given types;
+  required: boolean,java.util.UUID,java.lang.String,java.lang.Long,java.lang.String
+  found:    boolean,<nulltype>,<nulltype>,long
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[526,43] constructor TwoFactorSetupResponse in record com.cafm.cafmbackend.dto.auth.TwoFactorSetupResponse cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String[]
+  found:    java.lang.String,java.lang.String,java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[572,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[698,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[88,45] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[122,45] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[143,45] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[207,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[226,50] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[243,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[275,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[293,50] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[312,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[327,71] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[345,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[361,71] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[378,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+  found:    java.lang.String,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[532,16] constructor CompanyListResponse in record com.cafm.cafmbackend.dto.company.CompanyListResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.time.LocalDate,com.cafm.cafmbackend.data.enums.CompanyStatus,java.lang.Boolean,java.time.LocalDateTime,java.lang.Long,java.lang.Long,java.lang.Integer,java.lang.Integer,java.lang.Boolean
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.time.LocalDateTime,java.time.LocalDateTime
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[546,16] constructor CompanyResponse in record com.cafm.cafmbackend.dto.company.CompanyResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.time.LocalDate,java.time.LocalDate,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,com.cafm.cafmbackend.data.enums.CompanyStatus,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Long,java.lang.Long,java.lang.Boolean
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.util.Map<java.lang.String,java.lang.Boolean>,java.time.LocalDateTime,java.time.LocalDateTime
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[88,39] no suitable constructor found for ReportCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.lang.String,java.util.List<java.lang.String>,<nulltype>)
+    constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(java.util.UUID,java.util.UUID,java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(@jakarta.validation.constraints.NotNull(message="School ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Supervisor ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.NotBlank(message="Report title is required") @jakarta.validation.constraints.Size(min=3, max=255, message="Title must be between 3 and 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Description is required") @jakarta.validation.constraints.Size(min=10, max=2000, message="Description must be between 10 and 2000 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="Priority is required") com.cafm.cafmbackend.data.enums.ReportPriority,@jakarta.validation.constraints.NotBlank(message="Category is required") @jakarta.validation.constraints.Size(max=50, message="Category cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=255, message="Location cannot exceed 255 characters") java.lang.String,java.lang.String,java.lang.String,java.lang.String,@jakarta.validation.constraints.Size(max=500, message="Damage assessment cannot exceed 500 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.util.List<java.lang.String>,java.lang.String,java.lang.String,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[100,9] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[101,27] no suitable method found for createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest,java.lang.String)
+    method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest) is not applicable
+      (actual and formal argument lists differ in length)
+    method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.data.entity.Report,java.util.UUID,java.util.UUID,java.util.UUID) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[101,41] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[121,39] no suitable constructor found for ReportCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,<nulltype>,java.util.UUID,java.lang.String,<nulltype>,<nulltype>)
+    constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(java.util.UUID,java.util.UUID,java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(@jakarta.validation.constraints.NotNull(message="School ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Supervisor ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.NotBlank(message="Report title is required") @jakarta.validation.constraints.Size(min=3, max=255, message="Title must be between 3 and 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Description is required") @jakarta.validation.constraints.Size(min=10, max=2000, message="Description must be between 10 and 2000 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="Priority is required") com.cafm.cafmbackend.data.enums.ReportPriority,@jakarta.validation.constraints.NotBlank(message="Category is required") @jakarta.validation.constraints.Size(max=50, message="Category cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=255, message="Location cannot exceed 255 characters") java.lang.String,java.lang.String,java.lang.String,java.lang.String,@jakarta.validation.constraints.Size(max=500, message="Damage assessment cannot exceed 500 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.util.List<java.lang.String>,java.lang.String,java.lang.String,java.lang.String) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[133,9] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[134,27] no suitable method found for createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest,java.lang.String)
+    method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest) is not applicable
+      (actual and formal argument lists differ in length)
+    method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.data.entity.Report,java.util.UUID,java.util.UUID,java.util.UUID) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[134,41] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[169,27] cannot find symbol
+  symbol:   method uploadReportImages(java.util.UUID,java.lang.Object)
+  location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[193,9] cannot find symbol
+  symbol:   class ReportStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[193,54] cannot find symbol
+  symbol:   class ReportStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[198,9] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[199,71] cannot find symbol
+  symbol:   class ReportStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[226,9] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,30] method createFromReport in class com.cafm.cafmbackend.service.WorkOrderService cannot be applied to given types;
+  required: java.util.UUID,java.util.UUID,java.util.UUID
+  found:    com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest.WorkOrderCreateFromReportRequest
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,48] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,51] incompatible types: inference variable T has incompatible bounds
+    equality constraints: com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest.WorkOrderCreateFromReportRequest
+    upper bounds: java.util.UUID,java.lang.Object
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[248,42] constructor WorkOrderCreateRequest in record com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.math.BigDecimal,java.math.BigDecimal,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.TaskItem>,java.lang.String,java.util.List<java.lang.String>,java.util.List<java.lang.String>,java.lang.Boolean,java.lang.String,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.MaterialItem>,java.lang.Boolean,java.lang.Boolean,java.util.UUID
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.util.UUID,java.time.LocalDateTime,double,java.util.List<java.lang.String>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[261,9] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[262,47] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[280,9] cannot find symbol
+  symbol:   class WorkOrderStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[280,57] cannot find symbol
+  symbol:   class WorkOrderStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[286,9] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[287,30] cannot find symbol
+  symbol:   method canUpdateWorkOrder(java.util.UUID,java.lang.String)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[289,30] cannot find symbol
+  symbol:   method updateWorkOrderStatus(java.util.UUID,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[314,30] cannot find symbol
+  symbol:   method addWorkLogEntry(java.util.UUID,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[340,9] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[365,27] method getReports in class com.cafm.cafmbackend.service.ReportService cannot be applied to given types;
+  required: org.springframework.data.domain.Pageable
+  found:    java.lang.Object,java.lang.String,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[392,30] cannot find symbol
+  symbol:   method getWorkOrdersByDateRange(java.lang.Object,java.lang.Object,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[416,30] cannot find symbol
+  symbol:   method getTechnicianWorkOrders(java.lang.String,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[438,27] cannot find symbol
+  symbol:   method escalateOverdueReports()
+  location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[460,30] cannot find symbol
+  symbol:   method getSLAMetrics(java.lang.Object,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[484,30] cannot find symbol
+  symbol:   method bulkAssign(java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[507,27] cannot find symbol
+  symbol:   method bulkUpdatePriority(java.lang.Object)
+  location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[526,9] cannot find symbol
+  symbol:   class ReportStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[526,54] cannot find symbol
+  symbol:   class ReportStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[531,9] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[532,27] cannot find symbol
+  symbol:   method updateReportStatus(java.util.UUID,java.lang.Object)
+  location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[573,42] constructor WorkOrderCreateRequest in record com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.math.BigDecimal,java.math.BigDecimal,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.TaskItem>,java.lang.String,java.util.List<java.lang.String>,java.util.List<java.lang.String>,java.lang.Boolean,java.lang.String,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.MaterialItem>,java.lang.Boolean,java.lang.Boolean,java.util.UUID
+  found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.util.UUID,java.time.LocalDateTime,double,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[600,9] cannot find symbol
+  symbol:   class WorkOrderStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[600,62] cannot find symbol
+  symbol:   class WorkOrderStatusUpdateRequest
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[606,30] cannot find symbol
+  symbol:   method updateWorkOrderStatus(java.util.UUID,java.lang.Object)
+  location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[620,20] cannot find symbol
+  symbol:   class ReportResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[643,16] constructor ReportListResponse in record com.cafm.cafmbackend.dto.report.ReportListResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportStatus,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Integer,java.util.UUID,java.lang.String
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[656,20] cannot find symbol
+  symbol:   class WorkOrderResponse
+  location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[683,16] constructor WorkOrderListResponse in record com.cafm.cafmbackend.dto.workorder.WorkOrderListResponse cannot be applied to given types;
+  required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderStatus,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.math.BigDecimal,java.math.BigDecimal,java.time.LocalDateTime,java.lang.String
+  found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[86,38] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[105,38] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[133,50] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[154,66] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[174,66] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[235,38] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[251,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[262,37] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[279,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[303,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+      (actual and formal argument lists differ in length)
+    constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+      (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[313,37] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[332,37] constructor UserUpdateRequest in record com.cafm.cafmbackend.dto.user.UserUpdateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean
+  found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[341,55] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[358,37] constructor UserUpdateRequest in record com.cafm.cafmbackend.dto.user.UserUpdateRequest cannot be applied to given types;
+  required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean
+  found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>
+  reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[368,55] reference to any is ambiguous
+  both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[INFO] 100 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.613 s
+[INFO] Finished at: 2025-08-22T02:37:21+03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project cafm-backend: Compilation failure: Compilation failure: 
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[9,2] cannot find symbol
+[ERROR]   symbol: class Suite
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[10,2] cannot find symbol
+[ERROR]   symbol: class SuiteDisplayName
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[11,2] cannot find symbol
+[ERROR]   symbol: class SelectPackages
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[12,2] cannot find symbol
+[ERROR]   symbol: class IncludeTags
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[13,2] cannot find symbol
+[ERROR]   symbol: class ExcludeTags
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AllControllersTestSuite.java:[3,32] package org.junit.platform.suite.api does not exist
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[619,13] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[655,13] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[79,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[150,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[165,35] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[183,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[206,35] constructor RegisterRequest in record com.cafm.cafmbackend.dto.auth.RegisterRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[215,35] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[298,42] constructor PasswordResetResponse in record com.cafm.cafmbackend.dto.auth.PasswordResetResponse cannot be applied to given types;
+[ERROR]   required: java.lang.String,boolean
+[ERROR]   found:    java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[362,41] no suitable constructor found for ChangePasswordRequest(java.lang.String,java.lang.String)
+[ERROR]     constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(java.lang.String,java.lang.String,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(@jakarta.validation.constraints.NotBlank(message="Current password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="New password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password confirmation is required") java.lang.String,java.lang.Boolean) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[383,41] no suitable constructor found for ChangePasswordRequest(java.lang.String,java.lang.String)
+[ERROR]     constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(java.lang.String,java.lang.String,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.auth.ChangePasswordRequest.ChangePasswordRequest(@jakarta.validation.constraints.NotBlank(message="Current password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="New password is required") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password confirmation is required") java.lang.String,java.lang.Boolean) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[406,40] constructor VerifyEmailResponse in record com.cafm.cafmbackend.dto.auth.VerifyEmailResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,boolean,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[443,40] constructor CurrentUserResponse in record com.cafm.cafmbackend.dto.auth.CurrentUserResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,java.lang.String,java.util.Set<java.lang.String>,boolean,boolean,boolean
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,boolean,boolean
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[480,44] constructor TokenValidationResponse in record com.cafm.cafmbackend.dto.auth.TokenValidationResponse cannot be applied to given types;
+[ERROR]   required: boolean,java.util.UUID,java.lang.String,java.lang.Long,java.lang.String
+[ERROR]   found:    boolean,java.util.UUID,java.lang.String,long
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[502,44] constructor TokenValidationResponse in record com.cafm.cafmbackend.dto.auth.TokenValidationResponse cannot be applied to given types;
+[ERROR]   required: boolean,java.util.UUID,java.lang.String,java.lang.Long,java.lang.String
+[ERROR]   found:    boolean,<nulltype>,<nulltype>,long
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[526,43] constructor TwoFactorSetupResponse in record com.cafm.cafmbackend.dto.auth.TwoFactorSetupResponse cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String[]
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[572,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/AuthControllerIntegrationTest.java:[698,34] constructor LoginResponse in record com.cafm.cafmbackend.dto.auth.LoginResponse cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.Long,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,long
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[88,45] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[122,45] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[143,45] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[207,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[226,50] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[243,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[275,40] constructor CompanyCreateRequest in record com.cafm.cafmbackend.dto.company.CompanyCreateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[293,50] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[312,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[327,71] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[345,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[361,71] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[378,40] constructor CompanyUpdateRequest in record com.cafm.cafmbackend.dto.company.CompanyUpdateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String
+[ERROR]   found:    java.lang.String,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[532,16] constructor CompanyListResponse in record com.cafm.cafmbackend.dto.company.CompanyListResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.time.LocalDate,com.cafm.cafmbackend.data.enums.CompanyStatus,java.lang.Boolean,java.time.LocalDateTime,java.lang.Long,java.lang.Long,java.lang.Integer,java.lang.Integer,java.lang.Boolean
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.time.LocalDateTime,java.time.LocalDateTime
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/CompanyControllerIntegrationTest.java:[546,16] constructor CompanyResponse in record com.cafm.cafmbackend.dto.company.CompanyResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.SubscriptionPlan,java.time.LocalDate,java.time.LocalDate,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.lang.Integer,com.cafm.cafmbackend.data.enums.CompanyStatus,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Long,java.lang.Long,java.lang.Boolean
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.util.Map<java.lang.String,java.lang.Boolean>,java.time.LocalDateTime,java.time.LocalDateTime
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[88,39] no suitable constructor found for ReportCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.lang.String,java.util.List<java.lang.String>,<nulltype>)
+[ERROR]     constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(java.util.UUID,java.util.UUID,java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(@jakarta.validation.constraints.NotNull(message="School ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Supervisor ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.NotBlank(message="Report title is required") @jakarta.validation.constraints.Size(min=3, max=255, message="Title must be between 3 and 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Description is required") @jakarta.validation.constraints.Size(min=10, max=2000, message="Description must be between 10 and 2000 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="Priority is required") com.cafm.cafmbackend.data.enums.ReportPriority,@jakarta.validation.constraints.NotBlank(message="Category is required") @jakarta.validation.constraints.Size(max=50, message="Category cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=255, message="Location cannot exceed 255 characters") java.lang.String,java.lang.String,java.lang.String,java.lang.String,@jakarta.validation.constraints.Size(max=500, message="Damage assessment cannot exceed 500 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.util.List<java.lang.String>,java.lang.String,java.lang.String,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[100,9] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[101,27] no suitable method found for createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest,java.lang.String)
+[ERROR]     method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.data.entity.Report,java.util.UUID,java.util.UUID,java.util.UUID) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[101,41] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[121,39] no suitable constructor found for ReportCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,<nulltype>,java.util.UUID,java.lang.String,<nulltype>,<nulltype>)
+[ERROR]     constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(java.util.UUID,java.util.UUID,java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.report.ReportCreateRequest.ReportCreateRequest(@jakarta.validation.constraints.NotNull(message="School ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Supervisor ID is required") java.util.UUID,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.NotBlank(message="Report title is required") @jakarta.validation.constraints.Size(min=3, max=255, message="Title must be between 3 and 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Description is required") @jakarta.validation.constraints.Size(min=10, max=2000, message="Description must be between 10 and 2000 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="Priority is required") com.cafm.cafmbackend.data.enums.ReportPriority,@jakarta.validation.constraints.NotBlank(message="Category is required") @jakarta.validation.constraints.Size(max=50, message="Category cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=255, message="Location cannot exceed 255 characters") java.lang.String,java.lang.String,java.lang.String,java.lang.String,@jakarta.validation.constraints.Size(max=500, message="Damage assessment cannot exceed 500 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.util.List<java.lang.String>,java.lang.String,java.lang.String,java.lang.String) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[133,9] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[134,27] no suitable method found for createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest,java.lang.String)
+[ERROR]     method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.dto.report.ReportCreateRequest) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     method com.cafm.cafmbackend.service.ReportService.createReport(com.cafm.cafmbackend.data.entity.Report,java.util.UUID,java.util.UUID,java.util.UUID) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[134,41] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[169,27] cannot find symbol
+[ERROR]   symbol:   method uploadReportImages(java.util.UUID,java.lang.Object)
+[ERROR]   location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[193,9] cannot find symbol
+[ERROR]   symbol:   class ReportStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[193,54] cannot find symbol
+[ERROR]   symbol:   class ReportStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[198,9] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[199,71] cannot find symbol
+[ERROR]   symbol:   class ReportStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[226,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,30] method createFromReport in class com.cafm.cafmbackend.service.WorkOrderService cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.util.UUID,java.util.UUID
+[ERROR]   found:    com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest.WorkOrderCreateFromReportRequest
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,48] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[227,51] incompatible types: inference variable T has incompatible bounds
+[ERROR]     equality constraints: com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest.WorkOrderCreateFromReportRequest
+[ERROR]     upper bounds: java.util.UUID,java.lang.Object
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[248,42] constructor WorkOrderCreateRequest in record com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.math.BigDecimal,java.math.BigDecimal,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.TaskItem>,java.lang.String,java.util.List<java.lang.String>,java.util.List<java.lang.String>,java.lang.Boolean,java.lang.String,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.MaterialItem>,java.lang.Boolean,java.lang.Boolean,java.util.UUID
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.util.UUID,java.time.LocalDateTime,double,java.util.List<java.lang.String>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[261,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[262,47] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[280,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[280,57] cannot find symbol
+[ERROR]   symbol:   class WorkOrderStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[286,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[287,30] cannot find symbol
+[ERROR]   symbol:   method canUpdateWorkOrder(java.util.UUID,java.lang.String)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[289,30] cannot find symbol
+[ERROR]   symbol:   method updateWorkOrderStatus(java.util.UUID,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[314,30] cannot find symbol
+[ERROR]   symbol:   method addWorkLogEntry(java.util.UUID,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[340,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[365,27] method getReports in class com.cafm.cafmbackend.service.ReportService cannot be applied to given types;
+[ERROR]   required: org.springframework.data.domain.Pageable
+[ERROR]   found:    java.lang.Object,java.lang.String,java.lang.String,java.lang.Object,java.lang.Object,java.lang.Object
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[392,30] cannot find symbol
+[ERROR]   symbol:   method getWorkOrdersByDateRange(java.lang.Object,java.lang.Object,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[416,30] cannot find symbol
+[ERROR]   symbol:   method getTechnicianWorkOrders(java.lang.String,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[438,27] cannot find symbol
+[ERROR]   symbol:   method escalateOverdueReports()
+[ERROR]   location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[460,30] cannot find symbol
+[ERROR]   symbol:   method getSLAMetrics(java.lang.Object,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[484,30] cannot find symbol
+[ERROR]   symbol:   method bulkAssign(java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[507,27] cannot find symbol
+[ERROR]   symbol:   method bulkUpdatePriority(java.lang.Object)
+[ERROR]   location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[526,9] cannot find symbol
+[ERROR]   symbol:   class ReportStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[526,54] cannot find symbol
+[ERROR]   symbol:   class ReportStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[531,9] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[532,27] cannot find symbol
+[ERROR]   symbol:   method updateReportStatus(java.util.UUID,java.lang.Object)
+[ERROR]   location: variable reportService of type com.cafm.cafmbackend.service.ReportService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[573,42] constructor WorkOrderCreateRequest in record com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.math.BigDecimal,java.math.BigDecimal,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.TaskItem>,java.lang.String,java.util.List<java.lang.String>,java.util.List<java.lang.String>,java.lang.Boolean,java.lang.String,java.util.List<com.cafm.cafmbackend.dto.workorder.WorkOrderCreateRequest.MaterialItem>,java.lang.Boolean,java.lang.Boolean,java.util.UUID
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.util.UUID,java.util.UUID,java.time.LocalDateTime,double,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[600,9] cannot find symbol
+[ERROR]   symbol:   class WorkOrderStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[600,62] cannot find symbol
+[ERROR]   symbol:   class WorkOrderStatusUpdateRequest
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[606,30] cannot find symbol
+[ERROR]   symbol:   method updateWorkOrderStatus(java.util.UUID,java.lang.Object)
+[ERROR]   location: variable workOrderService of type com.cafm.cafmbackend.service.WorkOrderService
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[620,20] cannot find symbol
+[ERROR]   symbol:   class ReportResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[643,16] constructor ReportListResponse in record com.cafm.cafmbackend.dto.report.ReportListResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.ReportStatus,com.cafm.cafmbackend.data.enums.ReportPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Integer,java.util.UUID,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[656,20] cannot find symbol
+[ERROR]   symbol:   class WorkOrderResponse
+[ERROR]   location: class com.cafm.cafmbackend.integration.controllers.ReportWorkOrderControllerIntegrationTest
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/ReportWorkOrderControllerIntegrationTest.java:[683,16] constructor WorkOrderListResponse in record com.cafm.cafmbackend.dto.workorder.WorkOrderListResponse cannot be applied to given types;
+[ERROR]   required: java.util.UUID,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.WorkOrderStatus,com.cafm.cafmbackend.data.enums.WorkOrderPriority,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.lang.String,java.util.UUID,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.time.LocalDateTime,java.lang.Integer,java.lang.Integer,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.math.BigDecimal,java.math.BigDecimal,java.time.LocalDateTime,java.lang.String
+[ERROR]   found:    java.util.UUID,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDateTime,java.time.LocalDateTime
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[86,38] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[105,38] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[133,50] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[154,66] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[174,66] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[235,38] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[251,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[262,37] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[279,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[303,37] no suitable constructor found for UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID,<nulltype>)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,com.cafm.cafmbackend.data.enums.UserType,java.util.UUID) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR]     constructor com.cafm.cafmbackend.dto.user.UserCreateRequest.UserCreateRequest(@jakarta.validation.constraints.NotBlank(message="Email is required") @jakarta.validation.constraints.Email(message="Email must be valid") @jakarta.validation.constraints.Size(max=255, message="Email cannot exceed 255 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Password is required") @jakarta.validation.constraints.Size(min=8, max=100, message="Password must be between 8 and 100 characters") @jakarta.validation.constraints.Pattern(regexp="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", message="Password must contain at least one digit, one lowercase, one uppercase, one special character, and no whitespace") java.lang.String,@jakarta.validation.constraints.NotBlank(message="First name is required") @jakarta.validation.constraints.Size(max=100, message="First name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotBlank(message="Last name is required") @jakarta.validation.constraints.Size(max=100, message="Last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic first name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Arabic last name cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.NotNull(message="User type is required") com.cafm.cafmbackend.data.enums.UserType,@jakarta.validation.constraints.NotNull(message="Company ID is required") java.util.UUID,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Phone number must be valid") java.lang.String,@jakarta.validation.constraints.Pattern(regexp="^\\+?[1-9]\\d{1,14}$", message="Mobile number must be valid") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=20, message="Gender cannot exceed 20 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="National ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Employee ID cannot exceed 50 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Department cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Size(max=100, message="Job title cannot exceed 100 characters") java.lang.String,java.time.LocalDate,@jakarta.validation.constraints.Size(max=100, message="Specialization cannot exceed 100 characters") java.lang.String,@jakarta.validation.constraints.Min(value=0L, message="Hourly rate cannot be negative") java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,@jakarta.validation.constraints.Size(max=10, message="Language code cannot exceed 10 characters") java.lang.String,@jakarta.validation.constraints.Size(max=50, message="Timezone cannot exceed 50 characters") java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean) is not applicable
+[ERROR]       (actual and formal argument lists differ in length)
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[313,37] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[332,37] constructor UserUpdateRequest in record com.cafm.cafmbackend.dto.user.UserUpdateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[341,55] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[358,37] constructor UserUpdateRequest in record com.cafm.cafmbackend.dto.user.UserUpdateRequest cannot be applied to given types;
+[ERROR]   required: java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.Double,java.util.Set<java.lang.String>,java.util.Set<java.lang.String>,java.util.Set<java.util.UUID>,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean,java.lang.String,java.lang.Boolean,java.lang.Boolean,java.lang.Boolean
+[ERROR]   found:    java.lang.String,java.lang.String,java.lang.String,<nulltype>,<nulltype>
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /Users/omar/Developer/CAFM/cafm-backend/src/test/java/com/cafm/cafmbackend/integration/controllers/UserControllerIntegrationTest.java:[368,55] reference to any is ambiguous
+[ERROR]   both method <T>any(java.lang.Class<T>) in org.mockito.Mockito and method <T>any(java.lang.Class<T>) in org.hamcrest.Matchers match
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -1,0 +1,1 @@
+Test file with special name: arquivo_português.txt

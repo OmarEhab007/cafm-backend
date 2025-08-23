@@ -1,0 +1,130 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cafm-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cafm_db
+      POSTGRES_USER: cafm_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-cafm_password_2024}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cafm_user -d cafm_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cafm-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: cafm-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password_2024}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_password_2024}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cafm-network
+
+  # MinIO Object Storage
+  minio:
+    image: minio/minio:latest
+    container_name: cafm-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_password_2024}
+      # MINIO_DEFAULT_BUCKETS is deprecated, buckets will be created via mc client
+    ports:
+      - "9000:9000"  # API port
+      - "9001:9001"  # Console port
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - cafm-network
+
+  # pgAdmin (Optional - for database management)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cafm-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@cafm.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-pgadmin_password_2024}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - cafm-network
+    profiles:
+      - tools
+
+  # Redis Commander (Optional - for Redis management)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cafm-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:cafm-redis:6379:0:${REDIS_PASSWORD:-redis_password_2024}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - cafm-network
+    profiles:
+      - tools
+
+  # Mailhog (Optional - for email testing)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: cafm-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - cafm-network
+    profiles:
+      - tools
+
+# Volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+# Network configuration
+networks:
+  cafm-network:
+    driver: bridge

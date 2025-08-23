@@ -1,0 +1,150 @@
+# Blackbox Exporter Configuration for CAFM Backend Endpoint Monitoring
+modules:
+  # HTTP 2xx probe
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      method: GET
+      headers:
+        Host: cafm-backend
+        Accept-Language: en-US
+      no_follow_redirects: false
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      tls_config:
+        insecure_skip_verify: true
+      preferred_ip_protocol: "ip4"
+
+  # HTTP health check with authentication
+  http_health_check:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      method: GET
+      headers:
+        Authorization: "Bearer health-check-token"
+        Content-Type: "application/json"
+      no_follow_redirects: false
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      fail_if_body_matches_regexp:
+        - "DOWN"
+        - "UNKNOWN"
+        - "\"status\":\"DOWN\""
+      fail_if_body_not_matches_regexp:
+        - "UP"
+        - "\"status\":\"UP\""
+
+  # HTTP POST probe for API endpoints
+  http_post_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 201]
+      method: POST
+      headers:
+        Content-Type: "application/json"
+      body: '{"test": true}'
+
+  # TCP connect probe
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+
+  # PostgreSQL TCP probe
+  postgres_tcp:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      query_response:
+        - expect: "^\\x00"
+        - send: "\\x00\\x00\\x00\\x17\\x00\\x03\\x00\\x00user\\x00postgres\\x00\\x00"
+
+  # Redis TCP probe
+  redis_tcp:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      query_response:
+        - send: "PING\r\n"
+        - expect: "PONG"
+
+  # MinIO HTTP probe
+  minio_http:
+    prober: http
+    timeout: 5s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 403]  # 403 is normal for unauthenticated requests
+      method: GET
+      no_follow_redirects: false
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+
+  # ICMP ping probe
+  icmp:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+
+  # DNS probe
+  dns:
+    prober: dns
+    timeout: 5s
+    dns:
+      query_name: "example.com"
+      query_type: "A"
+      valid_rcodes:
+        - NOERROR
+      validate_answer_rrs:
+        fail_if_matches_regexp:
+          - ".*127.0.0.1"
+        fail_if_not_matches_regexp:
+          - ".*"
+
+  # HTTPS certificate probe
+  https_cert:
+    prober: http
+    timeout: 5s
+    http:
+      method: GET
+      no_follow_redirects: true
+      fail_if_not_ssl: true
+      tls_config:
+        insecure_skip_verify: false
+      preferred_ip_protocol: "ip4"
+
+  # gRPC probe (for potential gRPC endpoints)
+  grpc:
+    prober: grpc
+    timeout: 5s
+    grpc:
+      tls: false
+      tls_config:
+        insecure_skip_verify: true
+
+  # HTTP probe with JSON response validation
+  http_json_response:
+    prober: http
+    timeout: 10s
+    http:
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      method: GET
+      headers:
+        Accept: "application/json"
+        Content-Type: "application/json"
+      no_follow_redirects: false
+      fail_if_body_not_matches_regexp:
+        - '"status":\s*"UP"'
+      fail_if_body_matches_regexp:
+        - '"status":\s*"DOWN"'
+        - '"status":\s*"OUT_OF_SERVICE"'
+        - '"status":\s*"UNKNOWN"'

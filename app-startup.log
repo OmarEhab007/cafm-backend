@@ -1,0 +1,337 @@
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.3)
+
+2025-08-22 02:44:28 - Starting CafmBackendApplication v1.0.0 using Java 23.0.2 with PID 44160 (/Users/omar/Developer/CAFM/cafm-backend/target/cafm-backend-1.0.0.jar started by omar in /Users/omar/Developer/CAFM/cafm-backend)
+2025-08-22 02:44:28 - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-08-22 02:44:28 - The following 1 profile is active: "dev"
+2025-08-22 02:44:28 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-22 02:44:28 - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-22 02:44:28 - Finished Spring Data repository scanning in 91 ms. Found 31 JPA repository interfaces.
+2025-08-22 02:44:29 - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-08-22 02:44:29 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.InventoryCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.SchoolRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.AdminSupervisorRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.AssetCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.SupervisorSchoolRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.FCMTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.CompanyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.SchoolAchievementRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.FileMetadataRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.SupervisorAttendanceRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.EmailVerificationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.DamageCountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.AssetMaintenanceRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.ApiKeyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.InventoryItemRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.InventoryTransactionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.TenantAwareUserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.RefreshTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.WorkOrderTaskRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.NotificationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.NotificationQueueRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.AssetRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.WorkOrderRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.SupervisorTechnicianRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.MaintenanceCountRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.WorkOrderAttachmentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.PasswordResetTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.WorkOrderMaterialRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.cafm.cafmbackend.data.repository.ReportRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2025-08-22 02:44:29 - Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2025-08-22 02:44:29 - Tomcat initialized with port 8080 (http)
+2025-08-22 02:44:29 - Starting service [Tomcat]
+2025-08-22 02:44:29 - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-08-22 02:44:29 - Initializing Spring embedded WebApplicationContext
+2025-08-22 02:44:29 - Root WebApplicationContext: initialization completed in 1365 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2025-08-22 02:44:29 - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-22 02:44:29 - CAFM-HikariPool - Starting...
+2025-08-22 02:44:29 - CAFM-HikariPool - Added connection org.postgresql.jdbc.PgConnection@232b3b4c
+2025-08-22 02:44:29 - CAFM-HikariPool - Start completed.
+2025-08-22 02:44:29 - Scanning for classpath resources at 'classpath:db/callback' ...
+2025-08-22 02:44:29 - Determining location urls for classpath:db/callback using ClassLoader TomcatEmbeddedWebappClassLoader
+  context: ROOT
+  delegate: true
+----------> Parent Classloader:
+org.springframework.boot.loader.launch.LaunchedClassLoader@16b98e56
+ ...
+2025-08-22 02:44:29 - Unable to resolve location classpath:db/callback.
+2025-08-22 02:44:29 - Scanning for classpath resources at 'classpath:db/migration' ...
+2025-08-22 02:44:29 - Determining location urls for classpath:db/migration using ClassLoader TomcatEmbeddedWebappClassLoader
+  context: ROOT
+  delegate: true
+----------> Parent Classloader:
+org.springframework.boot.loader.launch.LaunchedClassLoader@16b98e56
+ ...
+2025-08-22 02:44:29 - Scanning URL: jar:nested:/Users/omar/Developer/CAFM/cafm-backend/target/cafm-backend-1.0.0.jar/!BOOT-INF/classes/!/db/migration
+2025-08-22 02:44:29 - Found resource: db/migration/
+2025-08-22 02:44:29 - Found resource: db/migration/V100__Fix_Admin_Password.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V101__Debug_Admin_Password.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V102__Fix_Admin_User_Type.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V103__Generate_New_Hash.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V104__Add_Super_Admin_Role.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V105__Fix_Company_Status_Enum_Values.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V106__Fix_User_Status_Enum_Simple.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V107__Fix_All_Enum_Types_Comprehensive.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V108__Email_Verification_System.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V109__Password_Reset_Tokens.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V10__Add_Technician_Specialization.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V110__Add_Audit_Columns_To_Tokens.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V111__Performance_Indexes.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V112__Security_Tables.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V113__add_user_security_fields.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V114__fix_users_history_table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V115__Create_Core_Missing_Enums_And_WorkOrders.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V116__Create_Asset_Management_Tables.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V117__Create_WorkOrder_Supporting_Tables.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V118__Create_Inventory_Management_Tables.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V119__Create_Notifications_And_User_Management_Tables.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V11__Create_Supervisor_Technician_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V120__Final_Performance_Optimization_And_Validation.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V12__Create_Admin_Supervisor_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V13__Add_Multi_Tenant_Foundation.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V14__Database_Optimization_Phase1.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V15__Update_Views_For_Multi_Tenancy.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V16__Create_Or_Update_Maintenance_Counts_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V17__Create_Damage_Counts_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V18__Create_School_Achievements_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V19__Create_Notification_Queue_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V1__Initial_Schema.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled
+2025-08-22 02:44:29 - Found resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled
+2025-08-22 02:44:29 - Found resource: db/migration/V20__Update_Reports_Table_Completion_Workflow.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V21__Add_Missing_Audit_Columns.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V22__Add_Audit_Columns_To_Roles_Table.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V2__Update_Schema_From_Supabase.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V3__Unified_User_Management.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V4__Normalize_JSONB_Fields.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V5__Performance_Optimizations.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V6__Data_Integrity_Improvements.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V7__Comprehensive_Audit_System.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V8__Soft_Delete_Implementation.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V99__Update_Admin_Password.sql
+2025-08-22 02:44:29 - Found resource: db/migration/V9__Advanced_Features.sql
+2025-08-22 02:44:29 - Scanning for classes at classpath:db/migration
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled (filename: V200__Add_CompanyId_To_All_Tables.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/ (filename: )
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled (filename: V201__Fix_Multi_Tenant_Constraints.sql.disabled)
+2025-08-22 02:44:29 - Validating V1__Initial_Schema.sql
+2025-08-22 02:44:29 - Validating V116__Create_Asset_Management_Tables.sql
+2025-08-22 02:44:29 - Validating V99__Update_Admin_Password.sql
+2025-08-22 02:44:29 - Validating V114__fix_users_history_table.sql
+2025-08-22 02:44:29 - Validating V110__Add_Audit_Columns_To_Tokens.sql
+2025-08-22 02:44:29 - Validating V22__Add_Audit_Columns_To_Roles_Table.sql
+2025-08-22 02:44:29 - Validating V12__Create_Admin_Supervisor_Table.sql
+2025-08-22 02:44:29 - Validating V13__Add_Multi_Tenant_Foundation.sql
+2025-08-22 02:44:29 - Validating V3__Unified_User_Management.sql
+2025-08-22 02:44:29 - Validating V113__add_user_security_fields.sql
+2025-08-22 02:44:29 - Validating V100__Fix_Admin_Password.sql
+2025-08-22 02:44:29 - Validating V19__Create_Notification_Queue_Table.sql
+2025-08-22 02:44:29 - Validating V20__Update_Reports_Table_Completion_Workflow.sql
+2025-08-22 02:44:29 - Validating V21__Add_Missing_Audit_Columns.sql
+2025-08-22 02:44:29 - Validating V106__Fix_User_Status_Enum_Simple.sql
+2025-08-22 02:44:29 - Validating V10__Add_Technician_Specialization.sql
+2025-08-22 02:44:29 - Validating V17__Create_Damage_Counts_Table.sql
+2025-08-22 02:44:29 - Validating V105__Fix_Company_Status_Enum_Values.sql
+2025-08-22 02:44:29 - Validating V15__Update_Views_For_Multi_Tenancy.sql
+2025-08-22 02:44:29 - Validating V112__Security_Tables.sql
+2025-08-22 02:44:29 - Validating V103__Generate_New_Hash.sql
+2025-08-22 02:44:29 - Validating V104__Add_Super_Admin_Role.sql
+2025-08-22 02:44:29 - Validating V4__Normalize_JSONB_Fields.sql
+2025-08-22 02:44:29 - Validating V115__Create_Core_Missing_Enums_And_WorkOrders.sql
+2025-08-22 02:44:29 - Validating V120__Final_Performance_Optimization_And_Validation.sql
+2025-08-22 02:44:29 - Validating V16__Create_Or_Update_Maintenance_Counts_Table.sql
+2025-08-22 02:44:29 - Validating V101__Debug_Admin_Password.sql
+2025-08-22 02:44:29 - Validating V118__Create_Inventory_Management_Tables.sql
+2025-08-22 02:44:29 - Validating V2__Update_Schema_From_Supabase.sql
+2025-08-22 02:44:29 - Validating V102__Fix_Admin_User_Type.sql
+2025-08-22 02:44:29 - Validating V14__Database_Optimization_Phase1.sql
+2025-08-22 02:44:29 - Validating V117__Create_WorkOrder_Supporting_Tables.sql
+2025-08-22 02:44:29 - Validating V6__Data_Integrity_Improvements.sql
+2025-08-22 02:44:29 - Validating V7__Comprehensive_Audit_System.sql
+2025-08-22 02:44:29 - Validating V18__Create_School_Achievements_Table.sql
+2025-08-22 02:44:29 - Validating V107__Fix_All_Enum_Types_Comprehensive.sql
+2025-08-22 02:44:29 - Validating V109__Password_Reset_Tokens.sql
+2025-08-22 02:44:29 - Validating V11__Create_Supervisor_Technician_Table.sql
+2025-08-22 02:44:29 - Validating V119__Create_Notifications_And_User_Management_Tables.sql
+2025-08-22 02:44:29 - Validating V5__Performance_Optimizations.sql
+2025-08-22 02:44:29 - Validating V108__Email_Verification_System.sql
+2025-08-22 02:44:29 - Validating V8__Soft_Delete_Implementation.sql
+2025-08-22 02:44:29 - Validating V111__Performance_Indexes.sql
+2025-08-22 02:44:29 - Validating V9__Advanced_Features.sql
+2025-08-22 02:44:29 - Multiple databases found that handle url 'jdbc:postgresql://localhost:5432/cafm_db': CockroachDB,PostgreSQL
+2025-08-22 02:44:29 - Database: jdbc:postgresql://localhost:5432/cafm_db (PostgreSQL 15.13)
+2025-08-22 02:44:29 - Database Type: PostgreSQL
+2025-08-22 02:44:29 - Driver: PostgreSQL JDBC Driver 42.7.3
+2025-08-22 02:44:29 - DDL Transactions Supported: true
+2025-08-22 02:44:29 - Schemas: public
+2025-08-22 02:44:29 - Default schema: null
+2025-08-22 02:44:29 - Scanning for SQL callbacks ...
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled (filename: V200__Add_CompanyId_To_All_Tables.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/ (filename: )
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled (filename: V201__Fix_Multi_Tenant_Constraints.sql.disabled)
+2025-08-22 02:44:29 - Validating migrations ...
+2025-08-22 02:44:29 - CherryPickConfigurationExtension not found
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled (filename: V200__Add_CompanyId_To_All_Tables.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/ (filename: )
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled (filename: V201__Fix_Multi_Tenant_Constraints.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V1__Initial_Schema.sql (filename: V1__Initial_Schema.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V116__Create_Asset_Management_Tables.sql (filename: V116__Create_Asset_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V99__Update_Admin_Password.sql (filename: V99__Update_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V114__fix_users_history_table.sql (filename: V114__fix_users_history_table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V110__Add_Audit_Columns_To_Tokens.sql (filename: V110__Add_Audit_Columns_To_Tokens.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V22__Add_Audit_Columns_To_Roles_Table.sql (filename: V22__Add_Audit_Columns_To_Roles_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled (filename: V200__Add_CompanyId_To_All_Tables.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V12__Create_Admin_Supervisor_Table.sql (filename: V12__Create_Admin_Supervisor_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V13__Add_Multi_Tenant_Foundation.sql (filename: V13__Add_Multi_Tenant_Foundation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V3__Unified_User_Management.sql (filename: V3__Unified_User_Management.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V113__add_user_security_fields.sql (filename: V113__add_user_security_fields.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V100__Fix_Admin_Password.sql (filename: V100__Fix_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V19__Create_Notification_Queue_Table.sql (filename: V19__Create_Notification_Queue_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V20__Update_Reports_Table_Completion_Workflow.sql (filename: V20__Update_Reports_Table_Completion_Workflow.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V21__Add_Missing_Audit_Columns.sql (filename: V21__Add_Missing_Audit_Columns.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V106__Fix_User_Status_Enum_Simple.sql (filename: V106__Fix_User_Status_Enum_Simple.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V10__Add_Technician_Specialization.sql (filename: V10__Add_Technician_Specialization.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V17__Create_Damage_Counts_Table.sql (filename: V17__Create_Damage_Counts_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V105__Fix_Company_Status_Enum_Values.sql (filename: V105__Fix_Company_Status_Enum_Values.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V15__Update_Views_For_Multi_Tenancy.sql (filename: V15__Update_Views_For_Multi_Tenancy.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V112__Security_Tables.sql (filename: V112__Security_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V103__Generate_New_Hash.sql (filename: V103__Generate_New_Hash.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V104__Add_Super_Admin_Role.sql (filename: V104__Add_Super_Admin_Role.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V4__Normalize_JSONB_Fields.sql (filename: V4__Normalize_JSONB_Fields.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V115__Create_Core_Missing_Enums_And_WorkOrders.sql (filename: V115__Create_Core_Missing_Enums_And_WorkOrders.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V120__Final_Performance_Optimization_And_Validation.sql (filename: V120__Final_Performance_Optimization_And_Validation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V16__Create_Or_Update_Maintenance_Counts_Table.sql (filename: V16__Create_Or_Update_Maintenance_Counts_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/ (filename: )
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V101__Debug_Admin_Password.sql (filename: V101__Debug_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V118__Create_Inventory_Management_Tables.sql (filename: V118__Create_Inventory_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V2__Update_Schema_From_Supabase.sql (filename: V2__Update_Schema_From_Supabase.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V102__Fix_Admin_User_Type.sql (filename: V102__Fix_Admin_User_Type.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V14__Database_Optimization_Phase1.sql (filename: V14__Database_Optimization_Phase1.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V117__Create_WorkOrder_Supporting_Tables.sql (filename: V117__Create_WorkOrder_Supporting_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V6__Data_Integrity_Improvements.sql (filename: V6__Data_Integrity_Improvements.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V7__Comprehensive_Audit_System.sql (filename: V7__Comprehensive_Audit_System.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V18__Create_School_Achievements_Table.sql (filename: V18__Create_School_Achievements_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V107__Fix_All_Enum_Types_Comprehensive.sql (filename: V107__Fix_All_Enum_Types_Comprehensive.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled (filename: V201__Fix_Multi_Tenant_Constraints.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V109__Password_Reset_Tokens.sql (filename: V109__Password_Reset_Tokens.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V11__Create_Supervisor_Technician_Table.sql (filename: V11__Create_Supervisor_Technician_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V119__Create_Notifications_And_User_Management_Tables.sql (filename: V119__Create_Notifications_And_User_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V5__Performance_Optimizations.sql (filename: V5__Performance_Optimizations.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V108__Email_Verification_System.sql (filename: V108__Email_Verification_System.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V8__Soft_Delete_Implementation.sql (filename: V8__Soft_Delete_Implementation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V111__Performance_Indexes.sql (filename: V111__Performance_Indexes.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V9__Advanced_Features.sql (filename: V9__Advanced_Features.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V1__Initial_Schema.sql (filename: V1__Initial_Schema.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V116__Create_Asset_Management_Tables.sql (filename: V116__Create_Asset_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V99__Update_Admin_Password.sql (filename: V99__Update_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V114__fix_users_history_table.sql (filename: V114__fix_users_history_table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V110__Add_Audit_Columns_To_Tokens.sql (filename: V110__Add_Audit_Columns_To_Tokens.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V22__Add_Audit_Columns_To_Roles_Table.sql (filename: V22__Add_Audit_Columns_To_Roles_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V200__Add_CompanyId_To_All_Tables.sql.disabled (filename: V200__Add_CompanyId_To_All_Tables.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V12__Create_Admin_Supervisor_Table.sql (filename: V12__Create_Admin_Supervisor_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V13__Add_Multi_Tenant_Foundation.sql (filename: V13__Add_Multi_Tenant_Foundation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V3__Unified_User_Management.sql (filename: V3__Unified_User_Management.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V113__add_user_security_fields.sql (filename: V113__add_user_security_fields.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V100__Fix_Admin_Password.sql (filename: V100__Fix_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V19__Create_Notification_Queue_Table.sql (filename: V19__Create_Notification_Queue_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V20__Update_Reports_Table_Completion_Workflow.sql (filename: V20__Update_Reports_Table_Completion_Workflow.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V21__Add_Missing_Audit_Columns.sql (filename: V21__Add_Missing_Audit_Columns.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V106__Fix_User_Status_Enum_Simple.sql (filename: V106__Fix_User_Status_Enum_Simple.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V10__Add_Technician_Specialization.sql (filename: V10__Add_Technician_Specialization.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V17__Create_Damage_Counts_Table.sql (filename: V17__Create_Damage_Counts_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V105__Fix_Company_Status_Enum_Values.sql (filename: V105__Fix_Company_Status_Enum_Values.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V15__Update_Views_For_Multi_Tenancy.sql (filename: V15__Update_Views_For_Multi_Tenancy.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V112__Security_Tables.sql (filename: V112__Security_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V103__Generate_New_Hash.sql (filename: V103__Generate_New_Hash.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V104__Add_Super_Admin_Role.sql (filename: V104__Add_Super_Admin_Role.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V4__Normalize_JSONB_Fields.sql (filename: V4__Normalize_JSONB_Fields.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V115__Create_Core_Missing_Enums_And_WorkOrders.sql (filename: V115__Create_Core_Missing_Enums_And_WorkOrders.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V120__Final_Performance_Optimization_And_Validation.sql (filename: V120__Final_Performance_Optimization_And_Validation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V16__Create_Or_Update_Maintenance_Counts_Table.sql (filename: V16__Create_Or_Update_Maintenance_Counts_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/ (filename: )
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V101__Debug_Admin_Password.sql (filename: V101__Debug_Admin_Password.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V118__Create_Inventory_Management_Tables.sql (filename: V118__Create_Inventory_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V2__Update_Schema_From_Supabase.sql (filename: V2__Update_Schema_From_Supabase.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V102__Fix_Admin_User_Type.sql (filename: V102__Fix_Admin_User_Type.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V14__Database_Optimization_Phase1.sql (filename: V14__Database_Optimization_Phase1.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V117__Create_WorkOrder_Supporting_Tables.sql (filename: V117__Create_WorkOrder_Supporting_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V6__Data_Integrity_Improvements.sql (filename: V6__Data_Integrity_Improvements.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V7__Comprehensive_Audit_System.sql (filename: V7__Comprehensive_Audit_System.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V18__Create_School_Achievements_Table.sql (filename: V18__Create_School_Achievements_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V107__Fix_All_Enum_Types_Comprehensive.sql (filename: V107__Fix_All_Enum_Types_Comprehensive.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V201__Fix_Multi_Tenant_Constraints.sql.disabled (filename: V201__Fix_Multi_Tenant_Constraints.sql.disabled)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V109__Password_Reset_Tokens.sql (filename: V109__Password_Reset_Tokens.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V11__Create_Supervisor_Technician_Table.sql (filename: V11__Create_Supervisor_Technician_Table.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V119__Create_Notifications_And_User_Management_Tables.sql (filename: V119__Create_Notifications_And_User_Management_Tables.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V5__Performance_Optimizations.sql (filename: V5__Performance_Optimizations.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V108__Email_Verification_System.sql (filename: V108__Email_Verification_System.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V8__Soft_Delete_Implementation.sql (filename: V8__Soft_Delete_Implementation.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V111__Performance_Indexes.sql (filename: V111__Performance_Indexes.sql)
+2025-08-22 02:44:29 - Filtering out resource: db/migration/V9__Advanced_Features.sql (filename: V9__Advanced_Features.sql)
+2025-08-22 02:44:29 - Successfully validated 44 migrations (execution time 00:00.033s)
+2025-08-22 02:44:29 - Skipping creation of existing schema: "public"
+2025-08-22 02:44:29 - CherryPickConfigurationExtension not found
+2025-08-22 02:44:29 - Current version of schema "public": 120
+2025-08-22 02:44:29 - Schema "public" is up to date. No migration necessary.
+2025-08-22 02:44:29 - Memory usage: 41 of 136M
+2025-08-22 02:44:30 - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-22 02:44:31 - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-22 02:44:31 - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-08-22 02:44:31 - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-22 02:44:31 - JWT token provider initialized successfully with 86 character secret
+2025-08-22 02:44:32 - Filter 'jwtAuthenticationFilter' configured for use
+2025-08-22 02:44:32 - Filter 'enhancedTenantSecurityFilter' configured for use
+2025-08-22 02:44:32 - Filter 'customSecurityHeadersFilter' configured for use
+2025-08-22 02:44:32 - Filter 'requestBodyCachingFilter' configured for use
+2025-08-22 02:44:32 - Filter 'webMvcObservationFilter' configured for use
+2025-08-22 02:44:32 - Filter 'rateLimitingFilter' configured for use
+2025-08-22 02:44:32 - Filter 'tenantSecurityFilter' configured for use
+2025-08-22 02:44:32 - Filter 'authenticationRateLimitFilter' configured for use
+2025-08-22 02:44:32 - Filter 'apiKeyAuthenticationFilter' configured for use
+2025-08-22 02:44:32 - MinIO client configured successfully - Endpoint: http://localhost:9000
+2025-08-22 02:44:32 - MinIO buckets initialized successfully
+2025-08-22 02:44:33 - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-08-22 02:44:33 - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-08-22 02:44:33 - 178 mappings in 'requestMappingHandlerMapping'
+2025-08-22 02:44:33 - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+2025-08-22 02:44:33 - Exposing 16 endpoints beneath base path '/actuator'
+2025-08-22 02:44:33 - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, EnhancedTenantSecurityFilter, ConcurrentSessionFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-08-22 02:44:33 - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, AuthenticationRateLimitFilter, JwtAuthenticationFilter, TenantSecurityFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-08-22 02:44:33 - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2025-08-22 02:44:33 - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+2025-08-22 02:44:33 - Starting RedisMessageListenerContainer...
+2025-08-22 02:44:33 - Postpone listening for Redis messages until actual listeners are added
+2025-08-22 02:44:33 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-08-22 02:44:33 - Stopped RedisMessageListenerContainer
+2025-08-22 02:44:33 - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-22 02:44:33 - CAFM-HikariPool - Shutdown initiated...
+2025-08-22 02:44:33 - CAFM-HikariPool - Shutdown completed.
+2025-08-22 02:44:33 - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-08-22 02:44:33 - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+

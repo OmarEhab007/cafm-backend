@@ -1,0 +1,213 @@
+# ============================================
+# CAFM Backend - Production Profile
+# Spring Boot 3.3.x with Java 23
+# ============================================
+
+spring:
+  # JPA Production Settings
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Never auto-update schema in production
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
+        generate_statistics: false
+        # Connection pool optimizations
+        jdbc:
+          batch_size: 50
+          fetch_size: 50
+        # Cache settings (if using second-level cache)
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+            
+  # DataSource Production Optimizations
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 10
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-timeout: 20000
+      
+  # DevTools disabled in production
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+      
+# Server Configuration for Production
+server:
+  port: ${SERVER_PORT:8080}
+  compression:
+    enabled: true
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+  # Enable HTTP/2 if supported
+  http2:
+    enabled: true
+  # Tomcat specific settings
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    accept-count: 100
+    max-connections: 10000
+    connection-timeout: 20000
+    
+# Actuator - Production Monitoring Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env,configprops,beans,httptrace,auditevents
+      base-path: /actuator
+    enabled-by-default: false
+  endpoint:
+    # Health endpoint configuration
+    health:
+      enabled: true
+      show-details: when-authorized
+      show-components: when-authorized
+      probes:
+        enabled: true
+        add-additional-paths: true
+      group:
+        readiness:
+          include: "readinessState,db,redis"
+        liveness:
+          include: "livenessState,ping"
+    # Info endpoint
+    info:
+      enabled: true
+    # Metrics endpoint
+    metrics:
+      enabled: true
+    # Prometheus endpoint
+    prometheus:
+      enabled: true
+    # Environment and configuration
+    env:
+      enabled: true
+      show-values: when-authorized
+    configprops:
+      enabled: true
+      show-values: when-authorized
+    # Beans and HTTP trace
+    beans:
+      enabled: true
+    httptrace:
+      enabled: true
+    # Audit events
+    auditevents:
+      enabled: true
+  # Health indicator configuration
+  health:
+    mail:
+      enabled: false
+    db:
+      enabled: true
+    redis:
+      enabled: true
+    diskspace:
+      enabled: true
+      threshold: 10GB
+  # Metrics configuration
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+      instance: ${HOSTNAME:unknown}
+      version: ${app.version:1.0.0}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        jvm.memory.used: true
+        jvm.gc.pause: true
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99
+        jvm.memory.used: 0.5, 0.95, 0.99
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: 1m
+    enable:
+      # JVM metrics
+      jvm.memory: true
+      jvm.gc: true
+      jvm.threads: true
+      jvm.classes: true
+      # System metrics
+      system.cpu: true
+      system.disk: true
+      # Application metrics
+      application.startup.time: true
+      http.server.requests: true
+      jdbc.connections: true
+      hikaricp: true
+      cache: true
+  # Tracing configuration
+  tracing:
+    sampling:
+      probability: 0.1
+  # Security for actuator endpoints
+  security:
+    enabled: true
+        
+# Logging - Minimal for production
+logging:
+  level:
+    root: WARN
+    com.cafm: INFO
+    org.springframework: WARN
+    org.hibernate: ERROR
+  file:
+    name: ${LOG_FILE:/var/log/cafm-backend/application.log}
+    max-size: 10MB
+    max-history: 30
+    total-size-cap: 1GB
+    
+# Application Production Settings
+app:
+  # JWT - Ensure strong secret in production
+  jwt:
+    secret: ${JWT_SECRET}  # Must be provided via environment variable
+    expiration: 3600000  # 1 hour
+    refresh-expiration: 2592000000  # 30 days
+    
+  # Enable rate limiting in production
+  api:
+    rate-limit:
+      enabled: true
+      requests-per-minute: 100
+      
+  # CORS - Restrict origins in production
+  security:
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS}  # Must be provided via environment
+      
+# OpenAPI/Swagger - Consider disabling in production
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}
+    
+# Cache Configuration (if using)
+spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000  # 1 hour
+      cache-null-values: false
+      use-key-prefix: true
+      key-prefix: cafm:

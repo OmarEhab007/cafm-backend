@@ -1,0 +1,253 @@
+# ============================================
+# CAFM Backend - Main Configuration
+# Spring Boot 3.3.x with Java 23
+# ============================================
+
+spring:
+  application:
+    name: cafm-backend
+    
+  # Profile Configuration
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+    
+  # JPA/Hibernate Configuration
+  jpa:
+    database: POSTGRESQL
+    database-platform: com.cafm.cafmbackend.app.config.PostgreSQLEnumDialect
+    hibernate:
+      ddl-auto: validate  # Use Flyway for schema management
+    properties:
+      hibernate:
+        # Java 23 optimizations
+        jdbc:
+          batch_size: 25
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        # Performance tuning
+        default_batch_fetch_size: 16
+        # Second level cache (if needed)
+        cache:
+          use_second_level_cache: false
+        # Show SQL in development (override in profiles)
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
+        # Statistics
+        generate_statistics: false
+    open-in-view: false  # Prevent lazy loading issues
+    
+  # DataSource Configuration
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:cafm_db}
+    username: ${POSTGRES_USER:cafm_user}
+    password: ${DB_PASSWORD:cafm_password_2024}
+    driver-class-name: org.postgresql.Driver
+    
+    # HikariCP Connection Pool Settings (Optimized for Performance)
+    hikari:
+      pool-name: CAFM-HikariPool
+      maximum-pool-size: ${HIKARI_MAX_POOL_SIZE:20}
+      minimum-idle: ${HIKARI_MIN_IDLE:5}
+      connection-timeout: ${HIKARI_CONNECTION_TIMEOUT:30000}
+      idle-timeout: ${HIKARI_IDLE_TIMEOUT:600000}
+      max-lifetime: ${HIKARI_MAX_LIFETIME:1800000}
+      auto-commit: true
+      leak-detection-threshold: ${HIKARI_LEAK_DETECTION:60000}
+      validation-timeout: 5000
+      connection-test-query: SELECT 1
+      register-mbeans: false  # Disable JMX MBean registration to prevent conflicts
+      # PostgreSQL specific optimizations
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        rewriteBatchedStatements: true
+        
+  # Flyway Migration Configuration
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+    schemas: public
+    validate-on-migrate: true
+    out-of-order: false
+    table: flyway_schema_history
+    
+  # Redis Configuration
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:redis_password_2024}
+      timeout: ${REDIS_TIMEOUT:2000ms}
+      lettuce:
+        pool:
+          max-active: ${REDIS_MAX_ACTIVE:8}
+          max-idle: ${REDIS_MAX_IDLE:8}
+          min-idle: ${REDIS_MIN_IDLE:0}
+          max-wait: ${REDIS_MAX_WAIT:-1ms}
+          
+  # Mail Configuration
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:noreply@cafm.local}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+    default-encoding: UTF-8
+    # Disable mail server check to prevent health check errors
+    test-connection: false
+    
+  # Jackson Configuration - CRITICAL BIGDECIMAL FIXES
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: false
+      write-empty-json-arrays: true
+      write-null-map-values: false
+    deserialization:
+      fail-on-unknown-properties: false
+      # CRITICAL: Fix BigDecimal serialization issues
+      use-big-decimal-for-floats: true
+      accept-float-as-int: true
+      accept-empty-string-as-null-object: true
+      accept-single-value-as-array: true
+    parser:
+      # CRITICAL: Allow numeric leading zeros for BigDecimal
+      allow-numeric-leading-zeros: true
+      allow-non-numeric-numbers: true
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    
+  # Servlet Configuration
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: ${MAX_FILE_SIZE:50MB}
+      max-request-size: ${MAX_REQUEST_SIZE:50MB}
+      file-size-threshold: ${FILE_SIZE_THRESHOLD:2KB}
+      
+# Server Configuration
+server:
+  port: ${SERVER_PORT:8080}
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+  servlet:
+    context-path: /
+    session:
+      timeout: ${SESSION_TIMEOUT:30m}
+      
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  health:
+    mail:
+      enabled: false  # Disable mail health check
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      environment: ${spring.profiles.active}
+    export:
+      prometheus:
+        enabled: true
+        
+# Logging Configuration
+logging:
+  level:
+    root: ${LOGGING_LEVEL_ROOT:INFO}
+    com.cafm: ${LOGGING_LEVEL_COM_CAFM:DEBUG}
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.hibernate: WARN
+    org.hibernate.SQL: ${LOGGING_SQL:WARN}
+    org.hibernate.type.descriptor.sql.BasicBinder: ${LOGGING_SQL_PARAMS:WARN}
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    
+# Application-specific Configuration
+app:
+  # JWT Configuration
+  jwt:
+    secret: ${JWT_SECRET:your-256-bit-secret-key-for-jwt-tokens-change-this-in-production}
+    expiration: ${JWT_EXPIRATION:86400000}  # 24 hours in milliseconds
+    refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}  # 7 days
+    
+  # MinIO Configuration
+  minio:
+    endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+    access-key: ${MINIO_ACCESS_KEY:minio_admin}
+    secret-key: ${MINIO_SECRET_KEY:minio_password_2024}
+    bucket:
+      files: ${MINIO_BUCKET_FILES:cafm-files}
+      images: ${MINIO_BUCKET_IMAGES:cafm-images}
+      
+  # Cloudinary Configuration (optional)
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME:}
+    api-key: ${CLOUDINARY_API_KEY:}
+    api-secret: ${CLOUDINARY_API_SECRET:}
+    enabled: ${CLOUDINARY_ENABLED:false}
+    
+  # Security Configuration
+  security:
+    cors:
+      allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:8080}
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      exposed-headers: Authorization,Content-Disposition
+      allow-credentials: true
+      max-age: 3600
+      
+  # API Configuration
+  api:
+    version: v1
+    base-path: /api/${app.api.version}
+    rate-limit:
+      enabled: ${RATE_LIMIT_ENABLED:true}
+      requests-per-minute: ${RATE_LIMIT_RPM:60}
+      
+# OpenAPI/Swagger Configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    try-it-out-enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    disable-swagger-default-url: true
+  show-actuator: false
+  packages-to-scan: com.cafm.cafmbackend.controller, com.cafm.cafmbackend.api.controllers
+  paths-to-match: /api/v1/**

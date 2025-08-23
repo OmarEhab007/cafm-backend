@@ -1,0 +1,172 @@
+# Promtail Configuration for CAFM Backend Log Collection
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  # CAFM Backend application logs
+  - job_name: cafm-backend-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cafm-backend
+          application: cafm-backend
+          environment: production
+          __path__: /var/log/cafm/*.log
+    
+    pipeline_stages:
+      # Parse timestamp
+      - regex:
+          expression: '^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) \[(?P<thread>.*?)\] (?P<level>\w+)\s+(?P<logger>.*?) \[(?P<correlation_id>.*?)\] \[(?P<tenant_id>.*?)\] \[(?P<user_id>.*?)\] - (?P<message>.*)'
+      
+      # Set timestamp
+      - timestamp:
+          source: timestamp
+          format: '2006-01-02 15:04:05.000'
+          location: UTC
+      
+      # Add labels
+      - labels:
+          level:
+          thread:
+          logger:
+          correlation_id:
+          tenant_id:
+          user_id:
+      
+      # Drop debug logs in production
+      - drop:
+          expression: '.*level="DEBUG".*'
+      
+      # Parse JSON structured logs
+      - json:
+          expressions:
+            level: level
+            message: message
+            correlation_id: correlation_id
+            tenant_id: tenant_id
+            user_id: user_id
+
+  # CAFM Backend error logs
+  - job_name: cafm-backend-error-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cafm-backend-errors
+          application: cafm-backend
+          environment: production
+          log_type: error
+          __path__: /var/log/cafm/*-error.log
+
+  # CAFM Backend security logs
+  - job_name: cafm-backend-security-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cafm-backend-security
+          application: cafm-backend
+          environment: production
+          log_type: security
+          __path__: /var/log/cafm/*-security.log
+    
+    pipeline_stages:
+      # Add security-specific labels
+      - labels:
+          security_event: security
+      
+      # Parse security events
+      - regex:
+          expression: '.*\[(?P<client_ip>[\d\.]+)\].*'
+      
+      - labels:
+          client_ip:
+
+  # CAFM Backend performance logs
+  - job_name: cafm-backend-performance-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cafm-backend-performance
+          application: cafm-backend
+          environment: production
+          log_type: performance
+          __path__: /var/log/cafm/*-performance.log
+
+  # Docker container logs
+  - job_name: docker-containers
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock
+        refresh_interval: 5s
+        filters:
+          - name: label
+            values: ["logging=promtail"]
+    
+    relabel_configs:
+      - source_labels: ['__meta_docker_container_name']
+        regex: '/(.*)'
+        target_label: 'container_name'
+      - source_labels: ['__meta_docker_container_log_stream']
+        target_label: 'logstream'
+      - source_labels: ['__meta_docker_container_label_logging_jobname']
+        target_label: 'job'
+
+  # System logs
+  - job_name: system-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: system
+          __path__: /var/log/syslog
+    
+    pipeline_stages:
+      - regex:
+          expression: '^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+)\s+(?P<hostname>\S+)\s+(?P<service>\S+):\s+(?P<message>.*)'
+      
+      - timestamp:
+          source: timestamp
+          format: 'Jan 2 15:04:05'
+          location: UTC
+      
+      - labels:
+          hostname:
+          service:
+
+  # Nginx access logs (if using nginx as reverse proxy)
+  - job_name: nginx-access
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: nginx-access
+          __path__: /var/log/nginx/access.log
+    
+    pipeline_stages:
+      - regex:
+          expression: '^(?P<remote_addr>\S+) - (?P<remote_user>\S+) \[(?P<time_local>[^\]]+)\] "(?P<method>\S+) (?P<path>\S+) (?P<protocol>\S+)" (?P<status>\d+) (?P<body_bytes_sent>\d+) "(?P<http_referer>[^"]*)" "(?P<http_user_agent>[^"]*)"'
+      
+      - labels:
+          method:
+          path:
+          status:
+          remote_addr:
+
+  # Application startup logs
+  - job_name: cafm-startup
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: cafm-startup
+          application: cafm-backend
+          __path__: /var/log/cafm/startup.log

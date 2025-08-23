@@ -1,0 +1,1904 @@
+{
+  "info": {
+    "name": "CAFM Backend API Collection v2",
+    "description": "Complete API collection for CAFM (Computer-Aided Facility Management) backend with corrected request bodies and comprehensive endpoint coverage. Multi-tenant school maintenance management system.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "apiVersion",
+      "value": "v1",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "companyId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "schoolId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supervisorId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "technicianId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "assetId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "reportId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "workOrderId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('accessToken', response.accessToken);",
+                  "    pm.collectionVariables.set('refreshToken', response.refreshToken);",
+                  "    pm.collectionVariables.set('userId', response.userId);",
+                  "    pm.collectionVariables.set('companyId', response.companyId);",
+                  "    ",
+                  "    console.log('Login successful!');",
+                  "    console.log('User Type:', response.userType);",
+                  "    console.log('Company:', response.companyName);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@cafm.com\",\n    \"password\": \"SecurePass123!\",\n    \"deviceId\": \"postman-testing-001\",\n    \"deviceName\": \"Postman Test Client\",\n    \"ipAddress\": \"192.168.1.100\",\n    \"userAgent\": \"PostmanRuntime/7.32.0\",\n    \"rememberMe\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "login"]
+            },
+            "description": "Authenticate user and receive JWT access and refresh tokens"
+          }
+        },
+        {
+          "name": "Register New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"new.technician@cafm.com\",\n    \"firstName\": \"Omar\",\n    \"lastName\": \"Al-Ahmed\",\n    \"userType\": \"TECHNICIAN\",\n    \"companyId\": \"{{companyId}}\",\n    \"phone\": \"+966501234568\",\n    \"employeeId\": \"EMP002\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "register"]
+            },
+            "description": "Register a new user (Admin only). System generates temporary password."
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('accessToken', response.accessToken);",
+                  "    if (response.refreshToken) {",
+                  "        pm.collectionVariables.set('refreshToken', response.refreshToken);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\",\n    \"deviceId\": \"postman-testing-001\",\n    \"ipAddress\": \"192.168.1.100\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "refresh"]
+            },
+            "description": "Get new access token using refresh token"
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "me"]
+            },
+            "description": "Get information about currently authenticated user"
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"currentPassword\": \"SecurePass123!\",\n    \"newPassword\": \"NewSecure456@Pass\",\n    \"confirmPassword\": \"NewSecure456@Pass\",\n    \"logoutOtherSessions\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/change-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "change-password"]
+            },
+            "description": "Change password for authenticated user. Password must be 8-100 chars with digit, lowercase, uppercase, and special character."
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@cafm.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/forgot-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "forgot-password"]
+            },
+            "description": "Request password reset link via email"
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"reset-token-from-email\",\n    \"newPassword\": \"NewSecure789#Pass\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/reset-password",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "reset-password"]
+            },
+            "description": "Reset password using token from email"
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/verify-email?token=verification-token",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "verify-email"],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "verification-token"
+                }
+              ]
+            },
+            "description": "Verify email address with token"
+          }
+        },
+        {
+          "name": "Enable 2FA",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/2fa/enable",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "2fa", "enable"]
+            },
+            "description": "Enable two-factor authentication for current user"
+          }
+        },
+        {
+          "name": "Verify 2FA Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"sessionId\": \"session-id-from-login\",\n    \"code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/2fa/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "2fa", "verify"]
+            },
+            "description": "Verify 2FA code (6 digits)"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "auth", "logout"]
+            },
+            "description": "Logout and invalidate current tokens"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. User Management",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users?page=0&size=20&sort=createdAt&direction=DESC&userType=TECHNICIAN&status=ACTIVE",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0",
+                  "description": "Page number (0-based)"
+                },
+                {
+                  "key": "size",
+                  "value": "20",
+                  "description": "Page size"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt",
+                  "description": "Sort field"
+                },
+                {
+                  "key": "direction",
+                  "value": "DESC",
+                  "description": "Sort direction (ASC/DESC)"
+                },
+                {
+                  "key": "userType",
+                  "value": "TECHNICIAN",
+                  "description": "Filter by user type (ADMIN/SUPERVISOR/TECHNICIAN)"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "description": "Filter by status"
+                }
+              ]
+            },
+            "description": "Get paginated list of users (Admin/Supervisor only)"
+          }
+        },
+        {
+          "name": "Get User Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "{{userId}}"]
+            },
+            "description": "Get detailed user information by ID"
+          }
+        },
+        {
+          "name": "Create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('technicianId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"technician.ahmed@cafm.com\",\n    \"password\": \"TechPass123@Secure\",\n    \"firstName\": \"Ahmed\",\n    \"lastName\": \"Al-Rashid\",\n    \"firstNameAr\": \"أحمد\",\n    \"lastNameAr\": \"الراشد\",\n    \"userType\": \"TECHNICIAN\",\n    \"companyId\": \"{{companyId}}\",\n    \"phoneNumber\": \"+966501234567\",\n    \"mobileNumber\": \"+966551234567\",\n    \"dateOfBirth\": \"1990-05-15\",\n    \"gender\": \"Male\",\n    \"nationalId\": \"1234567890\",\n    \"employeeId\": \"TECH001\",\n    \"department\": \"Maintenance\",\n    \"jobTitle\": \"Senior Technician\",\n    \"hireDate\": \"2020-01-15\",\n    \"specialization\": \"ELECTRICAL\",\n    \"hourlyRate\": 75.50,\n    \"roles\": [\"TECHNICIAN\"],\n    \"permissions\": [],\n    \"schoolIds\": [],\n    \"preferredLanguage\": \"ar\",\n    \"timezone\": \"Asia/Riyadh\",\n    \"isActive\": true,\n    \"emailVerified\": false,\n    \"twoFactorEnabled\": false,\n    \"mustChangePassword\": false,\n    \"emailNotifications\": true,\n    \"smsNotifications\": false,\n    \"pushNotifications\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users"]
+            },
+            "description": "Create a new user account (Admin only)"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Ahmed\",\n    \"lastName\": \"Al-Rashid\",\n    \"firstNameAr\": \"أحمد\",\n    \"lastNameAr\": \"الراشد\",\n    \"phoneNumber\": \"+966501234567\",\n    \"mobileNumber\": \"+966551234567\",\n    \"dateOfBirth\": \"1990-05-15\",\n    \"gender\": \"Male\",\n    \"nationalId\": \"1234567890\",\n    \"employeeId\": \"TECH001\",\n    \"department\": \"Maintenance\",\n    \"jobTitle\": \"Lead Technician\",\n    \"hireDate\": \"2020-01-15\",\n    \"specialization\": \"HVAC\",\n    \"hourlyRate\": 85.00,\n    \"preferredLanguage\": \"ar\",\n    \"timezone\": \"Asia/Riyadh\",\n    \"emailNotifications\": true,\n    \"smsNotifications\": true,\n    \"pushNotifications\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "{{userId}}"]
+            },
+            "description": "Update user information (Admin/Supervisor)"
+          }
+        },
+        {
+          "name": "Activate User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/{{userId}}/activate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "{{userId}}", "activate"]
+            },
+            "description": "Activate a user account (Admin only)"
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/{{userId}}/deactivate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "{{userId}}", "deactivate"]
+            },
+            "description": "Deactivate a user account (Admin only)"
+          }
+        },
+        {
+          "name": "Lock User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/{{userId}}/lock?reason=Security violation",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "{{userId}}", "lock"],
+              "query": [
+                {
+                  "key": "reason",
+                  "value": "Security violation"
+                }
+              ]
+            },
+            "description": "Lock a user account (Admin only)"
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "profile"]
+            },
+            "description": "Get current user's profile"
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Ahmed\",\n    \"lastName\": \"Al-Rashid\",\n    \"phone\": \"+966501234567\",\n    \"firstNameAr\": \"أحمد\",\n    \"lastNameAr\": \"الراشد\",\n    \"bio\": \"Senior maintenance technician with 10 years experience\",\n    \"language\": \"ar\",\n    \"timezone\": \"Asia/Riyadh\",\n    \"avatarUrl\": \"https://example.com/avatar.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/users/profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "users", "profile"]
+            },
+            "description": "Update current user's profile"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Company Management",
+      "item": [
+        {
+          "name": "List Companies",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "List all companies (Super Admin only)"
+          }
+        },
+        {
+          "name": "Create Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('companyId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Al-Noor Education Group\",\n    \"displayName\": \"Al-Noor Schools\",\n    \"domain\": \"alnoor.edu.sa\",\n    \"subdomain\": \"alnoor\",\n    \"contactEmail\": \"admin@alnoor.edu.sa\",\n    \"contactPhone\": \"+966112345678\",\n    \"primaryContactName\": \"Dr. Mohammed Al-Fahad\",\n    \"industry\": \"Education\",\n    \"country\": \"Saudi Arabia\",\n    \"city\": \"Riyadh\",\n    \"address\": \"King Fahd Road, Al-Olaya District, Riyadh 12213\",\n    \"subscriptionPlan\": \"PROFESSIONAL\",\n    \"maxUsers\": 500,\n    \"maxSchools\": 25,\n    \"maxSupervisors\": 50,\n    \"maxTechnicians\": 100,\n    \"maxStorageGb\": 1000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies"]
+            },
+            "description": "Create a new company/tenant (Super Admin only)"
+          }
+        },
+        {
+          "name": "Get Company Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies", "{{companyId}}"]
+            },
+            "description": "Get company details by ID"
+          }
+        },
+        {
+          "name": "Update Company",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"displayName\": \"Al-Noor Educational Institutions\",\n    \"contactEmail\": \"info@alnoor.edu.sa\",\n    \"contactPhone\": \"+966112345679\",\n    \"primaryContactName\": \"Dr. Mohammed Al-Fahad\",\n    \"city\": \"Riyadh\",\n    \"address\": \"King Fahd Road, Al-Olaya District, Riyadh 12213\",\n    \"maxUsers\": 600,\n    \"maxSchools\": 30\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies/{{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies", "{{companyId}}"]
+            },
+            "description": "Update company information"
+          }
+        },
+        {
+          "name": "Get Company Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies/{{companyId}}/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies", "{{companyId}}", "stats"]
+            },
+            "description": "Get company statistics and usage metrics"
+          }
+        },
+        {
+          "name": "Get Current Company",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/companies/current",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "companies", "current"]
+            },
+            "description": "Get current user's company information"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. School Management",
+      "item": [
+        {
+          "name": "List Schools",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools?page=0&size=20&type=PRIMARY&gender=MIXED&city=Riyadh&isActive=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "type",
+                  "value": "PRIMARY",
+                  "description": "School type filter"
+                },
+                {
+                  "key": "gender",
+                  "value": "MIXED",
+                  "description": "Gender type filter"
+                },
+                {
+                  "key": "city",
+                  "value": "Riyadh",
+                  "description": "City filter"
+                },
+                {
+                  "key": "isActive",
+                  "value": "true",
+                  "description": "Active status filter"
+                }
+              ]
+            },
+            "description": "Get list of schools with filtering options"
+          }
+        },
+        {
+          "name": "Create School",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('schoolId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"ALNOOR_001\",\n    \"name\": \"Al-Noor Primary School\",\n    \"nameAr\": \"مدرسة النور الابتدائية\",\n    \"type\": \"PRIMARY\",\n    \"gender\": \"MIXED\",\n    \"address\": \"King Fahd Road, Al-Olaya District\",\n    \"city\": \"Riyadh\",\n    \"latitude\": 24.7136,\n    \"longitude\": 46.6753,\n    \"maintenanceScore\": 85,\n    \"activityLevel\": \"HIGH\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools"]
+            },
+            "description": "Create a new school (Admin only)"
+          }
+        },
+        {
+          "name": "Get School Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools/{{schoolId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools", "{{schoolId}}"]
+            },
+            "description": "Get detailed school information"
+          }
+        },
+        {
+          "name": "Update School",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Al-Noor Primary School - Updated\",\n    \"nameAr\": \"مدرسة النور الابتدائية - محدث\",\n    \"address\": \"King Fahd Road, Al-Olaya District, Building 15\",\n    \"maintenanceScore\": 90,\n    \"activityLevel\": \"MEDIUM\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools/{{schoolId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools", "{{schoolId}}"]
+            },
+            "description": "Update school information (Admin only)"
+          }
+        },
+        {
+          "name": "Update Maintenance Score",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools/{{schoolId}}/maintenance-score?score=95",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools", "{{schoolId}}", "maintenance-score"],
+              "query": [
+                {
+                  "key": "score",
+                  "value": "95",
+                  "description": "Score between 0-100"
+                }
+              ]
+            },
+            "description": "Update school maintenance score"
+          }
+        },
+        {
+          "name": "Get School Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools", "stats"]
+            },
+            "description": "Get company-wide school statistics (Admin only)"
+          }
+        },
+        {
+          "name": "Search Schools",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/schools/search?q=Al-Noor",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "schools", "search"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Al-Noor",
+                  "description": "Search term"
+                }
+              ]
+            },
+            "description": "Search schools by name or code"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Asset Management",
+      "item": [
+        {
+          "name": "List Assets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets?page=0&size=20&status=ACTIVE&condition=GOOD&schoolId={{schoolId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "description": "Asset status filter"
+                },
+                {
+                  "key": "condition",
+                  "value": "GOOD",
+                  "description": "Asset condition filter"
+                },
+                {
+                  "key": "schoolId",
+                  "value": "{{schoolId}}",
+                  "description": "Filter by school"
+                }
+              ]
+            },
+            "description": "Get list of assets with filtering"
+          }
+        },
+        {
+          "name": "Create Asset",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('assetId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"assetCode\": \"AC-UNIT-001\",\n    \"name\": \"Split Air Conditioning Unit 3-Ton\",\n    \"nameAr\": \"وحدة تكييف منفصلة 3 طن\",\n    \"description\": \"3-ton split AC unit for classroom cooling with energy efficiency rating A\",\n    \"manufacturer\": \"Samsung\",\n    \"model\": \"AR24TXHQBWKNEU\",\n    \"serialNumber\": \"SMG2024001234\",\n    \"barcode\": \"8806090629853\",\n    \"purchaseDate\": \"2024-01-15\",\n    \"purchaseOrderNumber\": \"PO-2024-001\",\n    \"supplier\": \"Al-Salem Trading Co.\",\n    \"warrantyStartDate\": \"2024-01-15\",\n    \"warrantyEndDate\": \"2027-01-15\",\n    \"purchaseCost\": 3500.00,\n    \"currentValue\": 3500.00,\n    \"salvageValue\": 350.00,\n    \"depreciationMethod\": \"straight_line\",\n    \"schoolId\": \"{{schoolId}}\",\n    \"department\": \"Facilities\",\n    \"location\": \"Building A - Classroom 2A\",\n    \"maintenanceFrequencyDays\": 90,\n    \"nextMaintenanceDate\": \"2024-04-15\",\n    \"status\": \"ACTIVE\",\n    \"condition\": \"EXCELLENT\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets"]
+            },
+            "description": "Create a new asset (Admin only)"
+          }
+        },
+        {
+          "name": "Get Asset Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/{{assetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "{{assetId}}"]
+            },
+            "description": "Get detailed asset information"
+          }
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Split Air Conditioning Unit 3-Ton - Updated\",\n    \"currentValue\": 3200.00,\n    \"location\": \"Building A - Classroom 2B\",\n    \"condition\": \"GOOD\",\n    \"nextMaintenanceDate\": \"2024-05-01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/{{assetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "{{assetId}}"]
+            },
+            "description": "Update asset information (Admin only)"
+          }
+        },
+        {
+          "name": "Assign Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/{{assetId}}/assign?userId={{technicianId}}&notes=Assigned for maintenance work",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "{{assetId}}", "assign"],
+              "query": [
+                {
+                  "key": "userId",
+                  "value": "{{technicianId}}"
+                },
+                {
+                  "key": "notes",
+                  "value": "Assigned for maintenance work"
+                }
+              ]
+            },
+            "description": "Assign asset to a user"
+          }
+        },
+        {
+          "name": "Transfer Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/{{assetId}}/transfer?schoolId={{schoolId}}&location=Building B - Room 105&notes=Relocated due to renovation",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "{{assetId}}", "transfer"],
+              "query": [
+                {
+                  "key": "schoolId",
+                  "value": "{{schoolId}}"
+                },
+                {
+                  "key": "location",
+                  "value": "Building B - Room 105"
+                },
+                {
+                  "key": "notes",
+                  "value": "Relocated due to renovation"
+                }
+              ]
+            },
+            "description": "Transfer asset to new location"
+          }
+        },
+        {
+          "name": "Update Asset Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/{{assetId}}/status?status=MAINTENANCE&reason=Scheduled maintenance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "{{assetId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "MAINTENANCE",
+                  "description": "ACTIVE, MAINTENANCE, RETIRED, DISPOSED, LOST, RESERVED, DAMAGED"
+                },
+                {
+                  "key": "reason",
+                  "value": "Scheduled maintenance"
+                }
+              ]
+            },
+            "description": "Update asset status"
+          }
+        },
+        {
+          "name": "Get Asset Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "stats"]
+            },
+            "description": "Get comprehensive asset statistics (Admin only)"
+          }
+        },
+        {
+          "name": "Get Maintenance Due Assets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/maintenance-due?daysAhead=30",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "maintenance-due"],
+              "query": [
+                {
+                  "key": "daysAhead",
+                  "value": "30",
+                  "description": "Days to look ahead"
+                }
+              ]
+            },
+            "description": "Get assets due for maintenance"
+          }
+        },
+        {
+          "name": "Generate Asset Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/assets/generate-code?prefix=AC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "assets", "generate-code"],
+              "query": [
+                {
+                  "key": "prefix",
+                  "value": "AC",
+                  "description": "Code prefix"
+                }
+              ]
+            },
+            "description": "Generate unique asset code"
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Report Management",
+      "item": [
+        {
+          "name": "List Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports?page=0&size=20&sort=createdAt&direction=DESC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                },
+                {
+                  "key": "sort",
+                  "value": "createdAt"
+                },
+                {
+                  "key": "direction",
+                  "value": "DESC"
+                }
+              ]
+            },
+            "description": "Get paginated list of maintenance reports"
+          }
+        },
+        {
+          "name": "Create Report",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('reportId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"schoolId\": \"{{schoolId}}\",\n    \"supervisorId\": \"{{userId}}\",\n    \"companyId\": \"{{companyId}}\",\n    \"title\": \"Air Conditioning Unit Malfunction in Classroom 2A\",\n    \"description\": \"The AC unit in classroom 2A is not cooling properly. Students are complaining about the heat, and the unit makes unusual grinding noises when operating. Temperature reading shows 28°C despite thermostat set to 22°C.\",\n    \"priority\": \"HIGH\",\n    \"category\": \"HVAC\",\n    \"location\": \"Building A - Second Floor - Classroom 2A\",\n    \"building\": \"Building A\",\n    \"floor\": \"2\",\n    \"roomNumber\": \"2A\",\n    \"damageAssessment\": \"AC unit compressor may be failing. Filter appears clogged. Possible refrigerant leak detected.\",\n    \"isUrgent\": true,\n    \"isSafetyHazard\": false,\n    \"photoUrls\": [\n        \"https://example.com/photos/ac-unit-1.jpg\",\n        \"https://example.com/photos/ac-unit-2.jpg\"\n    ],\n    \"notes\": \"This classroom has 35 students. Alternative cooling needed urgently.\",\n    \"contactName\": \"Mrs. Fatima Al-Zahra\",\n    \"contactPhone\": \"+966501234567\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports"]
+            },
+            "description": "Create a new maintenance report"
+          }
+        },
+        {
+          "name": "Get Report Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}"]
+            },
+            "description": "Get detailed report information"
+          }
+        },
+        {
+          "name": "Update Report",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"URGENT: Air Conditioning Unit Failure in Classroom 2A\",\n    \"description\": \"The AC unit in classroom 2A has completely failed. No cooling at all. Students cannot use the classroom. Unit makes loud grinding noises and emits burning smell.\",\n    \"priority\": \"CRITICAL\",\n    \"isUrgent\": true,\n    \"isSafetyHazard\": true,\n    \"notes\": \"Classroom evacuated due to burning smell. Immediate action required.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}"]
+            },
+            "description": "Update existing report"
+          }
+        },
+        {
+          "name": "Submit Report for Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}", "submit"]
+            },
+            "description": "Submit report for review (DRAFT → SUBMITTED)"
+          }
+        },
+        {
+          "name": "Review Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}/review?approved=true&comments=Approved for immediate action",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}", "review"],
+              "query": [
+                {
+                  "key": "approved",
+                  "value": "true"
+                },
+                {
+                  "key": "comments",
+                  "value": "Approved for immediate action"
+                }
+              ]
+            },
+            "description": "Admin review of submitted report"
+          }
+        },
+        {
+          "name": "Assign Report to Technician",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}/assign?technicianId={{technicianId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}", "assign"],
+              "query": [
+                {
+                  "key": "technicianId",
+                  "value": "{{technicianId}}"
+                }
+              ]
+            },
+            "description": "Assign report to a technician"
+          }
+        },
+        {
+          "name": "Start Work on Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}/start",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}", "start"]
+            },
+            "description": "Start work on approved report (APPROVED → IN_PROGRESS)"
+          }
+        },
+        {
+          "name": "Complete Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/{{reportId}}/complete?actualCost=2500.00&completionNotes=Replaced AC compressor and cleaned filters. Unit working normally.",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "{{reportId}}", "complete"],
+              "query": [
+                {
+                  "key": "actualCost",
+                  "value": "2500.00"
+                },
+                {
+                  "key": "completionNotes",
+                  "value": "Replaced AC compressor and cleaned filters. Unit working normally."
+                }
+              ]
+            },
+            "description": "Mark report as completed"
+          }
+        },
+        {
+          "name": "Get Reports by School",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/school/{{schoolId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "school", "{{schoolId}}"]
+            },
+            "description": "Get all reports for a specific school"
+          }
+        },
+        {
+          "name": "Get High Priority Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/high-priority",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "high-priority"]
+            },
+            "description": "Get HIGH, URGENT, and CRITICAL priority reports"
+          }
+        },
+        {
+          "name": "Get Report Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/reports/statistics?companyId={{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "reports", "statistics"],
+              "query": [
+                {
+                  "key": "companyId",
+                  "value": "{{companyId}}"
+                }
+              ]
+            },
+            "description": "Get report statistics summary (Admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Work Order Management",
+      "item": [
+        {
+          "name": "List Work Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Get paginated list of work orders"
+          }
+        },
+        {
+          "name": "Create Work Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('workOrderId', response.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reportId\": \"{{reportId}}\",\n    \"title\": \"Emergency AC Repair - Classroom 2A\",\n    \"description\": \"Complete AC unit repair including compressor replacement, filter cleaning, refrigerant recharge, and system testing. Unit showing complete failure with burning smell.\",\n    \"priority\": \"EMERGENCY\",\n    \"category\": \"HVAC\",\n    \"schoolId\": \"{{schoolId}}\",\n    \"location\": \"Building A - Second Floor - Classroom 2A\",\n    \"building\": \"Building A\",\n    \"floor\": \"2\",\n    \"roomNumber\": \"2A\",\n    \"assignedToId\": \"{{technicianId}}\",\n    \"assignmentNotes\": \"Urgent repair needed. Classroom unusable. Bring replacement compressor model Samsung AR24TX.\",\n    \"scheduledStart\": \"2024-08-20T08:00:00Z\",\n    \"scheduledEnd\": \"2024-08-20T12:00:00Z\",\n    \"estimatedCost\": 2500.00,\n    \"estimatedHours\": 4.0,\n    \"tasks\": [\n        {\n            \"title\": \"Diagnose AC unit failure\",\n            \"description\": \"Complete diagnostic of AC system\",\n            \"isMandatory\": true,\n            \"estimatedHours\": 0.5,\n            \"orderNumber\": 1\n        },\n        {\n            \"title\": \"Replace compressor\",\n            \"description\": \"Remove old compressor and install new unit\",\n            \"isMandatory\": true,\n            \"estimatedHours\": 2.0,\n            \"orderNumber\": 2\n        },\n        {\n            \"title\": \"Clean/replace filters\",\n            \"description\": \"Clean or replace all AC filters\",\n            \"isMandatory\": true,\n            \"estimatedHours\": 0.5,\n            \"orderNumber\": 3\n        },\n        {\n            \"title\": \"Recharge refrigerant\",\n            \"description\": \"Check and recharge refrigerant to proper levels\",\n            \"isMandatory\": true,\n            \"estimatedHours\": 0.5,\n            \"orderNumber\": 4\n        },\n        {\n            \"title\": \"Test system operation\",\n            \"description\": \"Full system test and temperature verification\",\n            \"isMandatory\": true,\n            \"estimatedHours\": 0.5,\n            \"orderNumber\": 5\n        }\n    ],\n    \"specialInstructions\": \"Contact school principal before arrival. Work must be completed before classes resume.\",\n    \"requiredSkills\": [\"HVAC\", \"Electrical\", \"Refrigeration\"],\n    \"requiredTools\": [\"Multimeter\", \"Refrigerant gauges\", \"Vacuum pump\", \"Torque wrench\"],\n    \"requiresSafetyGear\": true,\n    \"safetyNotes\": \"Ensure power is disconnected before working on unit. Use proper PPE including safety glasses and gloves.\",\n    \"estimatedMaterials\": [\n        {\n            \"name\": \"AC Compressor Samsung AR24TX\",\n            \"unit\": \"PIECE\",\n            \"quantity\": 1,\n            \"estimatedCost\": 1800.00\n        },\n        {\n            \"name\": \"AC Filter\",\n            \"unit\": \"PIECE\",\n            \"quantity\": 2,\n            \"estimatedCost\": 100.00\n        },\n        {\n            \"name\": \"R410A Refrigerant\",\n            \"unit\": \"KG\",\n            \"quantity\": 2,\n            \"estimatedCost\": 200.00\n        },\n        {\n            \"name\": \"Copper Pipe\",\n            \"unit\": \"METER\",\n            \"quantity\": 3,\n            \"estimatedCost\": 150.00\n        }\n    ],\n    \"notifyTechnician\": true,\n    \"notifySchool\": true,\n    \"assetId\": \"{{assetId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders"]
+            },
+            "description": "Create a new work order"
+          }
+        },
+        {
+          "name": "Create Work Order from Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/from-report/{{reportId}}?companyId={{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "from-report", "{{reportId}}"],
+              "query": [
+                {
+                  "key": "companyId",
+                  "value": "{{companyId}}"
+                }
+              ]
+            },
+            "description": "Create work order from existing report"
+          }
+        },
+        {
+          "name": "Get Work Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}"]
+            },
+            "description": "Get detailed work order information"
+          }
+        },
+        {
+          "name": "Assign Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/assign?technicianId={{technicianId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "assign"],
+              "query": [
+                {
+                  "key": "technicianId",
+                  "value": "{{technicianId}}"
+                }
+              ]
+            },
+            "description": "Assign work order to technician"
+          }
+        },
+        {
+          "name": "Start Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/start?technicianId={{technicianId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "start"],
+              "query": [
+                {
+                  "key": "technicianId",
+                  "value": "{{technicianId}}"
+                }
+              ]
+            },
+            "description": "Start work on assigned work order (ASSIGNED → IN_PROGRESS)"
+          }
+        },
+        {
+          "name": "Update Work Order Progress",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"progressPercentage\": 75,\n    \"notes\": \"Compressor replaced. Testing in progress.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/progress",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "progress"]
+            },
+            "description": "Update work order progress percentage"
+          }
+        },
+        {
+          "name": "Put Work Order On Hold",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/hold?reason=Waiting for replacement parts",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "hold"],
+              "query": [
+                {
+                  "key": "reason",
+                  "value": "Waiting for replacement parts"
+                }
+              ]
+            },
+            "description": "Put work order on hold (IN_PROGRESS → ON_HOLD)"
+          }
+        },
+        {
+          "name": "Resume Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/resume",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "resume"]
+            },
+            "description": "Resume work order from hold (ON_HOLD → IN_PROGRESS)"
+          }
+        },
+        {
+          "name": "Complete Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/complete?completionNotes=All repairs completed successfully. AC unit tested and working at optimal temperature.",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "complete"],
+              "query": [
+                {
+                  "key": "completionNotes",
+                  "value": "All repairs completed successfully. AC unit tested and working at optimal temperature."
+                }
+              ]
+            },
+            "description": "Mark work order as completed"
+          }
+        },
+        {
+          "name": "Verify Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/verify?supervisorId={{supervisorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "verify"],
+              "query": [
+                {
+                  "key": "supervisorId",
+                  "value": "{{supervisorId}}"
+                }
+              ]
+            },
+            "description": "Verify completed work order (COMPLETED → VERIFIED)"
+          }
+        },
+        {
+          "name": "Add Task to Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Clean condenser coils\",\n    \"description\": \"Additional cleaning required for condenser coils\",\n    \"isMandatory\": false,\n    \"estimatedHours\": 0.5,\n    \"orderNumber\": 6\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "tasks"]
+            },
+            "description": "Add task to work order"
+          }
+        },
+        {
+          "name": "Add Material to Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Electrical Wire 12AWG\",\n    \"unit\": \"METER\",\n    \"quantity\": 5,\n    \"unitCost\": 15.50,\n    \"totalCost\": 77.50,\n    \"notes\": \"Additional wiring needed for compressor installation\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/{{workOrderId}}/materials",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "{{workOrderId}}", "materials"]
+            },
+            "description": "Add material usage to work order"
+          }
+        },
+        {
+          "name": "Get Work Order Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/{{apiVersion}}/work-orders/statistics?companyId={{companyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "{{apiVersion}}", "work-orders", "statistics"],
+              "query": [
+                {
+                  "key": "companyId",
+                  "value": "{{companyId}}"
+                }
+              ]
+            },
+            "description": "Get work order statistics (Admin only)"
+          }
+        }
+      ]
+    }
+  ]
+}

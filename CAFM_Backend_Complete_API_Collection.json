@@ -1,0 +1,2098 @@
+{
+	"info": {
+		"_postman_id": "cafm-backend-complete-api",
+		"name": "🏢 CAFM Backend - Complete API Collection",
+		"description": "Comprehensive REST API collection for the CAFM (Computer-Aided Facility Management) Backend System. This collection covers all endpoints for school maintenance management including authentication, user management, asset tracking, work orders, reports, and administrative functions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "cafm-backend"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"exec": [
+					"// Auto-refresh token if needed",
+					"const accessToken = pm.environment.get('access_token');",
+					"const refreshToken = pm.environment.get('refresh_token');",
+					"const tokenExpiry = pm.environment.get('token_expiry');",
+					"",
+					"if (!accessToken && refreshToken) {",
+					"    // Refresh token logic would go here",
+					"    console.log('Token refresh needed');",
+					"}",
+					"",
+					"// Set company context for multi-tenant requests",
+					"const companyId = pm.environment.get('company_id');",
+					"if (companyId) {",
+					"    pm.request.headers.add({",
+					"        key: 'X-Company-ID',",
+					"        value: companyId",
+					"    });",
+					"}"
+				],
+				"type": "text/javascript"
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "company_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "🔐 Authentication & Security",
+			"description": "Authentication endpoints for login, registration, password management, and 2FA",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password123\",\n  \"rememberMe\": true,\n  \"deviceId\": \"postman-device\",\n  \"deviceName\": \"Postman Client\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.environment.set('access_token', response.accessToken);",
+									"    pm.environment.set('refresh_token', response.refreshToken);",
+									"    pm.environment.set('user_id', response.userId);",
+									"    pm.environment.set('company_id', response.companyId);",
+									"    ",
+									"    // Calculate token expiry",
+									"    const expiryTime = new Date(Date.now() + (response.expiresIn * 1000));",
+									"    pm.environment.set('token_expiry', expiryTime.toISOString());",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					]
+				},
+				{
+					"name": "Register User (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"newuser@example.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"userType\": \"SUPERVISOR\",\n  \"companyId\": \"{{company_id}}\",\n  \"phone\": \"+1234567890\",\n  \"employeeId\": \"EMP001\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{refresh_token}}\",\n  \"deviceId\": \"postman-device\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"refresh"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"oldpassword123\",\n  \"newPassword\": \"NewPass123!\",\n  \"confirmPassword\": \"NewPass123!\",\n  \"logoutOtherSessions\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"change-password"
+							]
+						}
+					}
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/forgot-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					}
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"token\": \"reset_token_here\",\n  \"newPassword\": \"NewPassword123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/reset-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					}
+				},
+				{
+					"name": "Enable 2FA",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/auth/2fa/enable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"2fa",
+								"enable"
+							]
+						}
+					}
+				},
+				{
+					"name": "Verify 2FA Code",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sessionId\": \"temp_session_id\",\n  \"code\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/2fa/verify",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"2fa",
+								"verify"
+							]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👥 User Management",
+			"description": "User CRUD operations, profile management, and user administration",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/users?page=0&size=20&userType=SUPERVISOR&status=ACTIVE&search=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "userType",
+									"value": "SUPERVISOR"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								},
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"technician@school.edu\",\n  \"firstName\": \"Ahmed\",\n  \"lastName\": \"Hassan\",\n  \"userType\": \"TECHNICIAN\",\n  \"companyId\": \"{{company_id}}\",\n  \"phoneNumber\": \"+966501234567\",\n  \"employeeId\": \"TECH001\",\n  \"department\": \"Maintenance\",\n  \"position\": \"Senior Technician\",\n  \"specialization\": [\"ELECTRICAL\", \"PLUMBING\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Ahmed\",\n  \"lastName\": \"Hassan\",\n  \"phoneNumber\": \"+966501234567\",\n  \"department\": \"Maintenance\",\n  \"position\": \"Lead Technician\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}/activate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"activate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Deactivate User",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}/deactivate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"deactivate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Lock User Account",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}/lock?reason=Security violation",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"lock"
+							],
+							"query": [
+								{
+									"key": "reason",
+									"value": "Security violation"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Reset User Password (Admin)",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/users/{{user_id}}/reset-password?sendEmail=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"{{user_id}}",
+								"reset-password"
+							],
+							"query": [
+								{
+									"key": "sendEmail",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Current User Profile",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/users/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Current User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Updated First Name\",\n  \"lastName\": \"Updated Last Name\",\n  \"phoneNumber\": \"+966509876543\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🏢 Company Management",
+			"description": "Multi-tenant company operations and administration",
+			"item": [
+				{
+					"name": "Get All Companies (Super Admin)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/companies?page=0&size=20&status=ACTIVE&search=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								},
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Company by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/companies/{{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies",
+								"{{company_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Company (Super Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Saudi Education Ministry\",\n  \"arabicName\": \"وزارة التربية والتعليم السعودية\",\n  \"domain\": \"edu.sa\",\n  \"subdomain\": \"riyadh-edu\",\n  \"contactEmail\": \"admin@edu.sa\",\n  \"phoneNumber\": \"+966114567890\",\n  \"address\": {\n    \"street\": \"King Fahd Road\",\n    \"city\": \"Riyadh\",\n    \"state\": \"Riyadh Province\",\n    \"country\": \"Saudi Arabia\",\n    \"postalCode\": \"11564\"\n  },\n  \"subscriptionPlan\": \"ENTERPRISE\",\n  \"maxUsers\": 1000,\n  \"maxSchools\": 200,\n  \"maxAssets\": 50000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/companies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Company",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Company Name\",\n  \"contactEmail\": \"updated@company.com\",\n  \"phoneNumber\": \"+966501234567\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/companies/{{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies",
+								"{{company_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Current Company",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/companies/current",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies",
+								"current"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Company Statistics",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/companies/{{company_id}}/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies",
+								"{{company_id}}",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Check Domain Availability",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/companies/check-domain?domain=newcompany.com&subdomain=newcompany",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"companies",
+								"check-domain"
+							],
+							"query": [
+								{
+									"key": "domain",
+									"value": "newcompany.com"
+								},
+								{
+									"key": "subdomain",
+									"value": "newcompany"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🏫 School Management",
+			"description": "Educational facility management and statistics",
+			"item": [
+				{
+					"name": "Get All Schools",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/schools?page=0&size=20&type=PRIMARY&city=Riyadh&search=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "type",
+									"value": "PRIMARY"
+								},
+								{
+									"key": "city",
+									"value": "Riyadh"
+								},
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get School by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/schools/{{school_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools",
+								"{{school_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create School",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Al Noor Primary School\",\n  \"arabicName\": \"مدرسة النور الابتدائية\",\n  \"schoolCode\": \"RYD-PRI-001\",\n  \"educationType\": \"PRIMARY\",\n  \"address\": {\n    \"street\": \"King Abdullah Street\",\n    \"city\": \"Riyadh\",\n    \"district\": \"Al Malaz\",\n    \"postalCode\": \"11564\",\n    \"country\": \"Saudi Arabia\"\n  },\n  \"contactInfo\": {\n    \"principalName\": \"Dr. Sarah Al-Rashid\",\n    \"phoneNumber\": \"+966114567890\",\n    \"email\": \"principal@alnoor.edu.sa\"\n  },\n  \"capacity\": {\n    \"totalStudents\": 500,\n    \"totalTeachers\": 30,\n    \"totalClassrooms\": 20\n  },\n  \"maintenanceScore\": 85,\n  \"companyId\": \"{{company_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/schools",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update School",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"contactInfo\": {\n    \"principalName\": \"Dr. Fatima Al-Zahra\",\n    \"phoneNumber\": \"+966114567891\",\n    \"email\": \"principal@alnoor.edu.sa\"\n  },\n  \"maintenanceScore\": 90\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/schools/{{school_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools",
+								"{{school_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Activate School",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/schools/{{school_id}}/activate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools",
+								"{{school_id}}",
+								"activate"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get School Statistics",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/schools/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Schools",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/schools/search?q=Al Noor&type=PRIMARY&city=Riyadh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"schools",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Al Noor"
+								},
+								{
+									"key": "type",
+									"value": "PRIMARY"
+								},
+								{
+									"key": "city",
+									"value": "Riyadh"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🏗️ Asset Management",
+			"description": "Physical asset tracking, maintenance, and lifecycle management",
+			"item": [
+				{
+					"name": "Get All Assets",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/assets?page=0&size=20&status=ACTIVE&condition=EXCELLENT&search=&category=HVAC",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								},
+								{
+									"key": "condition",
+									"value": "EXCELLENT"
+								},
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "category",
+									"value": "HVAC"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Asset by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/assets/{{asset_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"{{asset_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Asset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Central Air Conditioning Unit\",\n  \"assetCode\": \"HVAC-001-2024\",\n  \"category\": \"HVAC\",\n  \"subcategory\": \"Air Conditioning\",\n  \"description\": \"5-ton central AC unit for classroom building\",\n  \"manufacturer\": \"Carrier\",\n  \"model\": \"25HCB536A003\",\n  \"serialNumber\": \"CAR123456789\",\n  \"purchaseDate\": \"2024-01-15\",\n  \"purchasePrice\": 25000.00,\n  \"currentValue\": 23000.00,\n  \"depreciationRate\": 10.0,\n  \"depreciationMethod\": \"STRAIGHT_LINE\",\n  \"usefulLife\": 120,\n  \"warrantyInfo\": {\n    \"warrantyPeriod\": 60,\n    \"warrantyExpiry\": \"2029-01-15\",\n    \"warrantyProvider\": \"Carrier Saudi Arabia\"\n  },\n  \"location\": {\n    \"schoolId\": \"{{school_id}}\",\n    \"building\": \"Main Building\",\n    \"floor\": \"Roof\",\n    \"room\": \"Mechanical Room\"\n  },\n  \"condition\": \"EXCELLENT\",\n  \"status\": \"ACTIVE\",\n  \"nextMaintenanceDate\": \"2024-04-15\",\n  \"maintenanceInterval\": 90,\n  \"companyId\": \"{{company_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/assets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"condition\": \"GOOD\",\n  \"currentValue\": 22000.00,\n  \"nextMaintenanceDate\": \"2024-07-15\",\n  \"notes\": \"Regular maintenance completed. Minor wear noted.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/assets/{{asset_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"{{asset_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Asset to User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"assigneeId\": \"{{user_id}}\",\n  \"assignmentDate\": \"2024-01-20\",\n  \"notes\": \"Assigned for routine maintenance\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/assets/{{asset_id}}/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"{{asset_id}}",
+								"assign"
+							]
+						}
+					}
+				},
+				{
+					"name": "Transfer Asset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"newSchoolId\": \"{{school_id}}\",\n  \"newBuilding\": \"Science Building\",\n  \"newFloor\": \"2nd Floor\",\n  \"newRoom\": \"Lab 201\",\n  \"transferReason\": \"Facility upgrade\",\n  \"transferDate\": \"2024-02-01\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/assets/{{asset_id}}/transfer",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"{{asset_id}}",
+								"transfer"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Asset Statistics",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/assets/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Assets Maintenance Due",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/assets/maintenance-due",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"maintenance-due"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Asset Depreciation",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/assets/{{asset_id}}/depreciation",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"assets",
+								"{{asset_id}}",
+								"depreciation"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📋 Reports & Issues",
+			"description": "Maintenance reports and issue tracking",
+			"item": [
+				{
+					"name": "Get All Reports",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports?page=0&size=20&status=PENDING&priority=HIGH&search=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "PENDING"
+								},
+								{
+									"key": "priority",
+									"value": "HIGH"
+								},
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Report by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Maintenance Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"AC Unit Not Cooling Properly\",\n  \"description\": \"The air conditioning unit in classroom 101 is not cooling effectively. Temperature remains above 28°C despite being set to 22°C.\",\n  \"category\": \"HVAC\",\n  \"subcategory\": \"Air Conditioning\",\n  \"priority\": \"HIGH\",\n  \"severity\": \"MODERATE\",\n  \"schoolId\": \"{{school_id}}\",\n  \"location\": {\n    \"building\": \"Main Building\",\n    \"floor\": \"1st Floor\",\n    \"room\": \"Classroom 101\",\n    \"specificLocation\": \"Wall-mounted AC unit\"\n  },\n  \"assetId\": \"{{asset_id}}\",\n  \"reportedBy\": \"{{user_id}}\",\n  \"contactInfo\": {\n    \"reporterName\": \"Ahmad Al-Rashid\",\n    \"reporterPhone\": \"+966501234567\",\n    \"reporterEmail\": \"ahmad@school.edu\"\n  },\n  \"isSafetyIssue\": true,\n  \"requiresImmediateAttention\": true,\n  \"affectedUsers\": 30,\n  \"estimatedCost\": 500.00,\n  \"photoUrls\": [\n    \"https://cloudinary.com/image1.jpg\",\n    \"https://cloudinary.com/image2.jpg\"\n  ],\n  \"notes\": \"Issue started yesterday afternoon. Students complaining about heat.\",\n  \"companyId\": \"{{company_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reports",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Report",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"priority\": \"CRITICAL\",\n  \"estimatedCost\": 750.00,\n  \"notes\": \"Issue worsened - complete cooling failure. Urgent repair needed.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Submit Report for Review",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}/submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}",
+								"submit"
+							]
+						}
+					}
+				},
+				{
+					"name": "Review Report (Approve/Reject)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approved\": true,\n  \"reviewNotes\": \"Approved for immediate work order creation. High priority due to safety concerns.\",\n  \"estimatedCost\": 750.00\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}/review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}",
+								"review"
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Report to Technician",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"technicianId\": \"{{user_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}",
+								"assign"
+							]
+						}
+					}
+				},
+				{
+					"name": "Start Report Work",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}/start",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}",
+								"start"
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completionNotes\": \"Replaced faulty compressor. AC unit now cooling effectively. Temperature stable at 22°C.\",\n  \"actualCost\": 680.00,\n  \"materialsUsed\": \"Compressor unit, refrigerant gas\",\n  \"timeSpent\": 4.5,\n  \"qualityRating\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/reports/{{report_id}}/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"{{report_id}}",
+								"complete"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Report Statistics",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports/statistics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"statistics"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Reports",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports/pending",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"pending"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Overdue Reports",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports/overdue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"overdue"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get High Priority Reports",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/reports/high-priority",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"high-priority"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "⚙️ Work Orders",
+			"description": "Work order management, assignment, and tracking",
+			"item": [
+				{
+					"name": "Get All Work Orders",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/work-orders?page=0&size=20&status=PENDING&priority=HIGH&assigneeId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "PENDING"
+								},
+								{
+									"key": "priority",
+									"value": "HIGH"
+								},
+								{
+									"key": "assigneeId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Work Order by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Work Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Replace HVAC Compressor\",\n  \"description\": \"Replace faulty compressor in main building AC unit. Unit not cooling effectively.\",\n  \"workType\": \"CORRECTIVE\",\n  \"priority\": \"HIGH\",\n  \"category\": \"HVAC\",\n  \"subcategory\": \"Air Conditioning\",\n  \"schoolId\": \"{{school_id}}\",\n  \"assetId\": \"{{asset_id}}\",\n  \"reportId\": \"{{report_id}}\",\n  \"requestedBy\": \"{{user_id}}\",\n  \"location\": {\n    \"building\": \"Main Building\",\n    \"floor\": \"1st Floor\",\n    \"room\": \"Classroom 101\",\n    \"specificLocation\": \"Wall-mounted AC unit\"\n  },\n  \"scheduledStartDate\": \"2024-02-15T08:00:00\",\n  \"scheduledEndDate\": \"2024-02-15T16:00:00\",\n  \"estimatedDuration\": 8.0,\n  \"estimatedCost\": 750.00,\n  \"requiresShutdown\": true,\n  \"shutdownDuration\": 2.0,\n  \"safetyRequirements\": [\n    \"Lock out electrical supply\",\n    \"Use proper PPE\",\n    \"Ensure proper ventilation\"\n  ],\n  \"tasks\": [\n    {\n      \"title\": \"Isolate electrical supply\",\n      \"description\": \"Turn off and lock out electrical supply to AC unit\",\n      \"estimatedDuration\": 0.5,\n      \"order\": 1\n    },\n    {\n      \"title\": \"Remove old compressor\",\n      \"description\": \"Safely remove and dispose of faulty compressor\",\n      \"estimatedDuration\": 3.0,\n      \"order\": 2\n    },\n    {\n      \"title\": \"Install new compressor\",\n      \"description\": \"Install and connect new compressor unit\",\n      \"estimatedDuration\": 3.5,\n      \"order\": 3\n    },\n    {\n      \"title\": \"Test system\",\n      \"description\": \"Test AC system and verify proper cooling\",\n      \"estimatedDuration\": 1.0,\n      \"order\": 4\n    }\n  ],\n  \"materialsRequired\": [\n    {\n      \"itemName\": \"AC Compressor Unit\",\n      \"quantity\": 1,\n      \"estimatedCost\": 500.00,\n      \"notes\": \"Carrier compatible model\"\n    },\n    {\n      \"itemName\": \"Refrigerant Gas\",\n      \"quantity\": 2,\n      \"estimatedCost\": 100.00,\n      \"notes\": \"R-410A refrigerant\"\n    }\n  ],\n  \"instructions\": \"Follow manufacturer guidelines for compressor replacement. Ensure system is properly tested before completion.\",\n  \"companyId\": \"{{company_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Work Order from Report",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/work-orders/from-report/{{report_id}}?companyId={{company_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"from-report",
+								"{{report_id}}"
+							],
+							"query": [
+								{
+									"key": "companyId",
+									"value": "{{company_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Assign Work Order to Technician",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"technicianId\": \"{{user_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"assign"
+							]
+						}
+					}
+				},
+				{
+					"name": "Start Work Order",
+					"request": {
+						"method": "POST",
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/start",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"start"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Work Progress",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"progressPercentage\": 75,\n  \"notes\": \"Compressor removed successfully. Installing new unit now.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/progress",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"progress"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Task to Work Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Final system verification\",\n  \"description\": \"Perform final verification of AC system performance\",\n  \"estimatedDuration\": 0.5,\n  \"order\": 5,\n  \"isCompleted\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/tasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"tasks"
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Task",
+					"request": {
+						"method": "PATCH",
+						"url": {
+							"raw": "{{base_url}}/work-orders/tasks/{{task_id}}?isCompleted=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"tasks",
+								"{{task_id}}"
+							],
+							"query": [
+								{
+									"key": "isCompleted",
+									"value": "true"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Material to Work Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemName\": \"Electrical Wire\",\n  \"quantity\": 10,\n  \"actualCost\": 50.00,\n  \"notes\": \"Additional wiring needed for proper connection\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/materials",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"materials"
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Work Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"completionNotes\": \"Compressor replacement completed successfully. AC unit tested and cooling effectively. System operating within normal parameters.\",\n  \"actualDuration\": 7.5,\n  \"actualCost\": 680.00,\n  \"qualityRating\": 5,\n  \"customerSatisfaction\": 5,\n  \"followUpRequired\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"complete"
+							]
+						}
+					}
+				},
+				{
+					"name": "Verify Work Order (Supervisor)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approved\": true,\n  \"verificationNotes\": \"Work completed to high standard. AC system functioning properly.\",\n  \"qualityScore\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/work-orders/{{work_order_id}}/verify",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"{{work_order_id}}",
+								"verify"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Work Order Statistics",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/work-orders/statistics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"statistics"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Technician Performance",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/work-orders/technician/{{user_id}}/performance?startDate=2024-01-01&endDate=2024-12-31",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"work-orders",
+								"technician",
+								"{{user_id}}",
+								"performance"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📊 Reporting & Analytics",
+			"description": "Statistics, reports, and performance analytics",
+			"item": [
+				{
+					"name": "📈 System Analytics",
+					"item": [
+						{
+							"name": "Report Statistics",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/reports/statistics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reports",
+										"statistics"
+									]
+								}
+							}
+						},
+						{
+							"name": "Work Order Statistics",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/work-orders/statistics",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"work-orders",
+										"statistics"
+									]
+								}
+							}
+						},
+						{
+							"name": "Asset Statistics",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/assets/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"assets",
+										"stats"
+									]
+								}
+							}
+						},
+						{
+							"name": "School Statistics",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/schools/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"schools",
+										"stats"
+									]
+								}
+							}
+						},
+						{
+							"name": "Company Statistics",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/companies/{{company_id}}/stats",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"companies",
+										"{{company_id}}",
+										"stats"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "📋 Filtered Reports",
+					"item": [
+						{
+							"name": "Reports by Status",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/reports/status/PENDING",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reports",
+										"status",
+										"PENDING"
+									]
+								}
+							}
+						},
+						{
+							"name": "Reports by Priority",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/reports/priority/HIGH",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reports",
+										"priority",
+										"HIGH"
+									]
+								}
+							}
+						},
+						{
+							"name": "Reports by Date Range",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/reports/date-range?startDate=2024-01-01&endDate=2024-12-31",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reports",
+										"date-range"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2024-12-31"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Reports by School",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/reports/school/{{school_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"reports",
+										"school",
+										"{{school_id}}"
+									]
+								}
+							}
+						},
+						{
+							"name": "Overdue Work Orders",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/work-orders/overdue",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"work-orders",
+										"overdue"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "👨‍🔧 Performance Analytics",
+					"item": [
+						{
+							"name": "Technician Performance",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/work-orders/technician/{{user_id}}/performance?startDate=2024-01-01&endDate=2024-12-31",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"work-orders",
+										"technician",
+										"{{user_id}}",
+										"performance"
+									],
+									"query": [
+										{
+											"key": "startDate",
+											"value": "2024-01-01"
+										},
+										{
+											"key": "endDate",
+											"value": "2024-12-31"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Work Orders by Assignee",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/work-orders/assignee/{{user_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"work-orders",
+										"assignee",
+										"{{user_id}}"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "🚨 System Alerts",
+					"item": [
+						{
+							"name": "Companies Near Resource Limits",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/companies/alerts/resource-limits?page=0&size=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"companies",
+										"alerts",
+										"resource-limits"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Expiring Subscriptions",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/companies/alerts/expiring-subscriptions?daysUntilExpiration=30&page=0&size=10",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"companies",
+										"alerts",
+										"expiring-subscriptions"
+									],
+									"query": [
+										{
+											"key": "daysUntilExpiration",
+											"value": "30"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										}
+									]
+								}
+							}
+						},
+						{
+							"name": "Schools Requiring Attention",
+							"request": {
+								"method": "GET",
+								"url": {
+									"raw": "{{base_url}}/schools/attention-required",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"schools",
+										"attention-required"
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

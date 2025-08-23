@@ -1,0 +1,286 @@
+# CAFM Backend - Prometheus Alert Rules
+# Critical monitoring alerts for production deployment
+
+groups:
+  - name: cafm-backend-critical
+    rules:
+      # Application Health Alerts
+      - alert: CAFMApplicationDown
+        expr: up{application="cafm-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: availability
+        annotations:
+          summary: "CAFM Backend application is down"
+          description: "CAFM Backend application has been down for more than 1 minute"
+          runbook_url: "https://docs.company.com/runbooks/cafm-backend-down"
+
+      - alert: CAFMDatabaseDown
+        expr: cafm_health_database_status == 0
+        for: 30s
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: database
+        annotations:
+          summary: "CAFM Backend database is unreachable"
+          description: "Database health check is failing"
+          runbook_url: "https://docs.company.com/runbooks/database-down"
+
+      - alert: CAFMRedisDown
+        expr: cafm_health_redis_status == 0
+        for: 1m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: cache
+        annotations:
+          summary: "CAFM Backend Redis cache is down"
+          description: "Redis health check is failing, cache functionality degraded"
+
+  - name: cafm-backend-performance
+    rules:
+      # Performance Alerts
+      - alert: CAFMHighResponseTime
+        expr: histogram_quantile(0.95, rate(http_server_requests_duration_seconds_bucket{application="cafm-backend"}[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: performance
+        annotations:
+          summary: "CAFM Backend high response time"
+          description: "95th percentile response time is {{ $value }}s (threshold: 2s)"
+          runbook_url: "https://docs.company.com/runbooks/high-response-time"
+
+      - alert: CAFMCriticalResponseTime
+        expr: histogram_quantile(0.95, rate(http_server_requests_duration_seconds_bucket{application="cafm-backend"}[5m])) > 5
+        for: 2m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: performance
+        annotations:
+          summary: "CAFM Backend critical response time"
+          description: "95th percentile response time is {{ $value }}s (critical threshold: 5s)"
+
+      - alert: CAFMHighErrorRate
+        expr: rate(http_server_requests_total{application="cafm-backend",status=~"5.."}[5m]) / rate(http_server_requests_total{application="cafm-backend"}[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: errors
+        annotations:
+          summary: "CAFM Backend high error rate"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 10%)"
+          runbook_url: "https://docs.company.com/runbooks/high-error-rate"
+
+  - name: cafm-backend-resources
+    rules:
+      # Resource Alerts
+      - alert: CAFMHighCPUUsage
+        expr: system_cpu_usage{application="cafm-backend"} > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: resources
+        annotations:
+          summary: "CAFM Backend high CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} (threshold: 80%)"
+
+      - alert: CAFMCriticalCPUUsage
+        expr: system_cpu_usage{application="cafm-backend"} > 0.9
+        for: 2m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: resources
+        annotations:
+          summary: "CAFM Backend critical CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} (critical threshold: 90%)"
+
+      - alert: CAFMHighMemoryUsage
+        expr: jvm_memory_used_bytes{application="cafm-backend",area="heap"} / jvm_memory_max_bytes{application="cafm-backend",area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: resources
+        annotations:
+          summary: "CAFM Backend high memory usage"
+          description: "JVM heap usage is {{ $value | humanizePercentage }} (threshold: 85%)"
+
+      - alert: CAFMCriticalMemoryUsage
+        expr: jvm_memory_used_bytes{application="cafm-backend",area="heap"} / jvm_memory_max_bytes{application="cafm-backend",area="heap"} > 0.95
+        for: 1m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: resources
+        annotations:
+          summary: "CAFM Backend critical memory usage"
+          description: "JVM heap usage is {{ $value | humanizePercentage }} (critical threshold: 95%)"
+
+  - name: cafm-backend-database
+    rules:
+      # Database Alerts
+      - alert: CAFMDatabaseConnectionPoolExhausted
+        expr: hikaricp_connections_active{application="cafm-backend"} / hikaricp_connections_max{application="cafm-backend"} > 0.9
+        for: 2m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: database
+        annotations:
+          summary: "CAFM Backend database connection pool exhausted"
+          description: "Database connection pool usage is {{ $value | humanizePercentage }} (threshold: 90%)"
+          runbook_url: "https://docs.company.com/runbooks/db-connection-pool"
+
+      - alert: CAFMDatabaseSlowQueries
+        expr: histogram_quantile(0.95, rate(cafm_db_query_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: database
+        annotations:
+          summary: "CAFM Backend slow database queries"
+          description: "95th percentile database query time is {{ $value }}s (threshold: 1s)"
+
+      - alert: CAFMDatabaseConnectionTimeouts
+        expr: increase(cafm_db_connection_timeout_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: database
+        annotations:
+          summary: "CAFM Backend database connection timeouts"
+          description: "{{ $value }} database connection timeouts in the last 5 minutes"
+
+  - name: cafm-backend-business
+    rules:
+      # Business Logic Alerts
+      - alert: CAFMAuthenticationFailureSpike
+        expr: rate(cafm_auth_login_failed_total{application="cafm-backend"}[5m]) > 5
+        for: 2m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: security
+        annotations:
+          summary: "CAFM Backend authentication failure spike"
+          description: "Authentication failure rate is {{ $value }} per second (threshold: 5/sec)"
+          runbook_url: "https://docs.company.com/runbooks/auth-failures"
+
+      - alert: CAFMSecurityViolations
+        expr: increase(cafm_security_unauthorized_access_total{application="cafm-backend"}[5m]) > 10
+        for: 1m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: security
+        annotations:
+          summary: "CAFM Backend security violations detected"
+          description: "{{ $value }} unauthorized access attempts in the last 5 minutes"
+          runbook_url: "https://docs.company.com/runbooks/security-violations"
+
+      - alert: CAFMTenantIsolationViolation
+        expr: increase(cafm_tenant_isolation_violation_total{application="cafm-backend"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: security
+        annotations:
+          summary: "CAFM Backend tenant isolation violation"
+          description: "{{ $value }} tenant isolation violations detected in the last 5 minutes"
+          runbook_url: "https://docs.company.com/runbooks/tenant-isolation"
+
+      - alert: CAFMWorkOrderProcessingStalled
+        expr: rate(cafm_workorders_created_total{application="cafm-backend"}[10m]) > 0 and rate(cafm_workorders_completed_total{application="cafm-backend"}[10m]) == 0
+        for: 15m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: business
+        annotations:
+          summary: "CAFM Backend work order processing stalled"
+          description: "Work orders are being created but none completed in the last 15 minutes"
+
+  - name: cafm-backend-external
+    rules:
+      # External Service Alerts
+      - alert: CAFMMinIODown
+        expr: cafm_health_minio_status == 0
+        for: 2m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: storage
+        annotations:
+          summary: "CAFM Backend MinIO storage is down"
+          description: "MinIO health check is failing, file operations may be affected"
+
+      - alert: CAFMFileUploadFailures
+        expr: rate(cafm_files_upload_failed_total{application="cafm-backend"}[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: storage
+        annotations:
+          summary: "CAFM Backend file upload failures"
+          description: "File upload failure rate is {{ $value }} per second"
+
+      - alert: CAFMNotificationFailures
+        expr: rate(cafm_notifications_failed_total{application="cafm-backend"}[5m]) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: notifications
+        annotations:
+          summary: "CAFM Backend notification failures"
+          description: "Notification failure rate is {{ $value }} per second (threshold: 1/sec)"
+
+  - name: cafm-backend-jvm
+    rules:
+      # JVM-specific Alerts
+      - alert: CAFMGarbageCollectionHigh
+        expr: rate(jvm_gc_pause_seconds_sum{application="cafm-backend"}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: jvm
+        annotations:
+          summary: "CAFM Backend high garbage collection time"
+          description: "GC time rate is {{ $value }}s per second (threshold: 0.1s/sec)"
+
+      - alert: CAFMThreadDeadlock
+        expr: jvm_threads_deadlocked_threads{application="cafm-backend"} > 0
+        for: 0m
+        labels:
+          severity: critical
+          service: cafm-backend
+          category: jvm
+        annotations:
+          summary: "CAFM Backend thread deadlock detected"
+          description: "{{ $value }} deadlocked threads detected"
+          runbook_url: "https://docs.company.com/runbooks/thread-deadlock"
+
+      - alert: CAFMOldGenerationFull
+        expr: jvm_memory_used_bytes{application="cafm-backend",area="heap",id="G1 Old Gen"} / jvm_memory_max_bytes{application="cafm-backend",area="heap",id="G1 Old Gen"} > 0.9
+        for: 2m
+        labels:
+          severity: warning
+          service: cafm-backend
+          category: jvm
+        annotations:
+          summary: "CAFM Backend old generation memory almost full"
+          description: "Old generation heap usage is {{ $value | humanizePercentage }} (threshold: 90%)"
