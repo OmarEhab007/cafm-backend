@@ -1,6 +1,13 @@
-# CAFM Backend
+# CAFM Backend - School Maintenance Management System
 
-Enterprise-grade Computer-Aided Facility Management system for educational institutions. Built with Spring Boot 3.3.x and Java 23.
+![Java](https://img.shields.io/badge/Java-23-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.3-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)
+![Redis](https://img.shields.io/badge/Redis-7-red)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+Enterprise-grade Computer-Aided Facility Management system for educational institutions. Built with Spring Boot 3.3.x and Java 23, providing a robust, scalable, and secure backend API for managing school facility maintenance, work orders, and asset tracking.
 
 ## Features
 
@@ -440,7 +447,7 @@ Use conventional commits:
 
 ## License
 
-This project is proprietary software. All rights reserved.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
