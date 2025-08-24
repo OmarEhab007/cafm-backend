@@ -448,21 +448,3 @@ Use conventional commits:
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-- 📧 Email: support@cafm.sa
-- 📚 Documentation: https://docs.cafm.sa
-- 🐛 Issues: https://github.com/cafm/cafm-backend/issues
-- 💬 Discord: https://discord.gg/cafm
-
-## Acknowledgments
-
-- Spring Boot team for the excellent framework
-- PostgreSQL for the robust database
-- Redis for high-performance caching
-- All contributors to this project
-
----
-
-Built with ❤️ by the CAFM Team

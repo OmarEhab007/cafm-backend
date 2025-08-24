@@ -1,0 +1,116 @@
+spring:
+  application:
+    name: cafm-backend-test
+  
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 1
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          batch_size: 5
+        # Custom H2 dialect that handles PostgreSQL enum types
+        dialect: com.cafm.cafmbackend.config.H2TestDialect
+        hbm2ddl:
+          auto: create-drop
+    database-platform: com.cafm.cafmbackend.config.H2TestDialect
+  
+  flyway:
+    enabled: false  # Disable for tests using H2
+  
+  cache:
+    type: simple  # Simple cache for tests
+  
+  data:
+    redis:
+      repositories:
+        enabled: false  # Disable Redis repositories for tests
+  
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+      accept-empty-string-as-null-object: true
+  
+  security:
+    require-ssl: false
+  
+  test:
+    database:
+      replace: none
+
+# Disable external services for testing
+minio:
+  enabled: false
+  url: http://localhost:9000
+  access-key: test
+  secret-key: test
+  bucket-name: test-bucket
+  auto-create-bucket: false
+
+# JWT configuration for testing
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-must-be-at-least-256-bits-long-to-work-properly
+  expiration: 3600000  # 1 hour
+  refresh-expiration: 86400000  # 24 hours
+
+# Disable external email service
+spring.mail:
+  host: localhost
+  port: 25
+  username: test
+  password: test
+  test-connection: false
+
+# Logging configuration for tests
+logging:
+  level:
+    root: WARN
+    com.cafm.cafmbackend: DEBUG
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
+    org.hibernate.SQL: WARN
+    org.springframework.test: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Management and monitoring (simplified for tests)
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      enabled: true
+  health:
+    redis:
+      enabled: false
+
+# Disable Swagger for tests
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+# Test-specific properties
+test:
+  cleanup:
+    enabled: true
+  mock:
+    external-services: true

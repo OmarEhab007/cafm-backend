@@ -461,3 +461,72 @@ io.jsonwebtoken.security.SignatureException: JWT signature does not match locall
 2025-08-23 19:32:55.398 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
 2025-08-23 19:32:55.399 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
 2025-08-23 19:32:55.409 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:28:41.375 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:28:41.377 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:28:41.386 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:28:59.310 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:28:59.310 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:28:59.321 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:29:01.449 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:29:01.452 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:29:01.463 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:29:18.169 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:29:18.169 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:29:18.173 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:29:20.684 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:29:20.684 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:29:20.688 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:35:35.649 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:35:35.649 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:35:35.657 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:35:45.479 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:35:45.480 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:35:45.489 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:35:46.812 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:35:46.814 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:35:46.821 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:37:00.287 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:37:00.287 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:37:00.298 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:37:27.576 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:37:27.576 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:37:27.586 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:40:44.688 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:40:44.689 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:40:44.697 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:40:45.722 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:40:45.724 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:40:45.733 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:44:27.206 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:44:27.206 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:44:27.214 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:44:28.824 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:44:28.826 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:44:28.834 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:46:57.155 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:46:57.156 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:46:57.163 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:48:09.972 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:48:09.973 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:48:09.981 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:48:31.657 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:48:31.657 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:48:31.673 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:48:33.158 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:48:33.160 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:48:33.167 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:48:58.391 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:48:58.400 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:48:58.411 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:48:59.267 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:48:59.267 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:48:59.277 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:49:50.564 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:49:50.565 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:49:50.576 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:49:51.612 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:49:51.612 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:49:51.621 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-23 21:50:18.762 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-23 21:50:18.763 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-23 21:50:18.775 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10

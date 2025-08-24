@@ -38,7 +38,7 @@
         <minio.version>8.5.10</minio.version>
         <cloudinary.version>1.38.0</cloudinary.version>
         <rest-assured.version>5.4.0</rest-assured.version>
-        <jacoco.version>0.8.12</jacoco.version>
+        <jacoco.version>0.8.13</jacoco.version>
     </properties>
     
     <dependencies>
@@ -252,6 +252,12 @@
         </dependency>
         
         <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
             <version>${testcontainers.version}</version>
@@ -334,11 +340,23 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <!-- Exclude problematic classes from instrumentation -->
+                    <excludes>
+                        <exclude>**/*Test*</exclude>
+                        <exclude>**/test/**/*</exclude>
+                        <exclude>**/generated/**/*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>prepare-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+                        <configuration>
+                            <propertyName>jacocoArgs</propertyName>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
@@ -378,8 +396,16 @@
                 <configuration>
                     <argLine>
                         --enable-preview
-                        @{argLine}
+                        -XX:+EnableDynamicAgentLoading
+                        -Djava.security.manager=allow
+                        @{jacocoArgs}
                     </argLine>
+                    <systemPropertyVariables>
+                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                    </systemPropertyVariables>
+                    <excludes>
+                        <exclude>**/*IntegrationTest*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             
