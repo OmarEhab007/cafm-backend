@@ -335,3 +335,6 @@ todos/
 !pom.xml
 !mvnw
 !mvnw.cmd
+
+#env
+*.env
