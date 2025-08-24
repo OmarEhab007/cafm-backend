@@ -1,532 +1,162 @@
-2025-08-23 13:33:48.799 [SECURITY] [] [] [] [] - Login failed for: supervisor@school.com
-2025-08-23 13:37:24.277 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorityAuthorizationDecision [granted=false, authorities=[ROLE_ADMIN]]
-2025-08-23 13:37:24.279 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 13:37:50.826 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorityAuthorizationDecision [granted=false, authorities=[ROLE_ADMIN, ROLE_SUPERVISOR]]
-2025-08-23 13:37:50.826 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 13:38:03.502 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 13:38:03.502 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 13:41:35.000 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorityAuthorizationDecision [granted=false, authorities=[ROLE_ADMIN]]
-2025-08-23 13:41:35.000 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 13:42:16.429 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorityAuthorizationDecision [granted=false, authorities=[ROLE_ADMIN]]
-2025-08-23 13:42:16.429 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 13:42:33.471 [SECURITY] [e38fc227-c955-424e-9f62-183272e6f56f] [] [] [] - Authorization denied for user anonymousUser: AuthorityAuthorizationDecision [granted=false, authorities=[ROLE_ADMIN]]
-2025-08-23 13:42:33.472 [SECURITY] [e38fc227-c955-424e-9f62-183272e6f56f] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 14:06:52.571 [SECURITY] [] [] [] [] - Login failed for: supervisor@school.com
-2025-08-23 14:07:19.224 [SECURITY] [0dd272f4-c55f-4f86-a95c-cd953e22c4fa] [] [] [] - Login failed for: admin@cafm.loca
-2025-08-23 14:07:25.255 [SECURITY] [37b5d461-cea8-408a-a198-ad27baa3d50a] [] [] [] - Login failed for: admin@cafm.loca
-2025-08-23 17:59:21.276 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 17:59:21.276 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 17:59:21.284 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 17:59:58.186 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 17:59:58.186 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 17:59:58.195 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:00:25.726 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:00:25.727 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:00:25.734 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:00:33.646 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:00:33.647 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:00:33.655 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:03:08.661 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:03:08.661 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:03:08.668 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:03:23.990 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:03:23.990 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:03:23.998 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:03:39.265 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:03:39.265 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:03:39.273 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:05:30.073 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:05:30.074 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:05:30.081 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:06:20.464 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:06:20.465 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:06:20.472 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:06:30.398 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:06:30.398 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:06:30.406 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:08:13.097 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:08:13.097 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:08:13.107 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:08:18.456 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:08:18.457 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:08:18.465 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:09:29.288 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:09:29.288 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:09:29.296 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:10:21.119 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:10:21.120 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:10:21.130 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:10:29.206 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:10:29.206 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:10:29.216 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:10:58.281 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:10:58.281 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:10:58.290 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:11:04.687 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:11:04.688 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:11:04.695 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:11:35.677 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:11:35.677 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:11:35.687 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:11:48.379 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:11:48.380 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:11:48.391 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:12:08.448 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:12:08.448 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:12:08.457 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:12:26.337 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:12:26.338 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:12:26.349 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:12:52.744 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:12:52.745 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:12:52.755 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:12:59.510 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:12:59.510 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:12:59.519 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:13:28.993 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:13:28.993 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:13:29.023 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:13:48.290 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:13:48.291 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:13:48.302 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:13:54.622 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:13:54.623 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:13:54.632 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:15:15.995 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:15:15.995 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:15:16.006 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:15:29.988 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:15:29.988 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:15:30.001 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:15:38.816 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:15:38.816 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:15:38.827 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:15:52.966 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:15:52.966 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:15:52.982 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:16:04.066 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:16:04.067 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:16:04.077 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:16:15.509 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:16:15.509 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:16:15.519 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:49:16.551 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:49:16.551 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:49:16.559 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:49:26.213 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:49:26.213 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:49:26.222 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:49:53.861 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:49:53.861 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:49:53.870 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:50:18.757 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:50:18.757 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:50:18.772 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:50:20.552 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:50:20.554 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:50:20.569 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:51:48.175 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:51:48.175 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:51:48.191 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:52:36.429 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:52:36.430 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:52:36.443 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:53:04.077 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:53:04.078 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:53:04.087 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:53:29.439 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:53:29.439 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:53:29.450 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:53:49.855 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:53:49.855 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:53:49.865 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:53:58.040 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:53:58.041 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:53:58.051 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:54:09.669 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:54:09.669 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:54:09.681 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:54:11.750 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:54:11.751 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:54:11.762 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:55:11.259 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:55:11.259 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:55:11.273 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:55:46.920 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:55:46.921 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:55:46.931 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:56:15.090 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:56:15.090 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:56:15.099 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:58:09.635 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:58:09.637 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:58:09.651 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:58:51.639 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:58:51.639 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:58:51.650 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:59:08.646 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:59:08.646 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:59:08.656 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:59:19.120 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:59:19.120 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:59:19.129 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 18:59:43.605 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 18:59:43.605 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 18:59:43.615 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:00:11.125 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:00:11.125 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:00:11.139 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:00:28.954 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:00:28.954 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:00:28.964 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:00:40.896 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:00:40.896 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:00:40.906 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:01:00.227 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:01:00.227 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:01:00.240 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:01:16.177 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:01:16.177 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:01:16.187 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:01:52.908 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:01:52.909 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:01:52.918 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:02:14.141 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:02:14.141 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:02:14.159 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:03:22.668 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:03:22.669 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:03:22.679 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:03:52.826 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:03:52.827 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:03:52.844 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:04:26.258 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:04:26.259 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:04:26.269 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:04:42.242 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:04:42.242 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:04:42.259 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:04:58.778 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:04:58.778 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:04:58.789 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:05:16.411 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:05:16.411 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:05:16.423 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:07:19.737 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:07:19.739 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:07:19.749 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:07:51.641 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:07:51.642 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:07:51.654 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:07:51.681 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:07:51.683 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:07:51.695 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:11:04.142 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:11:06.274 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:11:06.276 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:14:19.641 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:14:19.643 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:14:19.657 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:14:30.336 [SECURITY] [] [] [] [] - Cannot set user authentication
-io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
-	at io.jsonwebtoken.impl.DefaultJwtParser.verifySignature(DefaultJwtParser.java:340)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:577)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:362)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94)
-	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36)
-	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:821)
-	at com.cafm.cafmbackend.security.JwtTokenProvider.validateToken(JwtTokenProvider.java:282)
-	at com.cafm.cafmbackend.security.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:63)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at com.cafm.cafmbackend.security.filter.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:102)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:904)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1575)
-2025-08-23 19:14:30.337 [SECURITY] [] [] [] [] - Could not extract claims from token
-io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
-	at io.jsonwebtoken.impl.DefaultJwtParser.verifySignature(DefaultJwtParser.java:340)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:577)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:362)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94)
-	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36)
-	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29)
-	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:821)
-	at com.cafm.cafmbackend.security.JwtTokenProvider.getClaimsFromToken(JwtTokenProvider.java:325)
-	at com.cafm.cafmbackend.security.JwtTokenProvider.getCompanyIdFromToken(JwtTokenProvider.java:354)
-	at com.cafm.cafmbackend.security.filter.TenantSecurityFilter.extractTenantFromJwtToken(TenantSecurityFilter.java:167)
-	at com.cafm.cafmbackend.security.filter.TenantSecurityFilter.extractTenantFromRequest(TenantSecurityFilter.java:113)
-	at com.cafm.cafmbackend.security.filter.TenantSecurityFilter.doFilterInternal(TenantSecurityFilter.java:60)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at com.cafm.cafmbackend.security.filter.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:107)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
-	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
-	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
-	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240)
-	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323)
-	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224)
-	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137)
-	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
-	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
-	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195)
-	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
-	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
-	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230)
-	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352)
-	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at com.cafm.cafmbackend.security.filter.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:102)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:904)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)
-	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
-	at java.base/java.lang.Thread.run(Thread.java:1575)
-2025-08-23 19:14:30.359 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:14:30.361 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:17:35.392 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:17:35.393 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:20:56.843 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:20:56.844 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:22:09.545 [SECURITY] [b03099f9-fddf-4dc7-a75a-4f79d81bd0cc] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:22:09.546 [SECURITY] [b03099f9-fddf-4dc7-a75a-4f79d81bd0cc] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:23:23.433 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:23:23.433 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:23:54.995 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:23:54.996 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:24:19.690 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:24:19.690 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:27:38.749 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:27:38.753 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:27:38.765 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:29:38.055 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:29:38.056 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:29:38.066 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:30:12.852 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:30:12.853 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:30:12.883 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
-2025-08-23 19:30:12.883 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
-2025-08-23 19:32:36.499 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:32:36.500 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:32:36.513 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 19:32:55.398 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 19:32:55.399 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 19:32:55.409 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:28:41.375 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:28:41.377 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:28:41.386 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:28:59.310 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:28:59.310 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:28:59.321 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:29:01.449 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:29:01.452 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:29:01.463 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:29:18.169 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:29:18.169 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:29:18.173 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:29:20.684 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:29:20.684 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:29:20.688 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:35:35.649 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:35:35.649 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:35:35.657 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:35:45.479 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:35:45.480 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:35:45.489 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:35:46.812 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:35:46.814 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:35:46.821 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:37:00.287 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:37:00.287 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:37:00.298 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:37:27.576 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:37:27.576 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:37:27.586 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:40:44.688 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:40:44.689 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:40:44.697 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:40:45.722 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:40:45.724 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:40:45.733 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:44:27.206 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:44:27.206 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:44:27.214 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:44:28.824 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:44:28.826 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:44:28.834 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:46:57.155 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:46:57.156 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:46:57.163 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:48:09.972 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:48:09.973 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:48:09.981 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:48:31.657 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:48:31.657 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:48:31.673 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:48:33.158 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:48:33.160 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:48:33.167 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:48:58.391 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:48:58.400 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:48:58.411 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:48:59.267 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:48:59.267 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:48:59.277 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:49:50.564 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:49:50.565 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:49:50.576 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:49:51.612 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:49:51.612 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:49:51.621 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
-2025-08-23 21:50:18.762 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
-2025-08-23 21:50:18.763 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
-2025-08-23 21:50:18.775 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 16:42:12.566 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 16:42:12.571 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 16:42:22.132 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 16:42:22.133 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 16:42:31.951 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 16:42:31.951 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 16:42:41.101 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 16:42:41.101 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 16:42:48.412 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 16:42:48.412 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 16:57:18.708 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 16:57:18.708 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 16:57:18.723 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 16:57:35.314 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 16:57:35.314 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 16:57:35.329 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 16:58:08.305 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 16:58:08.305 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 16:58:08.318 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 16:59:02.182 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 16:59:02.182 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 16:59:02.196 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:00:25.768 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:00:25.768 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:00:25.781 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:01:31.842 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:01:31.842 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:01:31.855 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:01:54.724 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:01:54.724 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:01:54.737 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:02:10.808 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:02:10.808 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:02:10.821 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:02:24.474 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:02:24.474 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:02:24.488 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:02:40.138 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:02:40.138 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:02:40.150 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:02:52.532 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:02:52.533 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:02:52.548 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:03:11.497 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:03:11.497 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:03:11.510 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:03:34.412 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:03:34.412 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:03:34.425 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:04:02.344 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:04:02.344 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:04:02.358 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:04:29.363 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:04:29.363 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:04:29.375 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:04:50.268 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:04:50.268 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:04:50.283 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 17:05:17.635 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 17:05:17.635 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 17:05:17.649 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 18:09:26.020 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 18:09:26.021 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 18:09:26.069 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 18:09:42.739 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 18:09:42.742 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 18:09:42.799 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 18:25:28.461 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 18:25:28.465 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 18:25:33.474 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 18:25:33.474 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:05:27.305 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:05:27.305 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:05:27.321 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:05:40.977 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:05:40.978 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:05:41.011 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:05:45.298 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:05:45.300 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:05:45.319 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:06:51.500 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:06:51.500 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:06:51.540 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:06:55.811 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:06:55.813 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:06:55.830 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:07:33.202 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:07:33.204 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:07:39.756 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:07:39.757 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:07:48.020 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:07:48.021 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:38:53.312 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:38:53.312 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:38:53.325 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:39:09.750 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:39:09.750 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:39:09.776 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:39:31.068 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:39:31.068 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:39:31.079 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:39:41.483 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:39:41.483 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:39:41.493 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:40:04.065 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:40:04.065 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:40:04.074 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:40:12.957 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:40:12.957 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:40:12.969 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:40:49.974 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:40:49.974 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:40:49.984 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:41:39.607 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:41:39.607 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:41:39.616 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:42:03.837 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:42:03.837 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:42:03.846 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:42:58.345 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:42:58.345 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:42:58.356 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:43:12.794 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:43:12.794 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:43:12.804 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:43:22.891 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:43:22.892 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:43:22.907 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:44:00.759 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:44:00.759 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:44:00.770 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:45:59.402 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:45:59.402 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:45:59.411 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:46:00.154 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:46:00.156 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:46:00.168 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:46:35.879 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 20:46:35.881 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 20:46:35.894 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 20:46:48.100 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:46:48.101 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:46:54.409 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:46:54.409 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:46:58.720 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:46:58.720 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:47:03.171 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:47:03.171 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 20:47:51.114 [SECURITY] [] [] [] [] - Authorization denied for user anonymousUser: AuthorizationDecision [granted=false]
+2025-08-24 20:47:51.115 [SECURITY] [] [] [] [] - Unauthorized access attempt: Full authentication is required to access this resource
+2025-08-24 22:56:52.009 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 22:56:52.010 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 22:56:52.020 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 22:56:52.227 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 22:56:52.228 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 22:56:52.238 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 22:57:00.395 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 22:57:00.396 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 22:57:00.405 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
+2025-08-24 22:57:11.859 [SECURITY] [] [] [] [] - Generated temporary JWT secret for development. This is NOT suitable for production!
+2025-08-24 22:57:11.861 [SECURITY] [] [] [] [] - JWT token provider initialized successfully with 86 character secret
+2025-08-24 22:57:11.873 [SECURITY] [] [] [] [] - Enhanced Login Attempt Service initialized with max attempts: 3, IP max attempts: 10
