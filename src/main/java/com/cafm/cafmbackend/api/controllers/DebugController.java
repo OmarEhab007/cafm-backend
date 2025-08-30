@@ -1,12 +1,12 @@
 package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.Company;
-import com.cafm.cafmbackend.data.entity.User;
-import com.cafm.cafmbackend.data.enums.UserStatus;
-import com.cafm.cafmbackend.data.enums.UserType;
-import com.cafm.cafmbackend.data.repository.CompanyRepository;
-import com.cafm.cafmbackend.data.repository.UserRepository;
-import com.cafm.cafmbackend.service.tenant.TenantContextService;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.Company;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
+import com.cafm.cafmbackend.shared.enums.UserStatus;
+import com.cafm.cafmbackend.shared.enums.UserType;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.CompanyRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.UserRepository;
+import com.cafm.cafmbackend.application.service.tenant.TenantContextService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.slf4j.Logger;

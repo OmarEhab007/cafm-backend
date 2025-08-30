@@ -1,8 +1,9 @@
 package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.AuditLog;
-import com.cafm.cafmbackend.data.entity.AuditLog.AuditAction;
-import com.cafm.cafmbackend.service.AuditService;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.AuditLog;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.AuditLog.AuditAction;
+import com.cafm.cafmbackend.application.service.AuditService;
+import com.cafm.cafmbackend.application.service.CurrentUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,9 +42,11 @@ import java.util.UUID;
 public class AuditController {
 
     private final AuditService auditService;
+    private final CurrentUserService currentUserService;
 
-    public AuditController(AuditService auditService) {
+    public AuditController(AuditService auditService, CurrentUserService currentUserService) {
         this.auditService = auditService;
+        this.currentUserService = currentUserService;
     }
 
     @Operation(
@@ -57,10 +60,13 @@ public class AuditController {
     @GetMapping("/logs")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPERVISOR')")
     public ResponseEntity<Page<AuditLog>> getRecentAuditLogs(
-            @Parameter(description = "Company ID", required = true)
-            @RequestParam UUID companyId,
-            
             @PageableDefault(size = 50, sort = "timestamp") Pageable pageable) {
+        
+        // Ensure tenant context is properly set for both systems
+        UUID companyId = currentUserService.ensureTenantContext();
+        
+        // Also set the static TenantContext that services might use
+        com.cafm.cafmbackend.security.TenantContext.setCurrentCompanyId(companyId);
         
         Page<AuditLog> auditLogs = auditService.getRecentAuditLogs(companyId, pageable);
         return ResponseEntity.ok(auditLogs);
@@ -103,6 +109,12 @@ public class AuditController {
             
             @PageableDefault(size = 50, sort = "timestamp") Pageable pageable) {
         
+        // Ensure tenant context is properly set for both systems 
+        UUID companyId = currentUserService.ensureTenantContext();
+        
+        // Also set the static TenantContext that services might use
+        com.cafm.cafmbackend.security.TenantContext.setCurrentCompanyId(companyId);
+        
         Page<AuditLog> auditLogs = auditService.getAuditLogsByUser(userId, pageable);
         return ResponseEntity.ok(auditLogs);
     }
@@ -121,10 +133,13 @@ public class AuditController {
             @Parameter(description = "Audit action type", required = true)
             @PathVariable AuditAction action,
             
-            @Parameter(description = "Company ID", required = true)
-            @RequestParam UUID companyId,
-            
             @PageableDefault(size = 50, sort = "timestamp") Pageable pageable) {
+        
+        // Ensure tenant context is properly set for both systems
+        UUID companyId = currentUserService.ensureTenantContext();
+        
+        // Also set the static TenantContext that services might use
+        com.cafm.cafmbackend.security.TenantContext.setCurrentCompanyId(companyId);
         
         Page<AuditLog> auditLogs = auditService.getAuditLogsByAction(action, companyId, pageable);
         return ResponseEntity.ok(auditLogs);
@@ -148,14 +163,17 @@ public class AuditController {
             @Parameter(description = "End date (ISO format: yyyy-MM-dd'T'HH:mm:ss)", required = true)
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             
-            @Parameter(description = "Company ID", required = true)
-            @RequestParam UUID companyId,
-            
             @PageableDefault(size = 50, sort = "timestamp") Pageable pageable) {
         
         if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("Start date must be before end date");
         }
+        
+        // Ensure tenant context is properly set for both systems
+        UUID companyId = currentUserService.ensureTenantContext();
+        
+        // Also set the static TenantContext that services might use
+        com.cafm.cafmbackend.security.TenantContext.setCurrentCompanyId(companyId);
         
         Page<AuditLog> auditLogs = auditService.getAuditLogsInDateRange(
             startDate, endDate, companyId, pageable);

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.security;
 
-import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;

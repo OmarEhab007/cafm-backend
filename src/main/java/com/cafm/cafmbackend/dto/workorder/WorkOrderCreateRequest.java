@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.workorder;
 
-import com.cafm.cafmbackend.data.enums.WorkOrderPriority;
+import com.cafm.cafmbackend.shared.enums.WorkOrderPriority;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.notification;
 
-import com.cafm.cafmbackend.data.entity.NotificationQueue.*;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.NotificationQueue.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;

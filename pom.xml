@@ -31,7 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- Dependency Versions (EXPLICIT - NO LATEST/RELEASE) -->
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <testcontainers.version>1.19.8</testcontainers.version>
         <jjwt.version>0.12.5</jjwt.version>
         <springdoc.version>2.5.0</springdoc.version>
@@ -136,21 +135,6 @@
             <version>3.8.2</version>
         </dependency>
         
-        <!-- ============================================ -->
-        <!-- Mapping & Validation -->
-        <!-- ============================================ -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
-            <scope>provided</scope>
-        </dependency>
         
         <!-- ============================================ -->
         <!-- File Storage -->
@@ -237,6 +221,36 @@
         <!-- NOTE: NO LOMBOK - We use manual getters/setters for entities -->
         
         <!-- ============================================ -->
+        <!-- Report Generation Dependencies -->
+        <!-- ============================================ -->
+        <!-- Apache POI for Excel generation -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+        
+        <!-- iText for PDF generation -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-core</artifactId>
+            <version>8.0.2</version>
+            <type>pom</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>5.0.2</version>
+        </dependency>
+        
+        <!-- ============================================ -->
         <!-- Testing Dependencies -->
         <!-- ============================================ -->
         <dependency>
@@ -321,11 +335,6 @@
                         <arg>--enable-preview</arg>
                     </compilerArgs>
                     <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
                         <path>
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>

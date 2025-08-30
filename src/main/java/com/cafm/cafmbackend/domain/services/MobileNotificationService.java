@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.domain.services;
 
-import com.cafm.cafmbackend.data.entity.User;
-import com.cafm.cafmbackend.data.repository.UserRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

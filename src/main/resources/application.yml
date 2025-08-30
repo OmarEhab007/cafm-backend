@@ -14,7 +14,7 @@ spring:
   # JPA/Hibernate Configuration
   jpa:
     database: POSTGRESQL
-    database-platform: com.cafm.cafmbackend.app.config.PostgreSQLEnumDialect
+    database-platform: com.cafm.cafmbackend.configuration.database.PostgreSQLEnumDialect
     hibernate:
       ddl-auto: validate  # Use Flyway for schema management
     properties:
@@ -176,6 +176,14 @@ management:
     export:
       prometheus:
         enabled: true
+  # Disable Zipkin tracing to prevent connection errors
+  tracing:
+    enabled: false
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_ENDPOINT:}
+    sender:
+      type: web
         
 # Logging Configuration
 logging:
@@ -200,6 +208,16 @@ app:
     refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}  # 7 days
     
   # MinIO Configuration
+  minio:
+    endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
+    access-key: ${MINIO_ACCESS_KEY:minio_admin}
+    secret-key: ${MINIO_SECRET_KEY:minio_password_2024}
+    bucket:
+      files: ${MINIO_BUCKET_FILES:cafm-files}
+      images: ${MINIO_BUCKET_IMAGES:cafm-images}
+
+# CAFM-specific Configuration
+cafm:
   minio:
     endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
     access-key: ${MINIO_ACCESS_KEY:minio_admin}

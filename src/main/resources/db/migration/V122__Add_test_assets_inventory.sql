@@ -39,17 +39,16 @@ BEGIN
     SELECT id INTO default_category_id FROM asset_categories LIMIT 1;
     
     IF default_category_id IS NULL THEN
-        INSERT INTO asset_categories (id, company_id, name, code, description, created_by)
+        INSERT INTO asset_categories (id, company_id, name, description, created_by)
         VALUES (
             gen_random_uuid(),
             '00000000-0000-0000-0000-000000000001'::UUID,
             'General Equipment',
-            'GEN',
             'General equipment and assets',
             (SELECT id FROM users WHERE username = 'admin' LIMIT 1)
         );
         
-        SELECT id INTO default_category_id FROM asset_categories WHERE code = 'GEN';
+        SELECT id INTO default_category_id FROM asset_categories WHERE name = 'General Equipment';
     END IF;
 
     -- Insert assets using the category

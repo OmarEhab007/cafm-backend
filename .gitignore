@@ -311,6 +311,7 @@ monitoring.disabled.backup/
 docker-compose.monitoring.yml
 
 # Documentation and reports
+docs/
 docs/temp/
 docs/drafts/
 docs/archive/

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.config;
 
-import com.cafm.cafmbackend.data.enums.UserStatus;
+import com.cafm.cafmbackend.shared.enums.UserStatus;
 
 /**
  * H2-compatible Hibernate UserType implementation for UserStatus enum.

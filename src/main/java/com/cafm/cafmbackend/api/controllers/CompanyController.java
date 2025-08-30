@@ -1,10 +1,10 @@
-package com.cafm.cafmbackend.controller;
+package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.Company;
-import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.Company;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
 import com.cafm.cafmbackend.dto.company.*;
-import com.cafm.cafmbackend.service.CompanyService;
-import com.cafm.cafmbackend.service.CurrentUserService;
+import com.cafm.cafmbackend.application.service.CompanyService;
+import com.cafm.cafmbackend.application.service.CurrentUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

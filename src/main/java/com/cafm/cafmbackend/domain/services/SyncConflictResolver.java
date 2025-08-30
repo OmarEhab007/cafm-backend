@@ -68,6 +68,13 @@ public class SyncConflictResolver {
     ) {}
     
     /**
+     * Resolve a single conflict (public wrapper for resolveSingleConflict).
+     */
+    public ConflictResolutionResult resolveConflict(SyncConflict conflict, ConflictResolution strategy) {
+        return resolveSingleConflict(conflict, strategy);
+    }
+    
+    /**
      * Resolve sync conflicts using the specified strategy.
      */
     public List<ConflictResolutionResult> resolveConflicts(

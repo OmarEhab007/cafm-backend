@@ -1,12 +1,12 @@
 package com.cafm.cafmbackend.integration;
 
-import com.cafm.cafmbackend.data.entity.Company;
-import com.cafm.cafmbackend.data.entity.User;
-import com.cafm.cafmbackend.data.enums.CompanyStatus;
-import com.cafm.cafmbackend.data.enums.UserStatus;
-import com.cafm.cafmbackend.data.enums.UserType;
-import com.cafm.cafmbackend.data.repository.CompanyRepository;
-import com.cafm.cafmbackend.data.repository.UserRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.Company;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
+import com.cafm.cafmbackend.shared.enums.CompanyStatus;
+import com.cafm.cafmbackend.shared.enums.UserStatus;
+import com.cafm.cafmbackend.shared.enums.UserType;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.CompanyRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

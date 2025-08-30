@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.achievement;
 
-import com.cafm.cafmbackend.data.entity.SchoolAchievement.AchievementType;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.SchoolAchievement.AchievementType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

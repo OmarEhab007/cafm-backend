@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.user;
 
-import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.shared.enums.UserType;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Set;

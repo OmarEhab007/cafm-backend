@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.auth;
 
-import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.shared.enums.UserType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

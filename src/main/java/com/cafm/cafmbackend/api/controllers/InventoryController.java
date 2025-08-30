@@ -1,9 +1,9 @@
 package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.InventoryCategory;
-import com.cafm.cafmbackend.data.entity.InventoryItem;
-import com.cafm.cafmbackend.data.entity.InventoryTransaction;
-import com.cafm.cafmbackend.service.InventoryService;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.InventoryCategory;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.InventoryItem;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.InventoryTransaction;
+import com.cafm.cafmbackend.application.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

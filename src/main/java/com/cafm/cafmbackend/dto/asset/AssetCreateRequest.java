@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.asset;
 
-import com.cafm.cafmbackend.data.enums.AssetCondition;
-import com.cafm.cafmbackend.data.enums.AssetStatus;
+import com.cafm.cafmbackend.shared.enums.AssetCondition;
+import com.cafm.cafmbackend.shared.enums.AssetStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 

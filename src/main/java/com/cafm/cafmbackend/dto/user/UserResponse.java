@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.user;
 
-import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.shared.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

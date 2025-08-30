@@ -1,7 +1,7 @@
 -- ============================================
 -- V118__Create_Inventory_Management_Tables.sql
--- CAFM Backend - Create Complete Inventory Management System
--- Purpose: Establish comprehensive inventory tracking with stock movements and cost management
+-- CAFM Backend - Enhance Existing Inventory Management System
+-- Purpose: Add missing columns and features to existing inventory tables
 -- Pattern: Clean Architecture with aggregate design for inventory domain
 -- Java 23: Uses records for DTOs and sealed interfaces for transaction types
 -- Architecture: Multi-tenant with real-time stock tracking and automatic reorder points
@@ -9,311 +9,401 @@
 -- ============================================
 
 -- ============================================
--- STEP 1: CREATE INVENTORY ITEMS TABLE
+-- STEP 1: ENHANCE EXISTING INVENTORY_ITEMS TABLE
 -- ============================================
 
-CREATE TABLE inventory_items (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
+-- Add missing columns to existing inventory_items table
+DO $$
+BEGIN
+    -- Add barcode column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='barcode') THEN
+        ALTER TABLE inventory_items ADD COLUMN barcode VARCHAR(100);
+    END IF;
     
-    -- Item Identification
-    item_code VARCHAR(50) NOT NULL,
-    barcode VARCHAR(100),
-    qr_code VARCHAR(255),
-    name VARCHAR(255) NOT NULL,
-    name_ar VARCHAR(255),
-    description TEXT,
+    -- Add qr_code column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='qr_code') THEN
+        ALTER TABLE inventory_items ADD COLUMN qr_code VARCHAR(255);
+    END IF;
     
-    -- Categorization
-    category VARCHAR(100),
-    subcategory VARCHAR(100),
-    brand VARCHAR(100),
-    model VARCHAR(100),
-    manufacturer VARCHAR(100),
+    -- Add subcategory column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='subcategory') THEN
+        ALTER TABLE inventory_items ADD COLUMN subcategory VARCHAR(100);
+    END IF;
     
-    -- Physical Properties
-    unit_of_measure unit_enum DEFAULT 'PIECE',
-    weight_per_unit DECIMAL(8,3), -- in kg
-    volume_per_unit DECIMAL(8,3), -- in cubic meters
-    dimensions JSONB DEFAULT '{}', -- {length, width, height}
+    -- Add manufacturer column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='manufacturer') THEN
+        ALTER TABLE inventory_items ADD COLUMN manufacturer VARCHAR(100);
+    END IF;
     
-    -- Stock Quantities
-    current_stock DECIMAL(10,3) DEFAULT 0,
-    available_stock DECIMAL(10,3) DEFAULT 0, -- current_stock - reserved_stock
-    reserved_stock DECIMAL(10,3) DEFAULT 0,
-    in_transit_stock DECIMAL(10,3) DEFAULT 0,
+    -- Add enhanced stock columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='available_stock') THEN
+        ALTER TABLE inventory_items ADD COLUMN available_stock DECIMAL(10,2) DEFAULT 0;
+    END IF;
     
-    -- Stock Level Management
-    minimum_stock DECIMAL(10,3) DEFAULT 0,
-    maximum_stock DECIMAL(10,3),
-    reorder_level DECIMAL(10,3),
-    reorder_quantity DECIMAL(10,3),
-    safety_stock DECIMAL(10,3) DEFAULT 0,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='reserved_stock') THEN
+        ALTER TABLE inventory_items ADD COLUMN reserved_stock DECIMAL(10,2) DEFAULT 0;
+    END IF;
     
-    -- Cost Information
-    average_cost DECIMAL(10,2) DEFAULT 0,
-    last_purchase_cost DECIMAL(10,2),
-    standard_cost DECIMAL(10,2),
-    current_market_cost DECIMAL(10,2),
-    total_inventory_value DECIMAL(12,2) DEFAULT 0,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='in_transit_stock') THEN
+        ALTER TABLE inventory_items ADD COLUMN in_transit_stock DECIMAL(10,2) DEFAULT 0;
+    END IF;
     
-    -- Costing Method
-    costing_method VARCHAR(20) DEFAULT 'WEIGHTED_AVERAGE', -- WEIGHTED_AVERAGE, FIFO, LIFO, STANDARD
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='safety_stock') THEN
+        ALTER TABLE inventory_items ADD COLUMN safety_stock DECIMAL(10,2) DEFAULT 0;
+    END IF;
     
-    -- Storage and Location
-    default_warehouse VARCHAR(100),
-    default_location VARCHAR(100),
-    bin_number VARCHAR(50),
-    shelf_location VARCHAR(100),
-    storage_requirements TEXT,
+    -- Add cost columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='standard_cost') THEN
+        ALTER TABLE inventory_items ADD COLUMN standard_cost DECIMAL(10,2);
+    END IF;
     
-    -- Item Properties
-    is_serialized BOOLEAN DEFAULT FALSE,
-    is_batch_tracked BOOLEAN DEFAULT FALSE,
-    is_perishable BOOLEAN DEFAULT FALSE,
-    is_hazardous BOOLEAN DEFAULT FALSE,
-    is_consumable BOOLEAN DEFAULT TRUE,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='current_market_cost') THEN
+        ALTER TABLE inventory_items ADD COLUMN current_market_cost DECIMAL(10,2);
+    END IF;
     
-    -- Lifecycle Management
-    shelf_life_days INTEGER,
-    lead_time_days INTEGER,
-    default_supplier_id UUID,
-    alternative_suppliers JSONB DEFAULT '[]',
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='total_inventory_value') THEN
+        ALTER TABLE inventory_items ADD COLUMN total_inventory_value DECIMAL(12,2) DEFAULT 0;
+    END IF;
     
-    -- Quality and Compliance
-    quality_control_required BOOLEAN DEFAULT FALSE,
-    compliance_certifications JSONB DEFAULT '[]',
-    safety_data_sheet_url TEXT,
-    material_safety_notes TEXT,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='costing_method') THEN
+        ALTER TABLE inventory_items ADD COLUMN costing_method VARCHAR(20) DEFAULT 'WEIGHTED_AVERAGE';
+    END IF;
     
-    -- Procurement
-    preferred_vendor VARCHAR(255),
-    vendor_part_number VARCHAR(100),
-    last_order_date DATE,
-    next_order_date DATE,
+    -- Add enhanced storage columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='default_warehouse') THEN
+        ALTER TABLE inventory_items ADD COLUMN default_warehouse VARCHAR(100);
+    END IF;
     
-    -- Status and Settings
-    is_active BOOLEAN DEFAULT TRUE,
-    is_discontinued BOOLEAN DEFAULT FALSE,
-    discontinue_date DATE,
-    replacement_item_id UUID REFERENCES inventory_items(id),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='default_location') THEN
+        ALTER TABLE inventory_items ADD COLUMN default_location VARCHAR(100);
+    END IF;
     
-    -- Custom Fields
-    custom_fields JSONB DEFAULT '{}',
-    tags VARCHAR(500), -- Comma-separated tags
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='shelf_location') THEN
+        ALTER TABLE inventory_items ADD COLUMN shelf_location VARCHAR(100);
+    END IF;
     
-    -- Audit Fields
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    created_by_id UUID REFERENCES users(id),
-    updated_by_id UUID REFERENCES users(id),
-    deleted_at TIMESTAMP WITH TIME ZONE,
+    -- Add enhanced boolean flags if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='is_serialized') THEN
+        ALTER TABLE inventory_items ADD COLUMN is_serialized BOOLEAN DEFAULT FALSE;
+    END IF;
     
-    -- Constraints
-    CONSTRAINT uk_inventory_items_code_company UNIQUE (item_code, company_id),
-    CONSTRAINT uk_inventory_items_barcode_company UNIQUE (barcode, company_id) 
-        WHERE barcode IS NOT NULL,
-    CONSTRAINT chk_inventory_items_stock_positive CHECK (
-        current_stock >= 0 AND available_stock >= 0 AND 
-        reserved_stock >= 0 AND in_transit_stock >= 0 AND 
-        safety_stock >= 0
-    ),
-    CONSTRAINT chk_inventory_items_stock_levels CHECK (
-        minimum_stock >= 0 AND 
-        (maximum_stock IS NULL OR maximum_stock >= minimum_stock) AND
-        (reorder_level IS NULL OR reorder_level >= 0) AND
-        (reorder_quantity IS NULL OR reorder_quantity > 0)
-    ),
-    CONSTRAINT chk_inventory_items_costs_positive CHECK (
-        average_cost >= 0 AND 
-        (last_purchase_cost IS NULL OR last_purchase_cost >= 0) AND
-        (standard_cost IS NULL OR standard_cost >= 0) AND
-        (current_market_cost IS NULL OR current_market_cost >= 0) AND
-        total_inventory_value >= 0
-    ),
-    CONSTRAINT chk_inventory_items_costing_method CHECK (
-        costing_method IN ('WEIGHTED_AVERAGE', 'FIFO', 'LIFO', 'STANDARD')
-    ),
-    CONSTRAINT chk_inventory_items_shelf_life CHECK (
-        shelf_life_days IS NULL OR shelf_life_days > 0
-    ),
-    CONSTRAINT chk_inventory_items_lead_time CHECK (
-        lead_time_days IS NULL OR lead_time_days >= 0
-    )
-);
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='is_batch_tracked') THEN
+        ALTER TABLE inventory_items ADD COLUMN is_batch_tracked BOOLEAN DEFAULT FALSE;
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='is_perishable') THEN
+        ALTER TABLE inventory_items ADD COLUMN is_perishable BOOLEAN DEFAULT FALSE;
+    END IF;
+    
+    -- Add lifecycle management columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='shelf_life_days') THEN
+        ALTER TABLE inventory_items ADD COLUMN shelf_life_days INTEGER;
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='lead_time_days') THEN
+        ALTER TABLE inventory_items ADD COLUMN lead_time_days INTEGER;
+    END IF;
+    
+    -- Add JSONB columns if they don't exist  
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='dimensions') THEN
+        ALTER TABLE inventory_items ADD COLUMN dimensions JSONB DEFAULT '{}';
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_items' AND column_name='custom_fields') THEN
+        ALTER TABLE inventory_items ADD COLUMN custom_fields JSONB DEFAULT '{}';
+    END IF;
+
+END $$;
+
+-- Add partial unique index for barcode (only unique when not null)
+DO $$
+BEGIN
+    -- Only create the index if the barcode column exists
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='barcode') THEN
+        -- Drop existing index if it exists with wrong definition
+        DROP INDEX IF EXISTS uk_inventory_items_barcode_company;
+        -- Create the correct index
+        CREATE UNIQUE INDEX IF NOT EXISTS uk_inventory_items_barcode_company 
+            ON inventory_items(barcode, company_id) 
+            WHERE barcode IS NOT NULL;
+    END IF;
+END $$;
 
 -- ============================================
--- STEP 2: CREATE INVENTORY TRANSACTIONS TABLE
+-- STEP 2: ENHANCE EXISTING INVENTORY_TRANSACTIONS TABLE
 -- ============================================
 
-CREATE TABLE inventory_transactions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
+-- Add missing columns to existing inventory_transactions table
+DO $$
+BEGIN
+    -- Add enhanced columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='batch_number') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN batch_number VARCHAR(50);
+    END IF;
     
-    -- Transaction Identification
-    transaction_number VARCHAR(50) NOT NULL,
-    transaction_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    transaction_type inventory_transaction_type NOT NULL,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='serial_numbers') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN serial_numbers TEXT[];
+    END IF;
     
-    -- Item and Quantity
-    inventory_item_id UUID NOT NULL REFERENCES inventory_items(id),
-    quantity DECIMAL(10,3) NOT NULL,
-    unit_of_measure unit_enum DEFAULT 'PIECE',
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='expiry_date') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN expiry_date DATE;
+    END IF;
     
-    -- Cost Information
-    unit_cost DECIMAL(10,2),
-    total_cost DECIMAL(12,2),
-    currency VARCHAR(3) DEFAULT 'SAR',
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='manufacturing_date') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN manufacturing_date DATE;
+    END IF;
     
-    -- Batch and Serial Tracking
-    batch_number VARCHAR(50),
-    serial_numbers TEXT[], -- Array of serial numbers
-    expiry_date DATE,
-    manufacturing_date DATE,
+    -- Add workflow columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='requested_by_id') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN requested_by_id UUID REFERENCES users(id);
+    END IF;
     
-    -- Location Information
-    from_location VARCHAR(100),
-    to_location VARCHAR(100),
-    warehouse VARCHAR(100),
-    bin_number VARCHAR(50),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='processed_by_id') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN processed_by_id UUID REFERENCES users(id);
+    END IF;
     
-    -- Related Entities
-    work_order_id UUID REFERENCES work_orders(id),
-    work_order_material_id UUID REFERENCES work_order_materials(id),
-    purchase_order_number VARCHAR(50),
-    supplier_id UUID,
-    supplier_name VARCHAR(255),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='processed_at') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN processed_at TIMESTAMP WITH TIME ZONE;
+    END IF;
     
-    -- Transaction Context
-    reference_type VARCHAR(50), -- WORK_ORDER, PURCHASE_ORDER, STOCK_ADJUSTMENT, TRANSFER, etc.
-    reference_id UUID,
-    reference_number VARCHAR(100),
+    -- Add quality control columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='quality_checked') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN quality_checked BOOLEAN DEFAULT FALSE;
+    END IF;
     
-    -- Approval Workflow
-    requested_by_id UUID REFERENCES users(id),
-    approved_by_id UUID REFERENCES users(id),
-    approved_at TIMESTAMP WITH TIME ZONE,
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='quality_check_date') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN quality_check_date TIMESTAMP WITH TIME ZONE;
+    END IF;
     
-    -- Processing Status
-    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, APPROVED, PROCESSED, CANCELLED
-    processed_at TIMESTAMP WITH TIME ZONE,
-    processed_by_id UUID REFERENCES users(id),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='quality_check_notes') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN quality_check_notes TEXT;
+    END IF;
     
-    -- Stock Impact
-    stock_before DECIMAL(10,3),
-    stock_after DECIMAL(10,3),
-    cost_impact DECIMAL(12,2), -- Impact on inventory value
+    -- Add external reference columns if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='external_transaction_id') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN external_transaction_id VARCHAR(100);
+    END IF;
     
-    -- Quality Control
-    quality_checked BOOLEAN DEFAULT FALSE,
-    quality_check_date TIMESTAMP WITH TIME ZONE,
-    quality_check_notes TEXT,
-    quality_approved_by_id UUID REFERENCES users(id),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='receipt_number') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN receipt_number VARCHAR(50);
+    END IF;
     
-    -- Notes and Documentation
-    notes TEXT,
-    reason_code VARCHAR(50),
-    reason_description TEXT,
+    -- Add warehouse/bin tracking if they don't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='warehouse') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN warehouse VARCHAR(100);
+    END IF;
     
-    -- External References
-    external_transaction_id VARCHAR(100),
-    invoice_number VARCHAR(50),
-    receipt_number VARCHAR(50),
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='bin_number') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN bin_number VARCHAR(50);
+    END IF;
     
-    -- Audit Fields
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    created_by_id UUID REFERENCES users(id),
-    updated_by_id UUID REFERENCES users(id),
+    -- Add cost impact column if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='cost_impact') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN cost_impact DECIMAL(12,2);
+    END IF;
     
-    -- Constraints
-    CONSTRAINT uk_inventory_transactions_number_company UNIQUE (transaction_number, company_id),
-    CONSTRAINT chk_inventory_transactions_quantity_nonzero CHECK (quantity != 0),
-    CONSTRAINT chk_inventory_transactions_cost_positive CHECK (
-        unit_cost IS NULL OR unit_cost >= 0
-    ),
-    CONSTRAINT chk_inventory_transactions_stock_positive CHECK (
-        stock_before >= 0 AND stock_after >= 0
-    ),
-    CONSTRAINT chk_inventory_transactions_status CHECK (
-        status IN ('PENDING', 'APPROVED', 'PROCESSED', 'CANCELLED', 'REJECTED')
-    ),
-    CONSTRAINT chk_inventory_transactions_dates CHECK (
-        expiry_date IS NULL OR manufacturing_date IS NULL OR expiry_date > manufacturing_date
-    )
-);
+    -- Add status column if it doesn't exist (with proper constraint)
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='inventory_transactions' AND column_name='status') THEN
+        ALTER TABLE inventory_transactions ADD COLUMN status VARCHAR(20) DEFAULT 'PROCESSED';
+    END IF;
+
+END $$;
 
 -- ============================================
--- STEP 3: ADD INVENTORY_ITEM_ID FK TO WORK_ORDER_MATERIALS
+-- STEP 3: ADD INVENTORY_ITEM_ID FK TO WORK_ORDER_MATERIALS (CONDITIONAL)
 -- ============================================
 
--- Add foreign key constraint that was referenced but not yet created
-ALTER TABLE work_order_materials 
-    ADD CONSTRAINT fk_work_order_materials_inventory_item_id 
-    FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(id);
+-- Only add inventory_item_id column and FK if it doesn't already exist
+DO $$
+BEGIN
+    -- Add inventory_item_id column to work_order_materials if it doesn't exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name='work_order_materials' AND column_name='inventory_item_id') THEN
+        ALTER TABLE work_order_materials ADD COLUMN inventory_item_id UUID;
+        
+        -- Add the foreign key constraint
+        ALTER TABLE work_order_materials 
+            ADD CONSTRAINT fk_work_order_materials_inventory_item_id 
+            FOREIGN KEY (inventory_item_id) REFERENCES inventory_items(id);
+    END IF;
+END $$;
 
 -- ============================================
 -- STEP 4: CREATE PERFORMANCE INDEXES
 -- ============================================
 
--- Inventory Items Indexes
-CREATE INDEX idx_inventory_items_company_active ON inventory_items(company_id, is_active) WHERE deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_category ON inventory_items(company_id, category, subcategory) WHERE deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_barcode ON inventory_items(barcode) WHERE barcode IS NOT NULL AND deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_manufacturer ON inventory_items(manufacturer, model) WHERE deleted_at IS NULL;
+-- Inventory Items Indexes (conditional on column existence)
+CREATE INDEX IF NOT EXISTS idx_inventory_items_company_active ON inventory_items(company_id, is_active);
+
+DO $$
+BEGIN
+    -- Create category index if columns exist
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='category') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_category ON inventory_items(company_id, category);
+    END IF;
+    
+    -- Create barcode index if column exists
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='barcode') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_barcode ON inventory_items(barcode) WHERE barcode IS NOT NULL;
+    END IF;
+    
+    -- Create manufacturer index if column exists
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='manufacturer') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_manufacturer ON inventory_items(manufacturer, model);
+    END IF;
+END $$;
 
 -- Stock Level Indexes
-CREATE INDEX idx_inventory_items_low_stock ON inventory_items(company_id, current_stock, minimum_stock) 
-    WHERE current_stock <= minimum_stock AND is_active = TRUE AND deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_reorder_required ON inventory_items(company_id, current_stock, reorder_level) 
-    WHERE reorder_level IS NOT NULL AND current_stock <= reorder_level AND is_active = TRUE AND deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_out_of_stock ON inventory_items(company_id, current_stock) 
-    WHERE current_stock = 0 AND is_active = TRUE AND deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_inventory_items_low_stock ON inventory_items(company_id, current_stock, minimum_stock) 
+    WHERE current_stock <= minimum_stock AND is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_inventory_items_reorder_required ON inventory_items(company_id, current_stock, reorder_level) 
+    WHERE reorder_level IS NOT NULL AND current_stock <= reorder_level AND is_active = TRUE;
+CREATE INDEX IF NOT EXISTS idx_inventory_items_out_of_stock ON inventory_items(company_id, current_stock) 
+    WHERE current_stock = 0 AND is_active = TRUE;
 
--- Cost and Value Indexes
-CREATE INDEX idx_inventory_items_high_value ON inventory_items(total_inventory_value DESC) 
-    WHERE total_inventory_value > 0 AND deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_costing_method ON inventory_items(costing_method) WHERE deleted_at IS NULL;
+-- Cost and Value Indexes (conditional on column existence)
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='total_inventory_value') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_high_value ON inventory_items(total_inventory_value DESC) 
+            WHERE total_inventory_value > 0;
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='costing_method') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_costing_method ON inventory_items(costing_method);
+    END IF;
+    
+    -- Location and Storage Indexes
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='default_warehouse') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_warehouse ON inventory_items(default_warehouse);
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='default_location') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_location ON inventory_items(default_warehouse, default_location);
+    END IF;
+END $$;
 
--- Location and Storage Indexes
-CREATE INDEX idx_inventory_items_warehouse ON inventory_items(default_warehouse) WHERE deleted_at IS NULL;
-CREATE INDEX idx_inventory_items_location ON inventory_items(default_warehouse, default_location) WHERE deleted_at IS NULL;
-
--- Inventory Transactions Indexes
-CREATE INDEX idx_inventory_transactions_item ON inventory_transactions(inventory_item_id, transaction_date DESC);
-CREATE INDEX idx_inventory_transactions_company_date ON inventory_transactions(company_id, transaction_date DESC);
-CREATE INDEX idx_inventory_transactions_type ON inventory_transactions(transaction_type, transaction_date DESC);
-CREATE INDEX idx_inventory_transactions_status ON inventory_transactions(status) WHERE status != 'PROCESSED';
-CREATE INDEX idx_inventory_transactions_work_order ON inventory_transactions(work_order_id) 
+-- Inventory Transactions Indexes (use existing column names)
+CREATE INDEX IF NOT EXISTS idx_inventory_transactions_item_enhanced ON inventory_transactions(item_id, transaction_date DESC);
+CREATE INDEX IF NOT EXISTS idx_inventory_transactions_company_date_enhanced ON inventory_transactions(company_id, transaction_date DESC);
+CREATE INDEX IF NOT EXISTS idx_inventory_transactions_type_enhanced ON inventory_transactions(transaction_type, transaction_date DESC);
+-- Only create status index if status column exists
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='status') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_status ON inventory_transactions(status) WHERE status != 'PROCESSED';
+    END IF;
+END $$;
+CREATE INDEX IF NOT EXISTS idx_inventory_transactions_work_order_enhanced ON inventory_transactions(work_order_id) 
     WHERE work_order_id IS NOT NULL;
 
--- Transaction Processing Indexes
-CREATE INDEX idx_inventory_transactions_pending ON inventory_transactions(company_id, status, transaction_date) 
-    WHERE status = 'PENDING';
-CREATE INDEX idx_inventory_transactions_approval ON inventory_transactions(approved_by_id, approved_at) 
-    WHERE approved_by_id IS NOT NULL;
+-- Transaction Processing Indexes (conditional on column existence)
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='status') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_pending ON inventory_transactions(company_id, status, transaction_date) 
+            WHERE status = 'PENDING';
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='approved_by') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_approval ON inventory_transactions(approved_by, approved_at) 
+            WHERE approved_by IS NOT NULL;
+    END IF;
+    
+    -- Batch and Serial Tracking Indexes
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='batch_number') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_batch ON inventory_transactions(item_id, batch_number) 
+            WHERE batch_number IS NOT NULL;
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='expiry_date') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_expiry ON inventory_transactions(expiry_date) 
+            WHERE expiry_date IS NOT NULL;
+    END IF;
+    
+    -- Supplier and Purchase Indexes  
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_transactions' AND column_name='supplier') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_transactions_supplier_name ON inventory_transactions(supplier) 
+            WHERE supplier IS NOT NULL;
+    END IF;
+END $$;
 
--- Batch and Serial Tracking Indexes
-CREATE INDEX idx_inventory_transactions_batch ON inventory_transactions(inventory_item_id, batch_number) 
-    WHERE batch_number IS NOT NULL;
-CREATE INDEX idx_inventory_transactions_expiry ON inventory_transactions(expiry_date) 
-    WHERE expiry_date IS NOT NULL;
+-- Full-text Search Indexes (conditional on column existence)
+DO $$
+BEGIN
+    -- Create search index only if we have the necessary columns
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='name') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_search ON inventory_items 
+            USING GIN(to_tsvector('english', name || ' ' || COALESCE(description, '')));
+    END IF;
+END $$;
 
--- Supplier and Purchase Indexes
-CREATE INDEX idx_inventory_transactions_supplier ON inventory_transactions(supplier_id) WHERE supplier_id IS NOT NULL;
-CREATE INDEX idx_inventory_transactions_purchase_order ON inventory_transactions(purchase_order_number) 
-    WHERE purchase_order_number IS NOT NULL;
-
--- Full-text Search Indexes
-CREATE INDEX idx_inventory_items_search ON inventory_items 
-    USING GIN(to_tsvector('english', name || ' ' || COALESCE(description, '') || ' ' || COALESCE(tags, ''))) 
-    WHERE deleted_at IS NULL;
-
--- JSONB Indexes
-CREATE INDEX idx_inventory_items_dimensions ON inventory_items USING GIN(dimensions);
-CREATE INDEX idx_inventory_items_custom_fields ON inventory_items USING GIN(custom_fields);
-CREATE INDEX idx_inventory_items_suppliers ON inventory_items USING GIN(alternative_suppliers);
-CREATE INDEX idx_inventory_items_certifications ON inventory_items USING GIN(compliance_certifications);
+-- JSONB Indexes (conditional on column existence)
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='dimensions') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_dimensions ON inventory_items USING GIN(dimensions);
+    END IF;
+    
+    IF EXISTS (SELECT 1 FROM information_schema.columns 
+               WHERE table_name='inventory_items' AND column_name='custom_fields') THEN
+        CREATE INDEX IF NOT EXISTS idx_inventory_items_custom_fields ON inventory_items USING GIN(custom_fields);
+    END IF;
+END $$;
 
 -- ============================================
 -- STEP 5: CREATE TRIGGERS AND FUNCTIONS
@@ -334,10 +424,8 @@ BEGIN
         NEW.item_code := generate_inventory_item_code(NEW.company_id, NEW.category);
     END IF;
     
-    -- Set next order date based on lead time
-    IF NEW.lead_time_days IS NOT NULL AND NEW.last_order_date IS NOT NULL THEN
-        NEW.next_order_date := NEW.last_order_date + (NEW.lead_time_days || ' days')::INTERVAL;
-    END IF;
+    -- Note: next_order_date and last_order_date fields are not part of inventory_items table structure
+    -- This logic will be handled in the application layer when needed
     
     NEW.updated_at := CURRENT_TIMESTAMP;
     RETURN NEW;
@@ -357,12 +445,16 @@ DECLARE
     v_item RECORD;
     v_new_average_cost DECIMAL(10,2);
     v_cost_impact DECIMAL(12,2);
+    v_inventory_item_id UUID;
 BEGIN
+    -- Handle both column names (item_id from existing table, inventory_item_id from new schema)
+    v_inventory_item_id := COALESCE(NEW.inventory_item_id, NEW.item_id);
+    
     -- Get current item details
-    SELECT * INTO v_item FROM inventory_items WHERE id = NEW.inventory_item_id;
+    SELECT * INTO v_item FROM inventory_items WHERE id = v_inventory_item_id;
     
     IF v_item IS NULL THEN
-        RAISE EXCEPTION 'Inventory item not found: %', NEW.inventory_item_id;
+        RAISE EXCEPTION 'Inventory item not found: %', v_inventory_item_id;
     END IF;
     
     -- Record stock before transaction
@@ -426,8 +518,8 @@ BEGIN
             average_cost = COALESCE(v_new_average_cost, average_cost),
             last_purchase_cost = CASE WHEN NEW.transaction_type = 'RECEIPT' THEN NEW.unit_cost ELSE last_purchase_cost END,
             updated_at = CURRENT_TIMESTAMP,
-            updated_by_id = NEW.updated_by_id
-        WHERE id = NEW.inventory_item_id;
+            updated_by_id = COALESCE(NEW.updated_by_id, NEW.modified_by)
+        WHERE id = v_inventory_item_id;
         
         NEW.processed_at := CURRENT_TIMESTAMP;
     END IF;
@@ -547,22 +639,36 @@ $$ LANGUAGE plpgsql;
 -- STEP 7: ROW LEVEL SECURITY
 -- ============================================
 
--- Enable RLS for inventory tables
-ALTER TABLE inventory_items ENABLE ROW LEVEL SECURITY;
-ALTER TABLE inventory_transactions ENABLE ROW LEVEL SECURITY;
+-- Enable RLS for inventory tables (inventory_items already has RLS enabled)
+-- ALTER TABLE inventory_items ENABLE ROW LEVEL SECURITY; -- Already enabled
+-- RLS is already enabled on inventory_transactions
 
--- Create policies for tenant isolation
-CREATE POLICY tenant_isolation_inventory_items ON inventory_items
-    FOR ALL USING (company_id = COALESCE(
-        NULLIF(current_setting('app.current_company_id', true), '')::UUID,
-        '00000000-0000-0000-0000-000000000001'::UUID
-    ));
-
-CREATE POLICY tenant_isolation_inventory_transactions ON inventory_transactions
-    FOR ALL USING (company_id = COALESCE(
-        NULLIF(current_setting('app.current_company_id', true), '')::UUID,
-        '00000000-0000-0000-0000-000000000001'::UUID
-    ));
+-- Create policies for tenant isolation if they don't exist
+DO $$
+BEGIN
+    -- Check if policy exists for inventory_items using the correct view
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'inventory_items' 
+                   AND policyname = 'tenant_isolation_inventory_items_enhanced') THEN
+        -- Drop existing policy if it exists with the same logic
+        DROP POLICY IF EXISTS tenant_isolation_inventory_items ON inventory_items;
+        
+        CREATE POLICY tenant_isolation_inventory_items_enhanced ON inventory_items
+            FOR ALL USING (company_id = COALESCE(
+                NULLIF(current_setting('app.current_company_id', true), '')::UUID,
+                '00000000-0000-0000-0000-000000000001'::UUID
+            ));
+    END IF;
+    
+    -- Check if policy exists for inventory_transactions using the correct view  
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'inventory_transactions' 
+                   AND policyname = 'tenant_isolation_inventory_transactions_enhanced') THEN
+        CREATE POLICY tenant_isolation_inventory_transactions_enhanced ON inventory_transactions
+            FOR ALL USING (company_id = COALESCE(
+                NULLIF(current_setting('app.current_company_id', true), '')::UUID,
+                '00000000-0000-0000-0000-000000000001'::UUID
+            ));
+    END IF;
+END $$;
 
 -- ============================================
 -- STEP 8: COMMENTS FOR DOCUMENTATION
@@ -590,25 +696,35 @@ COMMENT ON FUNCTION get_inventory_status_summary(UUID) IS 'Returns comprehensive
 
 DO $$
 BEGIN
-    -- Verify inventory_items table was created
+    -- Verify inventory_items table exists
     IF NOT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'inventory_items') THEN
-        RAISE EXCEPTION 'Migration failed: inventory_items table was not created';
+        RAISE EXCEPTION 'Migration failed: inventory_items table does not exist';
     END IF;
     
-    -- Verify inventory_transactions table was created
+    -- Verify inventory_transactions table exists
     IF NOT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'inventory_transactions') THEN
-        RAISE EXCEPTION 'Migration failed: inventory_transactions table was not created';
+        RAISE EXCEPTION 'Migration failed: inventory_transactions table does not exist';
     END IF;
     
-    -- Verify foreign key was added to work_order_materials
-    IF NOT EXISTS (
-        SELECT FROM information_schema.table_constraints 
-        WHERE constraint_name = 'fk_work_order_materials_inventory_item_id'
-    ) THEN
-        RAISE EXCEPTION 'Migration failed: foreign key not added to work_order_materials';
+    -- Verify barcode column was added to inventory_items
+    IF NOT EXISTS (SELECT FROM information_schema.columns 
+                   WHERE table_name = 'inventory_items' AND column_name = 'barcode') THEN
+        RAISE EXCEPTION 'Migration failed: barcode column was not added to inventory_items';
     END IF;
     
-    RAISE NOTICE 'Migration V118 completed successfully - Inventory Management System created';
+    -- Verify enhanced columns were added to inventory_transactions
+    IF NOT EXISTS (SELECT FROM information_schema.columns 
+                   WHERE table_name = 'inventory_transactions' AND column_name = 'batch_number') THEN
+        RAISE EXCEPTION 'Migration failed: batch_number column was not added to inventory_transactions';
+    END IF;
+    
+    -- Verify barcode index was created
+    IF NOT EXISTS (SELECT FROM pg_indexes 
+                   WHERE indexname = 'uk_inventory_items_barcode_company') THEN
+        RAISE EXCEPTION 'Migration failed: barcode index was not created';
+    END IF;
+    
+    RAISE NOTICE 'Migration V118 completed successfully - Inventory Management System enhanced';
 END $$;
 
 -- End of V118 migration

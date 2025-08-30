@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.damage;
 
-import com.cafm.cafmbackend.data.entity.DamageCount.PriorityLevel;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.DamageCount.PriorityLevel;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.report;
 
-import com.cafm.cafmbackend.data.enums.ReportPriority;
+import com.cafm.cafmbackend.shared.enums.ReportPriority;
 import jakarta.validation.constraints.*;
 import java.util.List;
 import java.util.UUID;

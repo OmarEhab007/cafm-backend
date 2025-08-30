@@ -1,10 +1,13 @@
-package com.cafm.cafmbackend.controller;
+package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.Report;
-import com.cafm.cafmbackend.data.enums.ReportPriority;
-import com.cafm.cafmbackend.data.enums.ReportStatus;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.Report;
+import com.cafm.cafmbackend.shared.enums.ReportPriority;
+import com.cafm.cafmbackend.shared.enums.ReportStatus;
 import com.cafm.cafmbackend.dto.report.*;
-import com.cafm.cafmbackend.service.ReportService;
+import com.cafm.cafmbackend.dto.report.ReportListResponse;
+import com.cafm.cafmbackend.application.service.ReportService;
+import com.cafm.cafmbackend.application.service.ReportGenerationService;
+import com.cafm.cafmbackend.application.service.CurrentUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,6 +39,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * REST controller for maintenance report operations.
@@ -52,9 +58,14 @@ public class ReportController {
     private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
     
     private final ReportService reportService;
+    private final ReportGenerationService reportGenerationService;
+    private final CurrentUserService currentUserService;
     
-    public ReportController(ReportService reportService) {
+    public ReportController(ReportService reportService, ReportGenerationService reportGenerationService,
+                           CurrentUserService currentUserService) {
         this.reportService = reportService;
+        this.reportGenerationService = reportGenerationService;
+        this.currentUserService = currentUserService;
     }
     
     // ========== CRUD Operations ==========
@@ -75,6 +86,12 @@ public class ReportController {
         
         logger.debug("Get all reports with page: {}, size: {}", 
                     pageable.getPageNumber(), pageable.getPageSize());
+        
+        // Ensure tenant context is properly set for both systems
+        UUID companyId = currentUserService.ensureTenantContext();
+        
+        // Also set the static TenantContext that services might use
+        com.cafm.cafmbackend.security.TenantContext.setCurrentCompanyId(companyId);
         
         Page<ReportSimplifiedResponse> reports = reportService.getReports(pageable);
         return ResponseEntity.ok(reports);
@@ -522,5 +539,99 @@ public class ReportController {
         
         List<ReportStatus> transitions = reportService.getAvailableTransitions(id);
         return ResponseEntity.ok(transitions);
+    }
+    
+    // ========== Export Operations ==========
+    
+    /**
+     * Export maintenance reports to Excel.
+     */
+    @GetMapping("/export/excel")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERVISOR')")
+    @Operation(summary = "Export reports to Excel", description = "Export maintenance reports to Excel format")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Excel file generated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid date range"),
+        @ApiResponse(responseCode = "500", description = "Export generation failed")
+    })
+    public CompletableFuture<ResponseEntity<byte[]>> exportReportsExcel(
+            @RequestParam @Parameter(description = "Start date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @Parameter(description = "End date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @AuthenticationPrincipal UserDetails currentUser) {
+        
+        logger.info("Export maintenance reports Excel from {} to {} by user: {}", 
+                   startDate, endDate, currentUser.getUsername());
+        
+        if (endDate.isBefore(startDate)) {
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().build());
+        }
+        
+        // Get company ID from user context - simplified for now
+        UUID companyId = UUID.randomUUID(); // This should come from user's company
+        
+        return reportGenerationService.generateMaintenanceReportsExcel(companyId, startDate, endDate)
+            .thenApply(excelData -> {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", 
+                    "maintenance-reports-" + startDate + "-to-" + endDate + ".xlsx");
+                
+                logger.info("Successfully generated Excel export for {} bytes", excelData.length);
+                return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(excelData);
+            })
+            .exceptionally(throwable -> {
+                logger.error("Error generating Excel export", throwable);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            });
+    }
+    
+    /**
+     * Export maintenance reports to PDF.
+     */
+    @GetMapping("/export/pdf")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERVISOR')")
+    @Operation(summary = "Export reports to PDF", description = "Export maintenance reports to PDF format")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "PDF file generated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid date range"),
+        @ApiResponse(responseCode = "500", description = "Export generation failed")
+    })
+    public CompletableFuture<ResponseEntity<byte[]>> exportReportsPDF(
+            @RequestParam @Parameter(description = "Start date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @Parameter(description = "End date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @AuthenticationPrincipal UserDetails currentUser) {
+        
+        logger.info("Export maintenance reports PDF from {} to {} by user: {}", 
+                   startDate, endDate, currentUser.getUsername());
+        
+        if (endDate.isBefore(startDate)) {
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().build());
+        }
+        
+        // Get company ID from user context - simplified for now
+        UUID companyId = UUID.randomUUID(); // This should come from user's company
+        
+        return reportGenerationService.generateMaintenanceReportsPDF(companyId, startDate, endDate)
+            .thenApply(pdfData -> {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("attachment", 
+                    "maintenance-reports-" + startDate + "-to-" + endDate + ".pdf");
+                
+                logger.info("Successfully generated PDF export for {} bytes", pdfData.length);
+                return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfData);
+            })
+            .exceptionally(throwable -> {
+                logger.error("Error generating PDF export", throwable);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            });
     }
 }

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.attendance;
 
-import com.cafm.cafmbackend.data.entity.SupervisorAttendance.AttendanceStatus;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.SupervisorAttendance.AttendanceStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;

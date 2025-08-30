@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.attendance;
 
-import com.cafm.cafmbackend.data.entity.SupervisorAttendance.AttendanceStatus;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.SupervisorAttendance.AttendanceStatus;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

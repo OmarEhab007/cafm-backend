@@ -1,8 +1,8 @@
 package com.cafm.cafmbackend.security.filter;
 
-import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
 import com.cafm.cafmbackend.security.JwtTokenProvider;
-import com.cafm.cafmbackend.service.tenant.TenantContextService;
+import com.cafm.cafmbackend.application.service.tenant.TenantContextService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

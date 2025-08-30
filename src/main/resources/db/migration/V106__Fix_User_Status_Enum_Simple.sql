@@ -19,8 +19,21 @@ DROP VIEW IF EXISTS active_technicians CASCADE;
 DROP VIEW IF EXISTS company_usage_summary CASCADE;
 DROP VIEW IF EXISTS admin_workload_summary CASCADE;
 
--- Disable triggers
-ALTER TABLE users DISABLE TRIGGER ALL;
+-- Disable user-defined triggers (skip system triggers)
+DO $$
+DECLARE
+    trigger_name TEXT;
+BEGIN
+    -- Disable only user-defined triggers, not system triggers
+    FOR trigger_name IN 
+        SELECT tgname FROM pg_trigger 
+        WHERE tgrelid = 'users'::regclass 
+        AND NOT tgisinternal 
+        AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+    LOOP
+        EXECUTE format('ALTER TABLE users DISABLE TRIGGER %I', trigger_name);
+    END LOOP;
+END $$;
 
 -- Add temporary column
 ALTER TABLE users ADD COLUMN status_new VARCHAR(30);
@@ -57,8 +70,22 @@ ALTER TABLE users ALTER COLUMN status TYPE user_status USING status::user_status
 ALTER TABLE users ALTER COLUMN status SET NOT NULL;
 ALTER TABLE users ALTER COLUMN status SET DEFAULT 'PENDING_VERIFICATION'::user_status;
 
--- Re-enable triggers
-ALTER TABLE users ENABLE TRIGGER ALL;
+-- Re-enable user-defined triggers
+DO $$
+DECLARE
+    trigger_name TEXT;
+BEGIN
+    -- Re-enable only user-defined triggers that were disabled
+    FOR trigger_name IN 
+        SELECT tgname FROM pg_trigger 
+        WHERE tgrelid = 'users'::regclass 
+        AND NOT tgisinternal 
+        AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+        AND tgenabled = 'D' -- Only disabled triggers
+    LOOP
+        EXECUTE format('ALTER TABLE users ENABLE TRIGGER %I', trigger_name);
+    END LOOP;
+END $$;
 
 -- Log completion
 DO $$

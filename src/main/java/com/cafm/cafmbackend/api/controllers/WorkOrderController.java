@@ -1,11 +1,12 @@
-package com.cafm.cafmbackend.controller;
+package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.entity.WorkOrder;
-import com.cafm.cafmbackend.data.entity.WorkOrderMaterial;
-import com.cafm.cafmbackend.data.entity.WorkOrderTask;
-import com.cafm.cafmbackend.data.enums.WorkOrderStatus;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.WorkOrder;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.WorkOrderMaterial;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.WorkOrderTask;
+import com.cafm.cafmbackend.shared.enums.WorkOrderStatus;
 import com.cafm.cafmbackend.dto.workorder.*;
-import com.cafm.cafmbackend.service.WorkOrderService;
+import com.cafm.cafmbackend.application.service.WorkOrderService;
+import com.cafm.cafmbackend.application.service.ReportGenerationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +23,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,9 +34,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * REST controller for work order management operations.
@@ -52,9 +57,11 @@ public class WorkOrderController {
     private static final Logger logger = LoggerFactory.getLogger(WorkOrderController.class);
     
     private final WorkOrderService workOrderService;
+    private final ReportGenerationService reportGenerationService;
     
-    public WorkOrderController(WorkOrderService workOrderService) {
+    public WorkOrderController(WorkOrderService workOrderService, ReportGenerationService reportGenerationService) {
         this.workOrderService = workOrderService;
+        this.reportGenerationService = reportGenerationService;
     }
     
     // ========== CRUD Operations ==========
@@ -606,5 +613,99 @@ public class WorkOrderController {
         
         logger.info("Work orders scheduled successfully for company: {}", companyId);
         return ResponseEntity.ok().build();
+    }
+    
+    // ========== Export Operations ==========
+    
+    /**
+     * Export work orders to Excel.
+     */
+    @GetMapping("/export/excel")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERVISOR')")
+    @Operation(summary = "Export work orders to Excel", description = "Export work orders to Excel format")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Excel file generated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid date range"),
+        @ApiResponse(responseCode = "500", description = "Export generation failed")
+    })
+    public CompletableFuture<ResponseEntity<byte[]>> exportWorkOrdersExcel(
+            @RequestParam @Parameter(description = "Start date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @Parameter(description = "End date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @AuthenticationPrincipal UserDetails currentUser) {
+        
+        logger.info("Export work orders Excel from {} to {} by user: {}", 
+                   startDate, endDate, currentUser.getUsername());
+        
+        if (endDate.isBefore(startDate)) {
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().build());
+        }
+        
+        // Get company ID from user context - simplified for now
+        UUID companyId = UUID.randomUUID(); // This should come from user's company
+        
+        return reportGenerationService.generateWorkOrdersExcel(companyId, startDate, endDate)
+            .thenApply(excelData -> {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", 
+                    "work-orders-" + startDate + "-to-" + endDate + ".xlsx");
+                
+                logger.info("Successfully generated work orders Excel export for {} bytes", excelData.length);
+                return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(excelData);
+            })
+            .exceptionally(throwable -> {
+                logger.error("Error generating work orders Excel export", throwable);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            });
+    }
+    
+    /**
+     * Export work orders to PDF.
+     */
+    @GetMapping("/export/pdf")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERVISOR')")
+    @Operation(summary = "Export work orders to PDF", description = "Export work orders to PDF format")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "PDF file generated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid date range"),
+        @ApiResponse(responseCode = "500", description = "Export generation failed")
+    })
+    public CompletableFuture<ResponseEntity<byte[]>> exportWorkOrdersPDF(
+            @RequestParam @Parameter(description = "Start date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @Parameter(description = "End date", required = true) 
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @AuthenticationPrincipal UserDetails currentUser) {
+        
+        logger.info("Export work orders PDF from {} to {} by user: {}", 
+                   startDate, endDate, currentUser.getUsername());
+        
+        if (endDate.isBefore(startDate)) {
+            return CompletableFuture.completedFuture(ResponseEntity.badRequest().build());
+        }
+        
+        // Get company ID from user context - simplified for now
+        UUID companyId = UUID.randomUUID(); // This should come from user's company
+        
+        return reportGenerationService.generateWorkOrdersPDF(companyId, startDate, endDate)
+            .thenApply(pdfData -> {
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("attachment", 
+                    "work-orders-" + startDate + "-to-" + endDate + ".pdf");
+                
+                logger.info("Successfully generated work orders PDF export for {} bytes", pdfData.length);
+                return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(pdfData);
+            })
+            .exceptionally(throwable -> {
+                logger.error("Error generating work orders PDF export", throwable);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            });
     }
 }

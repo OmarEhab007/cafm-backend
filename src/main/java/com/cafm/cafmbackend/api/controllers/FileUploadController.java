@@ -2,7 +2,7 @@ package com.cafm.cafmbackend.api.controllers;
 
 import com.cafm.cafmbackend.dto.file.FileUploadRequest;
 import com.cafm.cafmbackend.dto.file.FileUploadResponse;
-import com.cafm.cafmbackend.service.FileUploadService;
+import com.cafm.cafmbackend.application.service.FileUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

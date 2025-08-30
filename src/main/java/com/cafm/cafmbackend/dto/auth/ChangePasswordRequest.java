@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.auth;
 
-import com.cafm.cafmbackend.validation.constraint.StrongPassword;
+import com.cafm.cafmbackend.shared.validation.constraint.StrongPassword;
 import jakarta.validation.constraints.NotBlank;
 
 /**

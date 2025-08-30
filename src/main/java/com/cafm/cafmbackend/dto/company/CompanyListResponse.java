@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.company;
 
-import com.cafm.cafmbackend.data.enums.CompanyStatus;
-import com.cafm.cafmbackend.data.enums.SubscriptionPlan;
+import com.cafm.cafmbackend.shared.enums.CompanyStatus;
+import com.cafm.cafmbackend.shared.enums.SubscriptionPlan;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;

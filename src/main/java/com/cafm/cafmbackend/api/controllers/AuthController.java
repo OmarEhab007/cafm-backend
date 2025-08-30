@@ -2,7 +2,7 @@ package com.cafm.cafmbackend.api.controllers;
 
 import com.cafm.cafmbackend.dto.auth.*;
 import com.cafm.cafmbackend.security.event.SecurityEventLogger;
-import com.cafm.cafmbackend.service.AuthService;
+import com.cafm.cafmbackend.application.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

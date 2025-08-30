@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.asset;
 
-import com.cafm.cafmbackend.data.enums.AssetCondition;
-import com.cafm.cafmbackend.data.enums.AssetStatus;
+import com.cafm.cafmbackend.shared.enums.AssetCondition;
+import com.cafm.cafmbackend.shared.enums.AssetStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
@@ -149,13 +149,14 @@ public record AssetListResponse(
         
         return switch (status) {
             case ACTIVE -> "green";
+            case IN_USE -> "green";
             case RESERVED -> "blue";
             case MAINTENANCE -> "orange";
+            case MAINTENANCE_REQUIRED -> "orange";
             case RETIRED -> "gray";
             case DISPOSED -> "red";
             case LOST -> "red";
             case DAMAGED -> "yellow";
-
         };
     }
     
@@ -172,6 +173,7 @@ public record AssetListResponse(
             case GOOD -> "blue";
             case FAIR -> "yellow";
             case POOR -> "orange";
+            case BROKEN -> "red";
             case UNUSABLE -> "red";
         };
     }
@@ -312,6 +314,7 @@ public record AssetListResponse(
                 case GOOD -> 10;
                 case FAIR -> 25;
                 case POOR -> 40;
+                case BROKEN -> 70;
                 case UNUSABLE -> 60;
             };
         }

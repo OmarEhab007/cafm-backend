@@ -1,8 +1,8 @@
-package com.cafm.cafmbackend.controller;
+package com.cafm.cafmbackend.api.controllers;
 
 import com.cafm.cafmbackend.dto.school.*;
-import com.cafm.cafmbackend.service.SchoolService;
-import com.cafm.cafmbackend.service.CurrentUserService;
+import com.cafm.cafmbackend.application.service.SchoolService;
+import com.cafm.cafmbackend.application.service.CurrentUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

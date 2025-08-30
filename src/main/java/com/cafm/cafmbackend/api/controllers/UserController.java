@@ -1,9 +1,9 @@
 package com.cafm.cafmbackend.api.controllers;
 
-import com.cafm.cafmbackend.data.enums.UserStatus;
-import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.shared.enums.UserStatus;
+import com.cafm.cafmbackend.shared.enums.UserType;
 import com.cafm.cafmbackend.dto.user.*;
-import com.cafm.cafmbackend.service.UserService;
+import com.cafm.cafmbackend.application.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

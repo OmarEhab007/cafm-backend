@@ -1,9 +1,9 @@
 package com.cafm.cafmbackend.security.filter;
 
-import com.cafm.cafmbackend.data.entity.ApiKey;
-import com.cafm.cafmbackend.data.repository.ApiKeyRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.ApiKey;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.ApiKeyRepository;
 //import com.cafm.cafmbackend.security.TenantContext;
-import com.cafm.cafmbackend.service.tenant.TenantContextService;
+import com.cafm.cafmbackend.application.service.tenant.TenantContextService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

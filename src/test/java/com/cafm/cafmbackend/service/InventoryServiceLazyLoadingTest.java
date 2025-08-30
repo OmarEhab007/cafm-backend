@@ -1,9 +1,9 @@
 package com.cafm.cafmbackend.service;
 
-import com.cafm.cafmbackend.data.entity.Company;
-import com.cafm.cafmbackend.data.entity.InventoryItem;
-import com.cafm.cafmbackend.data.repository.CompanyRepository;
-import com.cafm.cafmbackend.data.repository.InventoryItemRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.Company;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.InventoryItem;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.CompanyRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.InventoryItemRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.achievement;
 
-import com.cafm.cafmbackend.data.entity.SchoolAchievement.AchievementType;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.SchoolAchievement.AchievementType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.dto.inventory;
 
-import com.cafm.cafmbackend.data.enums.InventoryTransactionType;
+import com.cafm.cafmbackend.shared.enums.InventoryTransactionType;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;

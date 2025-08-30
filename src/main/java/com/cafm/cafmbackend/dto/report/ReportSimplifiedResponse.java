@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.report;
 
-import com.cafm.cafmbackend.data.enums.ReportPriority;
-import com.cafm.cafmbackend.data.enums.ReportStatus;
+import com.cafm.cafmbackend.shared.enums.ReportPriority;
+import com.cafm.cafmbackend.shared.enums.ReportStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;

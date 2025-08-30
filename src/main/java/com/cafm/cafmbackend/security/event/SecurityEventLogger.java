@@ -1,6 +1,6 @@
 package com.cafm.cafmbackend.security.event;
 
-import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;

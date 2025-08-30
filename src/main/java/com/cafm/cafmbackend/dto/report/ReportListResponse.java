@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.report;
 
-import com.cafm.cafmbackend.data.enums.ReportPriority;
-import com.cafm.cafmbackend.data.enums.ReportStatus;
+import com.cafm.cafmbackend.shared.enums.ReportPriority;
+import com.cafm.cafmbackend.shared.enums.ReportStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -90,6 +90,8 @@ public record ReportListResponse(
             case IN_PROGRESS -> "#17A2B8";   // Cyan
             case PENDING -> "#FD7E14";       // Orange
             case COMPLETED -> "#28A745";     // Green
+            case RESOLVED -> "#28A745";      // Green
+            case CLOSED -> "#6C757D";        // Dark Gray
             case CANCELLED -> "#6C757D";     // Dark Gray
             case LATE -> "#DC3545";          // Red for overdue
             case LATE_COMPLETED -> "#20C997"; // Teal for late completion

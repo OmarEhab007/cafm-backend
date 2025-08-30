@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.data.type;
 
-import com.cafm.cafmbackend.data.enums.UserStatus;
-import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.shared.enums.UserStatus;
+import com.cafm.cafmbackend.shared.enums.UserType;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

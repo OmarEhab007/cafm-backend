@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.workorder;
 
-import com.cafm.cafmbackend.data.enums.WorkOrderPriority;
-import com.cafm.cafmbackend.data.enums.WorkOrderStatus;
+import com.cafm.cafmbackend.shared.enums.WorkOrderPriority;
+import com.cafm.cafmbackend.shared.enums.WorkOrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

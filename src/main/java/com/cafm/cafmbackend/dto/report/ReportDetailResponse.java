@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.dto.report;
 
-import com.cafm.cafmbackend.data.enums.ReportPriority;
-import com.cafm.cafmbackend.data.enums.ReportStatus;
+import com.cafm.cafmbackend.shared.enums.ReportPriority;
+import com.cafm.cafmbackend.shared.enums.ReportStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -179,10 +179,12 @@ public record ReportDetailResponse(
             case APPROVED -> newStatus == ReportStatus.IN_PROGRESS || newStatus == ReportStatus.CANCELLED;
             case IN_PROGRESS -> newStatus == ReportStatus.COMPLETED || newStatus == ReportStatus.PENDING || newStatus == ReportStatus.LATE;
             case PENDING -> newStatus == ReportStatus.IN_PROGRESS || newStatus == ReportStatus.CANCELLED;
-            case COMPLETED -> false; // Final state
+            case COMPLETED -> newStatus == ReportStatus.RESOLVED || newStatus == ReportStatus.CLOSED;
+            case RESOLVED -> newStatus == ReportStatus.CLOSED;
+            case CLOSED -> false; // Final state
             case CANCELLED -> false; // Final state
             case LATE -> newStatus == ReportStatus.LATE_COMPLETED || newStatus == ReportStatus.CANCELLED;
-            case LATE_COMPLETED -> false; // Final state
+            case LATE_COMPLETED -> newStatus == ReportStatus.RESOLVED || newStatus == ReportStatus.CLOSED;
         };
     }
     

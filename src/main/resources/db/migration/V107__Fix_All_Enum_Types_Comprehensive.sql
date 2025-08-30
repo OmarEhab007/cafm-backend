@@ -5,7 +5,7 @@
 -- ============================================
 
 -- ============================================
--- STEP 1: Drop dependent views and functions
+-- STEP 1: Drop dependent views, functions, and materialized views
 -- ============================================
 DROP VIEW IF EXISTS work_order_summary CASCADE;
 DROP VIEW IF EXISTS inventory_transaction_summary CASCADE;
@@ -13,12 +13,68 @@ DROP VIEW IF EXISTS active_work_orders CASCADE;
 DROP VIEW IF EXISTS pending_work_orders CASCADE;
 DROP VIEW IF EXISTS inventory_levels CASCADE;
 
+-- Drop view that depends on work_order status
+DROP VIEW IF EXISTS school_overview CASCADE;
+
+-- Drop materialized views that depend on user_type and work_order status
+DROP MATERIALIZED VIEW IF EXISTS mv_company_dashboard_stats CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS mv_supervisor_workload CASCADE;
+DROP MATERIALIZED VIEW IF EXISTS mv_school_performance CASCADE;
+
+-- Drop trigger function that depends on user_type
+DROP FUNCTION IF EXISTS validate_user_type_change() CASCADE;
+
 -- ============================================
--- STEP 2: Temporarily disable triggers
+-- STEP 2: Temporarily disable user-defined triggers
 -- ============================================
-ALTER TABLE users DISABLE TRIGGER ALL;
-ALTER TABLE work_orders DISABLE TRIGGER ALL;
-ALTER TABLE inventory_transactions DISABLE TRIGGER ALL;
+-- Disable user-defined triggers for users table
+DO $$
+DECLARE
+    trigger_name TEXT;
+BEGIN
+    FOR trigger_name IN 
+        SELECT tgname FROM pg_trigger 
+        WHERE tgrelid = 'users'::regclass 
+        AND NOT tgisinternal 
+        AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+    LOOP
+        EXECUTE format('ALTER TABLE users DISABLE TRIGGER %I', trigger_name);
+    END LOOP;
+END $$;
+
+-- Disable user-defined triggers for work_orders table (if exists)
+DO $$
+DECLARE
+    trigger_name TEXT;
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'work_orders') THEN
+        FOR trigger_name IN 
+            SELECT tgname FROM pg_trigger 
+            WHERE tgrelid = 'work_orders'::regclass 
+            AND NOT tgisinternal 
+            AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+        LOOP
+            EXECUTE format('ALTER TABLE work_orders DISABLE TRIGGER %I', trigger_name);
+        END LOOP;
+    END IF;
+END $$;
+
+-- Disable user-defined triggers for inventory_transactions table (if exists)
+DO $$
+DECLARE
+    trigger_name TEXT;
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'inventory_transactions') THEN
+        FOR trigger_name IN 
+            SELECT tgname FROM pg_trigger 
+            WHERE tgrelid = 'inventory_transactions'::regclass 
+            AND NOT tgisinternal 
+            AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+        LOOP
+            EXECUTE format('ALTER TABLE inventory_transactions DISABLE TRIGGER %I', trigger_name);
+        END LOOP;
+    END IF;
+END $$;
 
 -- ============================================
 -- STEP 3: Fix user_type enum
@@ -166,9 +222,49 @@ ALTER TABLE inventory_transactions DROP COLUMN transaction_type_new;
 -- ============================================
 -- STEP 8: Re-enable triggers
 -- ============================================
-ALTER TABLE users ENABLE TRIGGER ALL;
-ALTER TABLE work_orders ENABLE TRIGGER ALL;
-ALTER TABLE inventory_transactions ENABLE TRIGGER ALL;
+-- Re-enable user-defined triggers for all tables
+DO $$
+DECLARE
+    trigger_name TEXT;
+    table_name TEXT;
+BEGIN
+    -- Re-enable triggers for users table
+    FOR trigger_name IN 
+        SELECT tgname FROM pg_trigger 
+        WHERE tgrelid = 'users'::regclass 
+        AND NOT tgisinternal 
+        AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+        AND tgenabled = 'D'
+    LOOP
+        EXECUTE format('ALTER TABLE users ENABLE TRIGGER %I', trigger_name);
+    END LOOP;
+    
+    -- Re-enable triggers for work_orders table (if exists)
+    IF EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'work_orders') THEN
+        FOR trigger_name IN 
+            SELECT tgname FROM pg_trigger 
+            WHERE tgrelid = 'work_orders'::regclass 
+            AND NOT tgisinternal 
+            AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+            AND tgenabled = 'D'
+        LOOP
+            EXECUTE format('ALTER TABLE work_orders ENABLE TRIGGER %I', trigger_name);
+        END LOOP;
+    END IF;
+    
+    -- Re-enable triggers for inventory_transactions table (if exists)
+    IF EXISTS (SELECT 1 FROM pg_tables WHERE tablename = 'inventory_transactions') THEN
+        FOR trigger_name IN 
+            SELECT tgname FROM pg_trigger 
+            WHERE tgrelid = 'inventory_transactions'::regclass 
+            AND NOT tgisinternal 
+            AND tgname NOT LIKE 'RI_ConstraintTrigger%'
+            AND tgenabled = 'D'
+        LOOP
+            EXECUTE format('ALTER TABLE inventory_transactions ENABLE TRIGGER %I', trigger_name);
+        END LOOP;
+    END IF;
+END $$;
 
 -- ============================================
 -- STEP 9: Add indexes for performance

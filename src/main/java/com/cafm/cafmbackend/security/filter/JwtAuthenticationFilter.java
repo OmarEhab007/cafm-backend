@@ -1,7 +1,7 @@
 package com.cafm.cafmbackend.security.filter;
 
-import com.cafm.cafmbackend.data.entity.User;
-import com.cafm.cafmbackend.data.repository.UserRepository;
+import com.cafm.cafmbackend.infrastructure.persistence.entity.User;
+import com.cafm.cafmbackend.infrastructure.persistence.repository.UserRepository;
 import com.cafm.cafmbackend.security.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
