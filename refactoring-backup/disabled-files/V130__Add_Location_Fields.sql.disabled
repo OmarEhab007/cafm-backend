@@ -1,0 +1,69 @@
+-- ============================================
+-- V100: Add Location Fields to Reports and Work Orders
+-- Purpose: Add geospatial support for location-based features
+-- Author: Mobile Sync Implementation
+-- Date: 2025-08-27
+-- ============================================
+
+-- Add location fields to reports table
+ALTER TABLE reports 
+ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS location_accuracy DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS location_address TEXT,
+ADD COLUMN IF NOT EXISTS location_timestamp TIMESTAMP;
+
+-- Add location fields to work_orders table  
+ALTER TABLE work_orders
+ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS location_accuracy DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS location_address TEXT,
+ADD COLUMN IF NOT EXISTS location_timestamp TIMESTAMP;
+
+-- Add location tracking fields to users table for supervisors
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS last_known_latitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS last_known_longitude DOUBLE PRECISION,
+ADD COLUMN IF NOT EXISTS last_location_update TIMESTAMP;
+
+-- Create spatial indexes for better performance (if PostGIS is available)
+-- Note: Uncomment these if PostGIS extension is installed
+-- CREATE INDEX IF NOT EXISTS idx_reports_location ON reports USING GIST (ST_MakePoint(longitude, latitude));
+-- CREATE INDEX IF NOT EXISTS idx_work_orders_location ON work_orders USING GIST (ST_MakePoint(longitude, latitude));
+-- CREATE INDEX IF NOT EXISTS idx_users_location ON users USING GIST (ST_MakePoint(last_known_longitude, last_known_latitude));
+
+-- Create regular indexes for location queries
+CREATE INDEX IF NOT EXISTS idx_reports_lat_lon ON reports(latitude, longitude) WHERE latitude IS NOT NULL AND longitude IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_work_orders_lat_lon ON work_orders(latitude, longitude) WHERE latitude IS NOT NULL AND longitude IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_users_last_location ON users(last_known_latitude, last_known_longitude) WHERE last_known_latitude IS NOT NULL;
+
+-- Add check constraints for valid coordinates
+ALTER TABLE reports 
+ADD CONSTRAINT chk_reports_latitude CHECK (latitude IS NULL OR (latitude >= -90 AND latitude <= 90)),
+ADD CONSTRAINT chk_reports_longitude CHECK (longitude IS NULL OR (longitude >= -180 AND longitude <= 180));
+
+ALTER TABLE work_orders
+ADD CONSTRAINT chk_work_orders_latitude CHECK (latitude IS NULL OR (latitude >= -90 AND latitude <= 90)),
+ADD CONSTRAINT chk_work_orders_longitude CHECK (longitude IS NULL OR (longitude >= -180 AND longitude <= 180));
+
+ALTER TABLE users
+ADD CONSTRAINT chk_users_latitude CHECK (last_known_latitude IS NULL OR (last_known_latitude >= -90 AND last_known_latitude <= 90)),
+ADD CONSTRAINT chk_users_longitude CHECK (last_known_longitude IS NULL OR (last_known_longitude >= -180 AND last_known_longitude <= 180));
+
+-- Add comment descriptions
+COMMENT ON COLUMN reports.latitude IS 'Latitude coordinate where the report was created';
+COMMENT ON COLUMN reports.longitude IS 'Longitude coordinate where the report was created';
+COMMENT ON COLUMN reports.location_accuracy IS 'GPS accuracy in meters';
+COMMENT ON COLUMN reports.location_address IS 'Human-readable address of the location';
+COMMENT ON COLUMN reports.location_timestamp IS 'Timestamp when location was captured';
+
+COMMENT ON COLUMN work_orders.latitude IS 'Latitude coordinate for work order location';
+COMMENT ON COLUMN work_orders.longitude IS 'Longitude coordinate for work order location';
+COMMENT ON COLUMN work_orders.location_accuracy IS 'GPS accuracy in meters';
+COMMENT ON COLUMN work_orders.location_address IS 'Human-readable address of work location';
+COMMENT ON COLUMN work_orders.location_timestamp IS 'Timestamp when location was captured';
+
+COMMENT ON COLUMN users.last_known_latitude IS 'Last known latitude of supervisor';
+COMMENT ON COLUMN users.last_known_longitude IS 'Last known longitude of supervisor';
+COMMENT ON COLUMN users.last_location_update IS 'Timestamp of last location update';

@@ -1,0 +1,622 @@
+package com.cafm.cafmbackend.domain.services;
+
+import com.cafm.cafmbackend.data.entity.Company;
+import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.data.enums.UserStatus;
+import com.cafm.cafmbackend.data.enums.UserType;
+import com.cafm.cafmbackend.data.repository.UserRepository;
+import com.cafm.cafmbackend.data.repository.CompanyRepository;
+import com.cafm.cafmbackend.dto.user.UserCreateRequest;
+import com.cafm.cafmbackend.dto.user.UserResponse;
+import com.cafm.cafmbackend.dto.user.UserResponseSimplified;
+import com.cafm.cafmbackend.dto.user.UserUpdateRequest;
+import com.cafm.cafmbackend.dto.user.UserProfileUpdateRequest;
+import com.cafm.cafmbackend.exception.EntityNotFoundException;
+import com.cafm.cafmbackend.exception.BusinessValidationException;
+import com.cafm.cafmbackend.security.TenantContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * User service for managing user operations with multi-tenant support.
+ * 
+ * Purpose: Provides comprehensive user management with tenant isolation
+ * Pattern: Service layer with repository pattern and DTO mapping
+ * Java 23: Leverages pattern matching and enhanced exception handling
+ * Architecture: Domain service with transaction management
+ * Standards: Constructor injection, comprehensive validation, audit logging
+ */
+@Service
+@Transactional(readOnly = true)
+public class UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger auditLogger = LoggerFactory.getLogger("com.cafm.cafmbackend.security");
+
+    private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, 
+                      CompanyRepository companyRepository,
+                      PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // ========== Create Operations ==========
+
+    /**
+     * Create a new user with proper tenant isolation and validation.
+     * 
+     * @param request User creation request
+     * @return Created user response
+     * @throws BusinessValidationException if user data is invalid
+     * @throws EntityNotFoundException if company not found
+     */
+    @Transactional
+    public UserResponse createUser(UserCreateRequest request) {
+        logger.debug("Creating user with email: {}", request.email());
+        
+        // Validate unique constraints within tenant
+        validateUniqueConstraints(request.email(), request.username(), null);
+        
+        // Get tenant company
+        Company company = getTenantCompany();
+        
+        // Create and populate user entity
+        User user = toEntity(request);
+        user.setCompany(company);
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setStatus(UserStatus.PENDING_VERIFICATION);
+        user.setEmailVerified(false);
+        user.setIsActive(true);
+        user.setIsLocked(false);
+        
+        // Generate employee ID if not provided
+        if (user.getEmployeeId() == null) {
+            user.setEmployeeId(generateEmployeeId(company));
+        }
+        
+        // Save user
+        User savedUser = userRepository.save(user);
+        
+        // Audit log
+        auditLogger.info("User created - ID: {}, Email: {}, Type: {}, Company: {}", 
+                        savedUser.getId(), savedUser.getEmail(), 
+                        savedUser.getUserType(), company.getId());
+        
+        return toResponse(savedUser);
+    }
+
+    // ========== Read Operations ==========
+
+    /**
+     * Get user by ID with tenant isolation.
+     */
+    public UserResponse getUserById(UUID userId) {
+        logger.debug("Retrieving user by ID: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+                
+        return toResponse(user);
+    }
+
+    /**
+     * Get simplified user by ID for performance.
+     */
+    public UserResponseSimplified getUserSimplified(UUID userId) {
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+                
+        return toSimplifiedResponse(user);
+    }
+
+    /**
+     * Get user by email within tenant.
+     */
+    public Optional<UserResponse> getUserByEmail(String email) {
+        logger.debug("Retrieving user by email: {}", email);
+        
+        return userRepository.findByEmailAndCompanyId(email, TenantContext.getCurrentCompanyId())
+                .map(userMapper::toResponse);
+    }
+
+    /**
+     * Get all users with pagination and filtering.
+     */
+    public Page<UserResponseSimplified> getUsers(Specification<User> spec, Pageable pageable) {
+        logger.debug("Retrieving users with pagination - Page: {}, Size: {}", 
+                    pageable.getPageNumber(), pageable.getPageSize());
+        
+        // Add tenant filter to specification
+        Specification<User> tenantSpec = addTenantFilter(spec);
+        
+        Page<User> users = userRepository.findAll(tenantSpec, pageable);
+        return users.map(userMapper::toSimplifiedResponse);
+    }
+
+    /**
+     * Get users by type (SUPERVISOR, TECHNICIAN, etc.)
+     */
+    public List<UserResponseSimplified> getUsersByType(UserType userType) {
+        logger.debug("Retrieving users by type: {}", userType);
+        
+        List<User> users = userRepository.findByUserTypeAndCompanyIdAndDeletedAtIsNull(
+                userType, TenantContext.getCurrentCompanyId());
+        
+        return users.stream()
+                .map(userMapper::toSimplifiedResponse)
+                .toList();
+    }
+
+    /**
+     * Get active technicians available for assignment.
+     */
+    public List<UserResponseSimplified> getAvailableTechnicians() {
+        logger.debug("Retrieving available technicians");
+        
+        List<User> technicians = userRepository.findAvailableTechnicians(
+                TenantContext.getCurrentCompanyId());
+        
+        return technicians.stream()
+                .map(userMapper::toSimplifiedResponse)
+                .toList();
+    }
+
+    // ========== Update Operations ==========
+
+    /**
+     * Update user information with validation.
+     */
+    @Transactional
+    public UserResponse updateUser(UUID userId, UserUpdateRequest request) {
+        logger.debug("Updating user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        // Validate unique constraints if email/username changed
+        if (!user.getEmail().equals(request.email()) || 
+            !user.getUsername().equals(request.username())) {
+            validateUniqueConstraints(request.email(), request.username(), userId);
+        }
+        
+        // Update user fields
+        updateEntity(user, request);
+        
+        User savedUser = userRepository.save(user);
+        
+        auditLogger.info("User updated - ID: {}, Email: {}", savedUser.getId(), savedUser.getEmail());
+        
+        return toResponse(savedUser);
+    }
+
+    /**
+     * Update user profile (limited fields for self-service).
+     */
+    @Transactional
+    public UserResponse updateUserProfile(UUID userId, UserProfileUpdateRequest request) {
+        logger.debug("Updating user profile: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        updateProfile(user, request);
+        
+        User savedUser = userRepository.save(user);
+        
+        auditLogger.info("User profile updated - ID: {}", savedUser.getId());
+        
+        return toResponse(savedUser);
+    }
+
+    /**
+     * Change user password with validation.
+     */
+    @Transactional
+    public void changePassword(UUID userId, String currentPassword, String newPassword) {
+        logger.debug("Changing password for user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        // Validate current password
+        if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+            throw new BusinessValidationException("Current password is incorrect");
+        }
+        
+        // Update password
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setPasswordChangedAt(LocalDateTime.now());
+        user.setPasswordChangeRequired(false);
+        
+        userRepository.save(user);
+        
+        auditLogger.info("Password changed for user: {}", userId);
+    }
+
+    /**
+     * Reset user password (admin operation).
+     */
+    @Transactional
+    public void resetPassword(UUID userId, String newPassword) {
+        logger.debug("Resetting password for user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setPasswordChangedAt(LocalDateTime.now());
+        user.setPasswordChangeRequired(true); // Force change on next login
+        
+        userRepository.save(user);
+        
+        auditLogger.info("Password reset for user: {} by admin", userId);
+    }
+
+    // ========== Status Management ==========
+
+    /**
+     * Activate user account.
+     */
+    @Transactional
+    public void activateUser(UUID userId) {
+        logger.debug("Activating user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        user.setStatus(UserStatus.ACTIVE);
+        user.setIsActive(true);
+        user.setIsLocked(false);
+        
+        userRepository.save(user);
+        
+        auditLogger.info("User activated: {}", userId);
+    }
+
+    /**
+     * Deactivate user account.
+     */
+    @Transactional
+    public void deactivateUser(UUID userId) {
+        logger.debug("Deactivating user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        user.setStatus(UserStatus.INACTIVE);
+        user.setIsActive(false);
+        
+        userRepository.save(user);
+        
+        auditLogger.info("User deactivated: {}", userId);
+    }
+
+    /**
+     * Lock user account due to security concerns.
+     */
+    @Transactional
+    public void lockUser(UUID userId, String reason) {
+        logger.debug("Locking user: {} for reason: {}", userId, reason);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        user.lockAccount(reason);
+        userRepository.save(user);
+        
+        auditLogger.warn("User locked: {} - Reason: {}", userId, reason);
+    }
+
+    /**
+     * Unlock user account.
+     */
+    @Transactional
+    public void unlockUser(UUID userId) {
+        logger.debug("Unlocking user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        user.unlockAccount();
+        userRepository.save(user);
+        
+        auditLogger.info("User unlocked: {}", userId);
+    }
+
+    // ========== Delete Operations ==========
+
+    /**
+     * Soft delete user (sets deletedAt timestamp).
+     */
+    @Transactional
+    public void deleteUser(UUID userId) {
+        logger.debug("Soft deleting user: {}", userId);
+        
+        User user = userRepository.findById(userId)
+                .filter(u -> u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+        
+        // Perform soft delete
+        user.setDeletedAt(LocalDateTime.now());
+        user.setIsActive(false);
+        
+        userRepository.save(user);
+        
+        auditLogger.info("User soft deleted: {}", userId);
+    }
+
+    // ========== Business Logic Methods ==========
+
+    /**
+     * Check if user exists by email within tenant.
+     */
+    public boolean existsByEmail(String email) {
+        return userRepository.findAll().stream()
+                .anyMatch(u -> u.getEmail().equals(email) && u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()) && u.getDeletedAt() == null);
+    }
+
+    /**
+     * Check if username is available within tenant.
+     */
+    public boolean isUsernameAvailable(String username) {
+        return !userRepository.findAll().stream()
+                .anyMatch(u -> u.getUsername().equals(username) && u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()) && u.getDeletedAt() == null);
+    }
+
+    /**
+     * Get user count by type for dashboard statistics.
+     */
+    public long getUserCountByType(UserType userType) {
+        return userRepository.findAll().stream()
+                .filter(u -> u.getUserType() == userType && u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()) && u.getDeletedAt() == null)
+                .count();
+    }
+
+    /**
+     * Get active user count for company statistics.
+     */
+    public long getActiveUserCount() {
+        return userRepository.findAll().stream()
+                .filter(u -> u.isActive() && u.getCompany().getId().equals(TenantContext.getCurrentCompanyId()) && u.getDeletedAt() == null)
+                .count();
+    }
+
+    // ========== Private Helper Methods ==========
+
+    /**
+     * Validate unique constraints within tenant.
+     */
+    private void validateUniqueConstraints(String email, String username, UUID excludeUserId) {
+        UUID companyId = TenantContext.getCurrentCompanyId();
+        
+        // Check email uniqueness
+        Optional<User> existingByEmail = userRepository.findAll().stream()
+                .filter(u -> u.getEmail().equals(email) && u.getCompany().getId().equals(companyId) && u.getDeletedAt() == null)
+                .findFirst();
+        if (existingByEmail.isPresent() && 
+            (excludeUserId == null || !existingByEmail.get().getId().equals(excludeUserId))) {
+            throw new BusinessValidationException("Email already exists: " + email);
+        }
+        
+        // Check username uniqueness
+        Optional<User> existingByUsername = userRepository.findAll().stream()
+                .filter(u -> u.getUsername().equals(username) && u.getCompany().getId().equals(companyId) && u.getDeletedAt() == null)
+                .findFirst();
+        if (existingByUsername.isPresent() && 
+            (excludeUserId == null || !existingByUsername.get().getId().equals(excludeUserId))) {
+            throw new BusinessValidationException("Username already exists: " + username);
+        }
+    }
+
+    /**
+     * Get current tenant company.
+     */
+    private Company getTenantCompany() {
+        UUID companyId = TenantContext.getCurrentCompanyId();
+        return companyRepository.findById(companyId)
+                .orElseThrow(() -> new EntityNotFoundException("Company", companyId));
+    }
+
+    /**
+     * Generate unique employee ID for company.
+     */
+    private String generateEmployeeId(Company company) {
+        String prefix = company.getName() != null ? company.getName().substring(0, Math.min(3, company.getName().length())).toUpperCase() : "EMP";
+        long userCount = userRepository.countByCompanyId(company.getId());
+        return prefix + String.format("%05d", userCount + 1);
+    }
+
+    /**
+     * Add tenant filter to specification.
+     */
+    private Specification<User> addTenantFilter(Specification<User> spec) {
+        Specification<User> tenantSpec = (root, query, criteriaBuilder) -> 
+                criteriaBuilder.equal(root.get("company").get("id"), TenantContext.getCurrentCompanyId());
+        
+        Specification<User> notDeletedSpec = (root, query, criteriaBuilder) ->
+                criteriaBuilder.isNull(root.get("deletedAt"));
+        
+        if (spec != null) {
+            return Specification.where(tenantSpec).and(notDeletedSpec).and(spec);
+        } else {
+            return Specification.where(tenantSpec).and(notDeletedSpec);
+        }
+    }
+
+    // ========== Manual Mapping Methods ==========
+
+    /**
+     * Convert UserCreateRequest to User entity.
+     * 
+     * Purpose: Manual mapping replacement for MapStruct UserMapper.toEntity()
+     * Pattern: Builder pattern with comprehensive field mapping
+     * Java 23: Uses null-safe field assignments with default values
+     * Architecture: Private mapping utility within service layer
+     * Standards: Complete field coverage matching UserCreateRequest structure
+     */
+    private User toEntity(UserCreateRequest request) {
+        User user = new User();
+        
+        // Basic Information
+        user.setEmail(request.email());
+        user.setUsername(request.email()); // Default username to email
+        user.setFirstName(request.firstName());
+        user.setLastName(request.lastName());
+        user.setPhone(request.phoneNumber());
+        user.setUserType(request.userType());
+        
+        // Employment Information
+        user.setEmployeeId(request.employeeId());
+        user.setDepartment(request.department());
+        user.setPosition(request.jobTitle());
+        user.setHireDate(request.hireDate());
+        user.setSpecialization(request.specialization());
+        user.setHourlyRate(request.hourlyRate());
+        
+        // Personal Information
+        user.setDateOfBirth(request.dateOfBirth());
+        user.setIqamaId(request.nationalId());
+        
+        // Status Fields (with defaults)
+        user.setIsActive(request.isActive() != null ? request.isActive() : true);
+        user.setEmailVerified(request.emailVerified() != null ? request.emailVerified() : false);
+        user.setIsLocked(false);
+        user.setPasswordChangeRequired(request.mustChangePassword() != null ? request.mustChangePassword() : false);
+        user.setStatus(UserStatus.PENDING_VERIFICATION);
+        
+        return user;
+    }
+
+    /**
+     * Convert User entity to UserResponse DTO.
+     * 
+     * Purpose: Manual mapping replacement for MapStruct UserMapper.toResponse()
+     * Pattern: Builder pattern with computed fields and null safety
+     * Java 23: Uses UserResponse.Builder for clean object construction
+     * Architecture: Private mapping utility with complete field coverage
+     * Standards: Includes all response fields with proper null handling
+     */
+    private UserResponse toResponse(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .userType(user.getUserType())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
+                .companyName(user.getCompany() != null ? user.getCompany().getName() : null)
+                .isActive(user.getIsActive())
+                .build();
+    }
+
+    /**
+     * Convert User entity to UserResponseSimplified DTO.
+     * 
+     * Purpose: Manual mapping replacement for MapStruct UserMapper.toSimplifiedResponse()
+     * Pattern: Builder pattern optimized for list views and performance
+     * Java 23: Uses UserResponseSimplified.Builder for efficient object creation
+     * Architecture: Private mapping utility focused on essential fields only
+     * Standards: Simplified response for API performance optimization
+     */
+    private UserResponseSimplified toSimplifiedResponse(User user) {
+        return UserResponseSimplified.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .userType(user.getUserType())
+                .status(user.getStatus())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .phone(user.getPhone())
+                .employeeId(user.getEmployeeId())
+                .iqamaId(user.getIqamaId())
+                .plateNumber(user.getPlateNumber())
+                .companyId(user.getCompany() != null ? user.getCompany().getId() : null)
+                .companyName(user.getCompany() != null ? user.getCompany().getName() : null)
+                .department(user.getDepartment())
+                .position(user.getPosition())
+                .emailVerified(user.getEmailVerified())
+                .phoneVerified(user.getPhoneVerified())
+                .isActive(user.getIsActive())
+                .isLocked(user.getIsLocked())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .lastLoginAt(user.getLastLoginAt())
+                .roles(Set.of()) // TODO: Implement roles mapping when roles system is ready
+                .build();
+    }
+
+    /**
+     * Update User entity from UserUpdateRequest.
+     * 
+     * Purpose: Manual mapping replacement for MapStruct UserMapper.updateEntity()
+     * Pattern: Field-by-field update with null checks for partial updates
+     * Java 23: Uses pattern matching for null-safe field assignments
+     * Architecture: Private update utility for entity modification
+     * Standards: Only updates non-null fields to support partial updates
+     */
+    private void updateEntity(User user, UserUpdateRequest request) {
+        if (request.email() != null) user.setEmail(request.email());
+        if (request.username() != null) user.setUsername(request.username());
+        if (request.firstName() != null) user.setFirstName(request.firstName());
+        if (request.lastName() != null) user.setLastName(request.lastName());
+        if (request.phoneNumber() != null) user.setPhone(request.phoneNumber());
+        if (request.userType() != null) user.setUserType(request.userType());
+        if (request.employeeId() != null) user.setEmployeeId(request.employeeId());
+        if (request.department() != null) user.setDepartment(request.department());
+        if (request.jobTitle() != null) user.setPosition(request.jobTitle());
+        if (request.hireDate() != null) user.setHireDate(request.hireDate());
+        if (request.specialization() != null) user.setSpecialization(request.specialization());
+        if (request.hourlyRate() != null) user.setHourlyRate(request.hourlyRate());
+        if (request.dateOfBirth() != null) user.setDateOfBirth(request.dateOfBirth());
+        if (request.nationalId() != null) user.setIqamaId(request.nationalId());
+        if (request.isActive() != null) user.setIsActive(request.isActive());
+        if (request.emailVerified() != null) user.setEmailVerified(request.emailVerified());
+    }
+
+    /**
+     * Update User entity from UserProfileUpdateRequest.
+     * 
+     * Purpose: Manual mapping replacement for MapStruct UserMapper.updateProfile()
+     * Pattern: Limited field update for user self-service operations
+     * Java 23: Uses null-safe assignments for profile-specific fields
+     * Architecture: Private update utility for user profile management
+     * Standards: Restricts updates to safe, user-modifiable fields only
+     */
+    private void updateProfile(User user, UserProfileUpdateRequest request) {
+        if (request.firstName() != null) user.setFirstName(request.firstName());
+        if (request.lastName() != null) user.setLastName(request.lastName());
+        if (request.phoneNumber() != null) user.setPhone(request.phoneNumber());
+        if (request.dateOfBirth() != null) user.setDateOfBirth(request.dateOfBirth());
+        if (request.avatarUrl() != null) user.setAvatarUrl(request.avatarUrl());
+        if (request.bio() != null) user.setBio(request.bio());
+        // Note: Sensitive fields like email, userType are intentionally excluded from profile updates
+    }
+}

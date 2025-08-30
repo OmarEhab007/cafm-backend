@@ -1,0 +1,649 @@
+package com.cafm.cafmbackend.domain.services;
+
+import com.cafm.cafmbackend.api.mappers.ReportMapper;
+import com.cafm.cafmbackend.data.entity.Company;
+import com.cafm.cafmbackend.data.entity.Report;
+import com.cafm.cafmbackend.data.entity.School;
+import com.cafm.cafmbackend.data.entity.User;
+import com.cafm.cafmbackend.data.enums.ReportPriority;
+import com.cafm.cafmbackend.data.enums.ReportStatus;
+import com.cafm.cafmbackend.data.repository.CompanyRepository;
+import com.cafm.cafmbackend.data.repository.ReportRepository;
+import com.cafm.cafmbackend.data.repository.SchoolRepository;
+import com.cafm.cafmbackend.data.repository.UserRepository;
+import com.cafm.cafmbackend.dto.report.ReportCreateRequest;
+import com.cafm.cafmbackend.dto.report.ReportDetailResponse;
+import com.cafm.cafmbackend.dto.report.ReportListResponse;
+import com.cafm.cafmbackend.dto.report.ReportUpdateRequest;
+import com.cafm.cafmbackend.dto.report.ReportStatusUpdateRequest;
+import com.cafm.cafmbackend.exception.EntityNotFoundException;
+import com.cafm.cafmbackend.exception.BusinessValidationException;
+import com.cafm.cafmbackend.security.TenantContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * Report service for managing maintenance reports and workflow.
+ * 
+ * Purpose: Provides comprehensive report lifecycle management with status workflows
+ * Pattern: Service layer with state machine pattern for report status transitions
+ * Java 23: Leverages pattern matching and enhanced workflow management
+ * Architecture: Domain service with transaction management and audit logging
+ * Standards: Constructor injection, comprehensive validation, workflow enforcement
+ */
+@Service
+@Transactional(readOnly = true)
+public class ReportService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReportService.class);
+    private static final Logger auditLogger = LoggerFactory.getLogger("com.cafm.cafmbackend.security");
+
+    private final ReportRepository reportRepository;
+    private final CompanyRepository companyRepository;
+    private final SchoolRepository schoolRepository;
+    private final UserRepository userRepository;
+    private final ReportMapper reportMapper;
+    private final NotificationService notificationService;
+
+    public ReportService(ReportRepository reportRepository,
+                        CompanyRepository companyRepository,
+                        SchoolRepository schoolRepository,
+                        UserRepository userRepository,
+                        ReportMapper reportMapper,
+                        NotificationService notificationService) {
+        this.reportRepository = reportRepository;
+        this.companyRepository = companyRepository;
+        this.schoolRepository = schoolRepository;
+        this.userRepository = userRepository;
+        this.reportMapper = reportMapper;
+        this.notificationService = notificationService;
+    }
+
+    // ========== Create Operations ==========
+
+    /**
+     * Create a new report with proper validation and workflow initialization.
+     * 
+     * @param request Report creation request
+     * @return Created report response
+     * @throws BusinessValidationException if report data is invalid
+     * @throws EntityNotFoundException if referenced entities not found
+     */
+    @Transactional
+    public ReportDetailResponse createReport(ReportCreateRequest request) {
+        logger.debug("Creating report with title: {}", request.title());
+        
+        // Get tenant company and validate references
+        Company company = getTenantCompany();
+        School school = getSchoolById(request.schoolId());
+        User supervisor = getUserById(request.supervisorId());
+        
+        // Validate supervisor is actually a supervisor
+        if (!supervisor.isSupervisor()) {
+            throw new BusinessValidationException("User must be a supervisor to create reports");
+        }
+        
+        // Create and populate report entity
+        Report report = reportMapper.toEntity(request);
+        report.setCompany(company);
+        report.setSchool(school);
+        report.setSupervisor(supervisor);
+        report.setReportedBy(supervisor); // Initially reported by supervisor
+        report.setStatus(ReportStatus.DRAFT);
+        report.setReportedDate(LocalDate.now());
+        
+        // Generate report number
+        report.setReportNumber(generateReportNumber(company, school));
+        
+        // Set priority if not provided
+        if (report.getPriority() == null) {
+            report.setPriority(ReportPriority.MEDIUM);
+        }
+        
+        // Save report
+        Report savedReport = reportRepository.save(report);
+        
+        // Audit log
+        auditLogger.info("Report created - ID: {}, Number: {}, Title: {}, School: {}, Supervisor: {}", 
+                        savedReport.getId(), savedReport.getReportNumber(), 
+                        savedReport.getTitle(), school.getName(), supervisor.getEmail());
+        
+        // Send notification to relevant parties
+        notificationService.notifyReportCreated(savedReport);
+        
+        return reportMapper.toDetailResponse(savedReport);
+    }
+
+    // ========== Read Operations ==========
+
+    /**
+     * Get report by ID with full details.
+     */
+    public ReportDetailResponse getReportById(UUID reportId) {
+        logger.debug("Retrieving report by ID: {}", reportId);
+        
+        Report report = reportRepository.findByIdAndCompanyId(reportId, TenantContext.getCurrentCompanyId())
+                .orElseThrow(() -> new EntityNotFoundException("Report", reportId));
+                
+        return reportMapper.toDetailResponse(report);
+    }
+
+    /**
+     * Get report by number within tenant.
+     */
+    public Optional<ReportDetailResponse> getReportByNumber(String reportNumber) {
+        logger.debug("Retrieving report by number: {}", reportNumber);
+        
+        return reportRepository.findByReportNumberAndCompanyId(reportNumber, TenantContext.getCurrentCompanyId())
+                .map(reportMapper::toDetailResponse);
+    }
+
+    /**
+     * Get all reports with pagination and filtering.
+     */
+    public Page<ReportListResponse> getReports(Specification<Report> spec, Pageable pageable) {
+        logger.debug("Retrieving reports with pagination - Page: {}, Size: {}", 
+                    pageable.getPageNumber(), pageable.getPageSize());
+        
+        // Add tenant filter to specification
+        Specification<Report> tenantSpec = addTenantFilter(spec);
+        
+        Page<Report> reports = reportRepository.findAll(tenantSpec, pageable);
+        return reports.map(reportMapper::toListResponse);
+    }
+
+    /**
+     * Get reports by school.
+     */
+    public List<ReportListResponse> getReportsBySchool(UUID schoolId) {
+        logger.debug("Retrieving reports for school: {}", schoolId);
+        
+        // Validate school exists and belongs to tenant
+        School school = getSchoolById(schoolId);
+        
+        List<Report> reports = reportRepository.findBySchoolIdAndCompanyIdOrderByCreatedAtDesc(
+                schoolId, TenantContext.getCurrentCompanyId());
+        
+        return reports.stream()
+                .map(reportMapper::toListResponse)
+                .toList();
+    }
+
+    /**
+     * Get reports by supervisor.
+     */
+    public List<ReportListResponse> getReportsBySupervisor(UUID supervisorId) {
+        logger.debug("Retrieving reports for supervisor: {}", supervisorId);
+        
+        List<Report> reports = reportRepository.findBySupervisorIdAndCompanyIdOrderByCreatedAtDesc(
+                supervisorId, TenantContext.getCurrentCompanyId());
+        
+        return reports.stream()
+                .map(reportMapper::toListResponse)
+                .toList();
+    }
+
+    /**
+     * Get reports by status.
+     */
+    public List<ReportListResponse> getReportsByStatus(ReportStatus status) {
+        logger.debug("Retrieving reports by status: {}", status);
+        
+        List<Report> reports = reportRepository.findByStatusAndCompanyIdOrderByCreatedAtDesc(
+                status, TenantContext.getCurrentCompanyId());
+        
+        return reports.stream()
+                .map(reportMapper::toListResponse)
+                .toList();
+    }
+
+    /**
+     * Get reports by priority for urgent processing.
+     */
+    public List<ReportListResponse> getReportsByPriority(ReportPriority priority) {
+        logger.debug("Retrieving reports by priority: {}", priority);
+        
+        List<Report> reports = reportRepository.findByPriorityAndCompanyIdOrderByCreatedAtDesc(
+                priority, TenantContext.getCurrentCompanyId());
+        
+        return reports.stream()
+                .map(reportMapper::toListResponse)
+                .toList();
+    }
+
+    /**
+     * Get overdue reports.
+     */
+    public List<ReportListResponse> getOverdueReports() {
+        logger.debug("Retrieving overdue reports");
+        
+        LocalDate today = LocalDate.now();
+        List<Report> reports = reportRepository.findOverdueReports(
+                TenantContext.getCurrentCompanyId(), today);
+        
+        return reports.stream()
+                .map(reportMapper::toListResponse)
+                .toList();
+    }
+
+    // ========== Update Operations ==========
+
+    /**
+     * Update report information (only allowed in DRAFT or REJECTED status).
+     */
+    @Transactional
+    public ReportDetailResponse updateReport(UUID reportId, ReportUpdateRequest request) {
+        logger.debug("Updating report: {}", reportId);
+        
+        Report report = reportRepository.findByIdAndCompanyId(reportId, TenantContext.getCurrentCompanyId())
+                .orElseThrow(() -> new EntityNotFoundException("Report", reportId));
+        
+        // Validate report is editable
+        if (!report.getStatus().isEditable()) {
+            throw new BusinessValidationException("Report cannot be edited in current status: " + report.getStatus());
+        }
+        
+        // Update school if changed
+        if (request.schoolId() != null && !request.schoolId().equals(report.getSchool().getId())) {
+            School newSchool = getSchoolById(request.schoolId());
+            report.setSchool(newSchool);
+        }
+        
+        // Update report fields
+        reportMapper.updateEntity(report, request);
+        
+        Report savedReport = reportRepository.save(report);
+        
+        auditLogger.info("Report updated - ID: {}, Number: {}", savedReport.getId(), savedReport.getReportNumber());
+        
+        return reportMapper.toDetailResponse(savedReport);
+    }
+
+    /**
+     * Update report status with workflow validation.
+     */
+    @Transactional
+    public ReportDetailResponse updateReportStatus(UUID reportId, ReportStatusUpdateRequest request) {
+        logger.debug("Updating report status - Report: {}, New status: {}", reportId, request.newStatus());
+        
+        Report report = reportRepository.findByIdAndCompanyId(reportId, TenantContext.getCurrentCompanyId())
+                .orElseThrow(() -> new EntityNotFoundException("Report", reportId));
+        
+        ReportStatus oldStatus = report.getStatus();
+        ReportStatus newStatus = request.newStatus();
+        
+        // Validate status transition
+        validateStatusTransition(report, newStatus);
+        
+        // Update status and related fields
+        updateReportStatusAndFields(report, newStatus, request);
+        
+        Report savedReport = reportRepository.save(report);
+        
+        auditLogger.info("Report status updated - ID: {}, Old: {}, New: {}, Notes: {}", 
+                        reportId, oldStatus, newStatus, request.notes());
+        
+        // Send notifications for status changes
+        notificationService.notifyReportStatusChanged(savedReport, oldStatus, newStatus);
+        
+        return reportMapper.toDetailResponse(savedReport);
+    }
+
+    /**
+     * Assign report to a technician.
+     */
+    @Transactional
+    public ReportDetailResponse assignReport(UUID reportId, UUID technicianId, String notes) {
+        logger.debug("Assigning report - Report: {}, Technician: {}", reportId, technicianId);
+        
+        Report report = reportRepository.findByIdAndCompanyId(reportId, TenantContext.getCurrentCompanyId())
+                .orElseThrow(() -> new EntityNotFoundException("Report", reportId));
+        
+        User technician = getUserById(technicianId);
+        
+        // Validate technician
+        if (!technician.isTechnician()) {
+            throw new BusinessValidationException("User must be a technician to be assigned reports");
+        }
+        
+        if (!technician.isAvailableForAssignment()) {
+            throw new BusinessValidationException("Technician is not available for assignment");
+        }
+        
+        // Update assignment
+        report.setAssignedTo(technician);
+        
+        // Update status if appropriate
+        if (report.getStatus() == ReportStatus.APPROVED) {
+            report.setStatus(ReportStatus.IN_PROGRESS);
+        }
+        
+        Report savedReport = reportRepository.save(report);
+        
+        auditLogger.info("Report assigned - ID: {}, Technician: {}, Notes: {}", 
+                        reportId, technician.getEmail(), notes);
+        
+        // Send notification to assigned technician
+        notificationService.notifyReportAssigned(savedReport, technician);
+        
+        return reportMapper.toDetailResponse(savedReport);
+    }
+
+    // ========== Workflow Operations ==========
+
+    /**
+     * Submit report for review (DRAFT -> SUBMITTED).
+     */
+    @Transactional
+    public ReportDetailResponse submitReport(UUID reportId) {
+        logger.debug("Submitting report for review: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.SUBMITTED, "Report submitted for review", null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Approve report for work (SUBMITTED -> APPROVED).
+     */
+    @Transactional
+    public ReportDetailResponse approveReport(UUID reportId, String notes) {
+        logger.debug("Approving report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.APPROVED, notes, null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Reject report for revision (SUBMITTED -> REJECTED).
+     */
+    @Transactional
+    public ReportDetailResponse rejectReport(UUID reportId, String reason) {
+        logger.debug("Rejecting report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.REJECTED, reason, null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Mark report as completed (IN_PROGRESS -> COMPLETED).
+     */
+    @Transactional
+    public ReportDetailResponse completeReport(UUID reportId, String completionNotes, BigDecimal actualCost) {
+        logger.debug("Completing report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.COMPLETED, completionNotes, actualCost);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Resolve report issue (COMPLETED -> RESOLVED).
+     */
+    @Transactional
+    public ReportDetailResponse resolveReport(UUID reportId, String resolutionNotes) {
+        logger.debug("Resolving report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.RESOLVED, resolutionNotes, null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Close report (RESOLVED -> CLOSED).
+     */
+    @Transactional
+    public ReportDetailResponse closeReport(UUID reportId, String closureNotes) {
+        logger.debug("Closing report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.CLOSED, closureNotes, null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    /**
+     * Cancel report (any status -> CANCELLED).
+     */
+    @Transactional
+    public ReportDetailResponse cancelReport(UUID reportId, String reason) {
+        logger.debug("Cancelling report: {}", reportId);
+        
+        ReportStatusUpdateRequest request = new ReportStatusUpdateRequest(
+                ReportStatus.CANCELLED, reason, null);
+        
+        return updateReportStatus(reportId, request);
+    }
+
+    // ========== Statistics and Analytics ==========
+
+    /**
+     * Get report statistics for dashboard.
+     */
+    public ReportStatistics getReportStatistics() {
+        logger.debug("Calculating report statistics");
+        
+        UUID companyId = TenantContext.getCurrentCompanyId();
+        
+        // Simplified statistics for Phase 2 - using basic repository methods
+        long totalReports = reportRepository.countByCompanyId(companyId);
+        long pendingReports = 0; // Simplified
+        long inProgressReports = 0; // Simplified
+        long completedReports = 0; // Simplified
+        long overdueReports = 0; // Simplified
+        
+        // Simplified average resolution time
+        double avgResolutionDays = 0.0;
+        
+        return new ReportStatistics(totalReports, pendingReports, inProgressReports, 
+                                  completedReports, overdueReports, avgResolutionDays);
+    }
+
+    /**
+     * Get reports by status count for charts (simplified).
+     */
+    public List<ReportStatusCount> getReportStatusCounts() {
+        logger.debug("Getting report status counts");
+        
+        // Simplified implementation for Phase 2
+        return List.of(
+            new ReportStatusCount(ReportStatus.DRAFT, 0),
+            new ReportStatusCount(ReportStatus.SUBMITTED, 0),
+            new ReportStatusCount(ReportStatus.COMPLETED, 0)
+        );
+    }
+
+    // ========== Private Helper Methods ==========
+
+    /**
+     * Validate status transition according to workflow rules.
+     */
+    private void validateStatusTransition(Report report, ReportStatus newStatus) {
+        ReportStatus currentStatus = report.getStatus();
+        
+        boolean isValidTransition = switch (currentStatus) {
+            case DRAFT -> newStatus == ReportStatus.SUBMITTED;
+            case SUBMITTED -> newStatus == ReportStatus.IN_REVIEW || newStatus == ReportStatus.CANCELLED;
+            case IN_REVIEW -> newStatus == ReportStatus.APPROVED || newStatus == ReportStatus.REJECTED;
+            case REJECTED -> newStatus == ReportStatus.SUBMITTED || newStatus == ReportStatus.CANCELLED;
+            case APPROVED -> newStatus == ReportStatus.IN_PROGRESS || newStatus == ReportStatus.CANCELLED;
+            case IN_PROGRESS -> newStatus == ReportStatus.COMPLETED || newStatus == ReportStatus.PENDING || 
+                               newStatus == ReportStatus.LATE;
+            case PENDING -> newStatus == ReportStatus.IN_PROGRESS || newStatus == ReportStatus.CANCELLED;
+            case COMPLETED -> newStatus == ReportStatus.RESOLVED || newStatus == ReportStatus.CLOSED;
+            case RESOLVED -> newStatus == ReportStatus.CLOSED;
+            case CLOSED, CANCELLED, LATE, LATE_COMPLETED -> false; // Final states
+        };
+        
+        if (!isValidTransition) {
+            throw new BusinessValidationException(
+                String.format("Invalid status transition from %s to %s", currentStatus, newStatus));
+        }
+    }
+
+    /**
+     * Update report status and related fields based on new status.
+     */
+    private void updateReportStatusAndFields(Report report, ReportStatus newStatus, ReportStatusUpdateRequest request) {
+        report.setStatus(newStatus);
+        
+        // Update timestamps and costs based on status
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate today = LocalDate.now();
+        
+        switch (newStatus) {
+            case SUBMITTED -> {
+                // No additional fields needed
+            }
+            case IN_PROGRESS -> {
+                // Set start time if not already set
+                if (report.getScheduledDate() == null) {
+                    report.setScheduledDate(today);
+                }
+            }
+            case COMPLETED -> {
+                report.setCompletedDate(today);
+                report.setCompletedAt(now);
+                if (request.actualCost() != null) {
+                    report.setActualCost(request.actualCost());
+                }
+            }
+            case RESOLVED, CLOSED -> {
+                if (report.getCompletedDate() == null) {
+                    report.setCompletedDate(today);
+                    report.setCompletedAt(now);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get tenant company.
+     */
+    private Company getTenantCompany() {
+        UUID companyId = TenantContext.getCurrentCompanyId();
+        return companyRepository.findById(companyId)
+                .orElseThrow(() -> new EntityNotFoundException("Company", companyId));
+    }
+
+    /**
+     * Get school by ID with tenant validation.
+     */
+    private School getSchoolById(UUID schoolId) {
+        return schoolRepository.findById(schoolId)
+                .filter(school -> school.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("School", schoolId));
+    }
+
+    /**
+     * Get user by ID with tenant validation.
+     */
+    private User getUserById(UUID userId) {
+        return userRepository.findById(userId)
+                .filter(user -> user.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("User", userId));
+    }
+
+    /**
+     * Generate unique report number.
+     */
+    private String generateReportNumber(Company company, School school) {
+        String prefix = (school.getCode() != null ? school.getCode() : "SCH") + "-RPT-";
+        String year = String.valueOf(LocalDate.now().getYear());
+        long reportCount = reportRepository.countByCompanyId(company.getId());
+        return prefix + year + "-" + String.format("%05d", reportCount + 1);
+    }
+
+    /**
+     * Add tenant filter to specification.
+     */
+    private Specification<Report> addTenantFilter(Specification<Report> spec) {
+        Specification<Report> tenantSpec = (root, query, criteriaBuilder) -> 
+                criteriaBuilder.equal(root.get("company").get("id"), TenantContext.getCurrentCompanyId());
+        
+        if (spec != null) {
+            return Specification.where(tenantSpec).and(spec);
+        } else {
+            return tenantSpec;
+        }
+    }
+
+    /**
+     * Report statistics record for dashboard display.
+     */
+    public record ReportStatistics(
+        long totalReports,
+        long pendingReports,
+        long inProgressReports,
+        long completedReports,
+        long overdueReports,
+        double averageResolutionDays
+    ) {}
+
+    /**
+     * Report status count record for charts.
+     */
+    public record ReportStatusCount(
+        ReportStatus status,
+        long count
+    ) {}
+
+    /**
+     * Update report with DTO.
+     */
+    @Transactional
+    public ReportDetailResponse updateReportWithDto(UUID reportId, ReportUpdateRequest request) {
+        logger.debug("Updating report with DTO - ID: {}", reportId);
+        return updateReport(reportId, request);
+    }
+
+    /**
+     * Delete report.
+     */
+    @Transactional
+    public void deleteReport(UUID reportId) {
+        logger.debug("Deleting report - ID: {}", reportId);
+        
+        Report report = reportRepository.findById(reportId)
+                .filter(r -> r.getCompany().getId().equals(TenantContext.getCurrentCompanyId()))
+                .orElseThrow(() -> new EntityNotFoundException("Report", reportId));
+        
+        report.setDeletedAt(LocalDateTime.now());
+        reportRepository.save(report);
+        
+        auditLogger.info("Report soft deleted - ID: {}", reportId);
+    }
+
+    /**
+     * Review report.
+     */
+    @Transactional
+    public ReportDetailResponse reviewReport(UUID reportId, boolean approved, String comments) {
+        logger.debug("Reviewing report - ID: {}, Approved: {}", reportId, approved);
+        
+        if (approved) {
+            return approveReport(reportId, comments);
+        } else {
+            return rejectReport(reportId, comments);
+        }
+    }
+}

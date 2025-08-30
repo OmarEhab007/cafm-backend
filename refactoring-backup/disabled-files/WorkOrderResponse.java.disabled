@@ -1,0 +1,179 @@
+package com.cafm.cafmbackend.dto.workorder;
+
+import com.cafm.cafmbackend.data.enums.WorkOrderPriority;
+import com.cafm.cafmbackend.data.enums.WorkOrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+/**
+ * Work order response DTO.
+ * 
+ * Purpose: Transfers work order data to clients
+ * Pattern: Immutable record DTO for API responses
+ * Java 23: Record with enhanced response formatting
+ * Architecture: DTO for work order data presentation
+ * Standards: Complete work order data with related entity information
+ */
+@Schema(description = "Work order response")
+public record WorkOrderResponse(
+    @Schema(description = "Work order ID")
+    UUID id,
+    
+    @Schema(description = "Work order number", example = "SCH-WO-2024-00001")
+    String workOrderNumber,
+    
+    @Schema(description = "Work order title", example = "Fix broken HVAC system")
+    String title,
+    
+    @Schema(description = "Work order description")
+    String description,
+    
+    @Schema(description = "Work order status", example = "IN_PROGRESS")
+    WorkOrderStatus status,
+    
+    @Schema(description = "Work order priority", example = "MEDIUM")
+    WorkOrderPriority priority,
+    
+    // Related entities
+    @Schema(description = "Related report ID")
+    UUID reportId,
+    
+    @Schema(description = "Report number", example = "RPT-2024-00001")
+    String reportNumber,
+    
+    @Schema(description = "School ID")
+    UUID schoolId,
+    
+    @Schema(description = "School name", example = "Lincoln Elementary")
+    String schoolName,
+    
+    @Schema(description = "Assigned technician ID")
+    UUID assignedToId,
+    
+    @Schema(description = "Assigned technician name", example = "John Smith")
+    String assignedToName,
+    
+    // Scheduling
+    @Schema(description = "Scheduled start date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime scheduledStart,
+    
+    @Schema(description = "Scheduled end date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime scheduledEnd,
+    
+    @Schema(description = "Assignment timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime assignedAt,
+    
+    @Schema(description = "Work started timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime startedAt,
+    
+    @Schema(description = "Work completed timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime completedAt,
+    
+    // Costs
+    @Schema(description = "Estimated cost", example = "150.00")
+    BigDecimal estimatedCost,
+    
+    @Schema(description = "Actual cost", example = "175.50")
+    BigDecimal actualCost,
+    
+    // Notes
+    @Schema(description = "Work order notes")
+    String notes,
+    
+    @Schema(description = "Completion notes")
+    String completionNotes,
+    
+    @Schema(description = "Cancellation reason")
+    String cancellationReason,
+    
+    // Metadata
+    @Schema(description = "Created timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime createdAt,
+    
+    @Schema(description = "Last updated timestamp")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    LocalDateTime updatedAt,
+    
+    @Schema(description = "Created by user name")
+    String createdByName
+) {
+    
+    /**
+     * Check if work order is assigned.
+     */
+    public boolean isAssigned() {
+        return assignedToId != null;
+    }
+    
+    /**
+     * Check if work order is completed.
+     */
+    public boolean isCompleted() {
+        return status == WorkOrderStatus.COMPLETED;
+    }
+    
+    /**
+     * Check if work order is cancelled.
+     */
+    public boolean isCancelled() {
+        return status == WorkOrderStatus.CANCELLED;
+    }
+    
+    /**
+     * Check if work order is in progress.
+     */
+    public boolean isInProgress() {
+        return status == WorkOrderStatus.IN_PROGRESS;
+    }
+    
+    /**
+     * Check if work order is overdue.
+     */
+    public boolean isOverdue() {
+        return scheduledEnd != null && LocalDateTime.now().isAfter(scheduledEnd) && !isCompleted();
+    }
+    
+    /**
+     * Get display name for work order.
+     */
+    public String getDisplayName() {
+        return workOrderNumber + " - " + title;
+    }
+    
+    /**
+     * Get status display with color coding.
+     */
+    public String getStatusDisplay() {
+        return switch (status) {
+            case CREATED -> "Created";
+            case ASSIGNED -> "Assigned";
+            case IN_PROGRESS -> "In Progress";
+            case COMPLETED -> "Completed";
+            case CANCELLED -> "Cancelled";
+            case ON_HOLD -> "On Hold";
+        };
+    }
+    
+    /**
+     * Get priority display with color coding.
+     */
+    public String getPriorityDisplay() {
+        return switch (priority) {
+            case LOW -> "Low";
+            case MEDIUM -> "Medium";
+            case HIGH -> "High";
+            case URGENT -> "Urgent";
+            case CRITICAL -> "Critical";
+        };
+    }
+}

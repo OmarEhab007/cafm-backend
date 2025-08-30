@@ -1,0 +1,1 @@
+{"timestamp":"2025-08-29T14:37:57.068Z","path":"/api/v1/auth/login","code":"UNIQUE_CONSTRAINT_VIOLATION","message":"The provided data conflicts with existing records","details":[],"correlationId":"5721fc74-6f99-480c-b207-c043e045e7da"}
