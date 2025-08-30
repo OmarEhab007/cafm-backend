@@ -1,4 +1,4 @@
-# CAFM Backend - School Maintenance Management System
+# CAFM Backend - Maintenance Management System
 
 ![Java](https://img.shields.io/badge/Java-23-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.3-green)
