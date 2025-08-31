@@ -1,0 +1,34 @@
+apiVersion: v2
+name: cafm-backend
+description: A Helm chart for CAFM Backend Spring Boot application
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+
+keywords:
+  - cafm
+  - facility-management
+  - spring-boot
+  - java
+
+home: https://github.com/your-org/cafm-backend
+sources:
+  - https://github.com/your-org/cafm-backend
+
+maintainers:
+  - name: CAFM Team
+    email: team@cafm.com
+
+dependencies:
+  - name: postgresql
+    version: 13.2.24
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 18.6.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+
+annotations:
+  category: Application
+  licenses: Apache-2.0

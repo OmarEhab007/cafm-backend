@@ -1,0 +1,205 @@
+# =================================================
+# Docker Compose Override Example
+# =================================================
+# Copy this file to docker-compose.override.yml and customize for your environment
+# This file demonstrates how to securely override default configurations
+# 
+# Usage: cp docker-compose.override.yml.example docker-compose.override.yml
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database Overrides
+  postgres:
+    environment:
+      # Use your own secure password
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      # Uncomment to expose on different port if needed
+      # - "5433:5432"
+    volumes:
+      # Add custom init scripts or configuration
+      # - ./custom-init:/docker-entrypoint-initdb.d
+      # - ./postgres-config:/etc/postgresql
+      # Mount data directory for persistence
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis Cache Overrides  
+  redis:
+    # Use secure password from environment
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    # Uncomment for custom Redis configuration
+    # volumes:
+    #   - ./redis.conf:/usr/local/etc/redis/redis.conf
+    # command: redis-server /usr/local/etc/redis/redis.conf
+
+  # MinIO Object Storage Overrides
+  minio:
+    environment:
+      # Use your own secure credentials
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      # Optional: Configure server-side encryption
+      # MINIO_KMS_SECRET_KEY: your-secret-key-for-encryption
+    # Uncomment to expose on different ports
+    # ports:
+    #   - "9001:9000"  # API port
+    #   - "9002:9001"  # Console port
+    volumes:
+      # Persistent storage
+      - minio_data:/data
+      # Optional: Custom policies and configuration
+      # - ./minio-policies:/policies
+
+  # pgAdmin Database Admin Tool
+  pgadmin:
+    environment:
+      # Use secure credentials
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    # Uncomment to use custom configuration
+    # volumes:
+    #   - ./pgadmin-config:/pgadmin4/config
+    #   - pgadmin_data:/var/lib/pgadmin
+
+  # Redis Commander (Development Tool)
+  redis-commander:
+    environment:
+      # Use your Redis password
+      REDIS_HOSTS: local:cafm-redis:6379:0:${REDIS_PASSWORD}
+
+  # =================================================
+  # Production-like Services (Uncomment as needed)
+  # =================================================
+
+  # # NGINX Reverse Proxy
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: cafm-nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - cafm-backend
+  #   networks:
+  #     - cafm-network
+
+  # # SSL Certificate Management
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: cafm-certbot
+  #   volumes:
+  #     - ./certbot-data:/etc/letsencrypt
+  #     - ./certbot-webroot:/var/www/certbot
+  #   profiles:
+  #     - ssl
+
+  # # Backup Service
+  # backup:
+  #   image: postgres:15-alpine
+  #   container_name: cafm-backup
+  #   restart: "no"
+  #   volumes:
+  #     - ./backups:/backups
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     PGPASSWORD: ${DB_PASSWORD}
+  #   command: |
+  #     sh -c "
+  #     while true; do
+  #       pg_dump -h postgres -U cafm_user -d cafm_db > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql
+  #       find /backups -name '*.sql' -mtime +7 -delete
+  #       sleep 86400
+  #     done
+  #     "
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - cafm-network
+  #   profiles:
+  #     - backup
+
+# =================================================
+# Volume Configurations
+# =================================================
+volumes:
+  postgres_data:
+    # Use named volume for better data persistence
+    driver: local
+    # Optional: Use specific driver options
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./postgres-data
+
+  redis_data:
+    driver: local
+
+  minio_data:
+    driver: local
+
+  pgadmin_data:
+    driver: local
+
+# =================================================
+# Network Configurations
+# =================================================
+networks:
+  cafm-network:
+    driver: bridge
+    # Optional: Custom network configuration
+    # ipam:
+    #   config:
+    #     - subnet: 172.20.0.0/16
+    #       gateway: 172.20.0.1
+
+# =================================================
+# Environment-Specific Configurations
+# =================================================
+
+# For development with remote debugging:
+# services:
+#   cafm-backend:
+#     image: cafm-backend:latest
+#     environment:
+#       JAVA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+#     ports:
+#       - "8080:8080"
+#       - "5005:5005"  # Debug port
+
+# For staging environment with monitoring:
+# services:
+#   prometheus:
+#     image: prom/prometheus:latest
+#     container_name: cafm-prometheus
+#     ports:
+#       - "9090:9090"
+#     volumes:
+#       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+#     networks:
+#       - cafm-network
+#     profiles:
+#       - monitoring
+
+# =================================================
+# Security Notes
+# =================================================
+# 1. Never commit this file with real credentials
+# 2. Use strong, unique passwords for all services
+# 3. Restrict network access in production
+# 4. Enable SSL/TLS for all external communications
+# 5. Regularly update service versions
+# 6. Monitor logs for security events
+# 7. Backup data regularly and test restore procedures
+# 8. Use secrets management in production environments
+
+# =================================================
+# Quick Setup Commands
+# =================================================
+# cp docker-compose.override.yml.example docker-compose.override.yml
+# # Edit docker-compose.override.yml with your secure values
+# docker-compose up -d
+# docker-compose logs -f cafm-backend

@@ -129,6 +129,17 @@ log/
 *.h2.db
 *.mv.db
 *.trace.db
+*.sql.bak
+*.dump
+*.backup
+*.sql.gz
+*.sql.tar.gz
+database_backup*
+db_dump*
+*.mdf
+*.ldf
+*.frm
+*.ibd
 
 ### Testing ###
 /test-output/
@@ -161,7 +172,7 @@ pnpm-debug.log*
 .npm
 .yarn
 
-### Secrets ###
+### Secrets & Security ###
 *.key
 *.pem
 *.p12
@@ -169,9 +180,46 @@ pnpm-debug.log*
 *.jks
 *.keystore
 *.truststore
+*.crt
+*.csr
+*.cer
 secrets.yml
 secrets.yaml
 secrets.properties
+credentials.json
+credentials.yml
+credentials.yaml
+auth.json
+auth.yml
+# JWT and authentication token files  
+*token*.json
+*response*.json
+fresh_token.json
+working_token.json
+auth_*.json
+session_*.json
+jwt_*.json
+*_credentials.json
+*_secrets.json
+.secrets
+.credentials
+jwt-secret.txt
+private-key.txt
+public-key.txt
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+known_hosts
+authorized_keys
+.ssh/
+config/secrets/
+vault/
+*.vault
 
 ### Performance & Monitoring ###
 performance-tests/results/
@@ -337,5 +385,6 @@ todos/
 !mvnw
 !mvnw.cmd
 
-#env
-*.env
+# Additional security: Ensure no environment files are committed
+*.env*
+!.env.example

@@ -1,0 +1,15 @@
+# Simplified dockerignore for testing
+.git
+.gitignore
+.idea/
+*.iml
+*.md
+docs/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.tmp
+*.bak
+logs/
+node_modules/

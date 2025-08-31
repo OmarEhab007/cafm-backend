@@ -43,14 +43,50 @@ import java.util.Map;
         scheme = "bearer",
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER,
-        description = "JWT authentication token"
+        description = """
+            JWT Bearer token authentication. 
+            
+            **How to obtain a token:**
+            1. Call POST `/api/v1/auth/login` with email/password
+            2. Extract `accessToken` from response
+            3. Use in Authorization header as: `Bearer <accessToken>`
+            
+            **Token format:** `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+            
+            **Token expiration:** Configurable (default: 1 hour)
+            
+            **Refresh tokens:** Use POST `/api/v1/auth/refresh` to get new tokens
+            """
     ),
     @SecurityScheme(
         name = "api-key",
         type = SecuritySchemeType.APIKEY,
         in = SecuritySchemeIn.HEADER,
         paramName = "X-API-Key",
-        description = "API Key authentication"
+        description = """
+            API Key authentication for server-to-server communication.
+            
+            **Usage:** Add header `X-API-Key: <your-api-key>`
+            
+            **Obtaining API Keys:** Contact system administrator
+            
+            **Scope:** Limited to specific operations (usually read-only)
+            """
+    ),
+    @SecurityScheme(
+        name = "tenant-header",
+        type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER,
+        paramName = "X-Company-ID",
+        description = """
+            Multi-tenant company identifier (optional with JWT).
+            
+            **Usage:** Add header `X-Company-ID: <company-uuid>`
+            
+            **Note:** Usually extracted automatically from JWT token
+            
+            **Format:** UUID v4 (e.g., 123e4567-e89b-12d3-a456-426614174000)
+            """
     )
 })
 public class OpenApiConfig {
@@ -85,18 +121,56 @@ public class OpenApiConfig {
      * API information configuration.
      */
     private Info apiInfo() {
+        String description = """
+            ## 🏫 CAFM Backend API
+            
+            **Computer-Aided Facility Management System** for Educational Institutions
+            
+            ### Features
+            - 🔐 **Multi-tenant Architecture** with JWT authentication
+            - 👥 **Role-based Access Control** (Admin, Supervisor, Technician)
+            - 📱 **Mobile API Support** for field operations
+            - 🔄 **Real-time Work Order Tracking**
+            - 📊 **Comprehensive Reporting & Analytics**
+            - 🏢 **Asset & Inventory Management**
+            - 📧 **Notification System** with FCM integration
+            - 🌐 **Internationalization** (Arabic/English)
+            
+            ### Getting Started
+            1. **Authentication**: Use `/api/v1/auth/login` to obtain JWT tokens
+            2. **Authorization**: Include `Authorization: Bearer <token>` header
+            3. **Multi-tenancy**: Company ID is automatically detected from token
+            4. **Rate Limits**: Respect API rate limits (documented per endpoint)
+            
+            ### API Standards
+            - **REST API** following OpenAPI 3.0 specification
+            - **JSON** request/response format with UTF-8 encoding
+            - **ISO 8601** timestamps in UTC
+            - **UUID v4** for entity identifiers
+            - **Pagination** using Spring Data Page format
+            - **Error Handling** with structured error responses
+            
+            ### Security
+            - **HTTPS Only** in production environments
+            - **JWT Tokens** with configurable expiration
+            - **Rate Limiting** to prevent abuse
+            - **Input Validation** on all endpoints
+            - **CORS Support** for web applications
+            - **Audit Logging** for compliance tracking
+            """;
+        
         return new Info()
-            .title(apiTitle)
-            .description(apiDescription)
+            .title("🏫 " + apiTitle)
+            .description(description)
             .version(appVersion)
             .contact(new Contact()
-                .name("CAFM Support Team")
-                .email("support@cafm.sa")
-                .url("https://cafm.sa"))
+                .name("CAFM Development Team")
+                .email("api-support@cafm.sa")
+                .url("https://github.com/OmarEhab007/cafm-backend"))
             .license(new License()
-                .name("Proprietary")
-                .url("https://cafm.sa/license"))
-            .termsOfService("https://cafm.sa/terms");
+                .name("MIT License")
+                .url("https://github.com/OmarEhab007/cafm-backend/blob/main/LICENSE"))
+            .termsOfService("https://github.com/OmarEhab007/cafm-backend/blob/main/TERMS.md");
     }
     
     /**

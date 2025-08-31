@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.*;
     "spring.flyway.enabled=false",
     "spring.datasource.url=jdbc:postgresql://localhost:5432/cafm_db",
     "spring.datasource.username=cafm_user",
-    "spring.datasource.password=cafm_password_2024"
+    "spring.datasource.password=test_password"
 })
 class SimpleRepositoryTest {
     

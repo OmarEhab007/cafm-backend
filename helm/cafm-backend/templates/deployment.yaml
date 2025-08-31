@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cafm-backend.fullname" . }}
+  labels:
+    {{- include "cafm-backend.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "cafm-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "cafm-backend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cafm-backend.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          {{- if .Values.healthchecks.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.healthchecks.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.healthchecks.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.healthchecks.readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.healthchecks.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.healthchecks.startupProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- if .Values.application.jvm.options }}
+            - name: JAVA_OPTS
+              value: {{ .Values.application.jvm.options | quote }}
+            {{- end }}
+            - name: SERVER_PORT
+              value: {{ .Values.service.targetPort | quote }}
+            {{- if .Values.externalServices.postgresql.host }}
+            - name: DB_HOST
+              value: {{ .Values.externalServices.postgresql.host | quote }}
+            - name: DB_PORT
+              value: {{ .Values.externalServices.postgresql.port | quote }}
+            - name: DB_NAME
+              value: {{ .Values.externalServices.postgresql.database | quote }}
+            - name: DB_USERNAME
+              value: {{ .Values.externalServices.postgresql.username | quote }}
+            {{- end }}
+            {{- if .Values.externalServices.redis.host }}
+            - name: REDIS_HOST
+              value: {{ .Values.externalServices.redis.host | quote }}
+            - name: REDIS_PORT
+              value: {{ .Values.externalServices.redis.port | quote }}
+            {{- end }}
+            {{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+          {{- if .Values.envFrom }}
+          envFrom:
+            {{- toYaml .Values.envFrom | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: temp-volume
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- end }}
+            - name: timezone
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        {{- if .Values.persistence.enabled }}
+        - name: temp-volume
+          persistentVolumeClaim:
+            claimName: {{ include "cafm-backend.fullname" . }}-pvc
+        {{- end }}
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/UTC
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.application.server.shutdownGracePeriod | default "30s" | trimSuffix "s" }}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always

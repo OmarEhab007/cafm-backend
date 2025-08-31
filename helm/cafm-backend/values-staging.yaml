@@ -1,0 +1,81 @@
+# Staging environment values
+replicaCount: 1
+
+image:
+  repository: ghcr.io/your-org/cafm-backend
+  tag: "staging-latest"
+
+ingress:
+  hosts:
+    - host: staging-api.cafm.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: cafm-backend-staging-tls
+      hosts:
+        - staging-api.cafm.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+application:
+  profiles:
+    active: "staging"
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: "staging"
+  - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+    value: "always"
+  - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+    value: "health,info,metrics,prometheus,env,configprops"
+  - name: LOGGING_LEVEL_COM_CAFM
+    value: "DEBUG"
+
+# Enable PostgreSQL and Redis for staging (embedded)
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "staging-postgres-password"
+    username: cafm_user
+    password: "staging-password"
+    database: cafm_staging
+
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: "staging-redis-password"
+
+# Disable external services in staging
+externalServices:
+  postgresql:
+    host: ""
+  redis:
+    host: ""
+
+persistence:
+  size: 2Gi
+
+# More relaxed security for staging
+securityContext:
+  readOnlyRootFilesystem: false
+
+networkPolicy:
+  enabled: false
+
+# Enable testing features
+testing:
+  enabled: true

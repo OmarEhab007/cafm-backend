@@ -21,10 +21,14 @@ import java.util.UUID;
 
 /**
  * Debug controller for testing user creation issues.
- * TO BE REMOVED after debugging.
+ * ONLY AVAILABLE IN DEVELOPMENT PROFILE - DISABLED IN PRODUCTION.
+ * 
+ * Security Note: This controller contains test operations and should never
+ * be enabled in production environments.
  */
 @RestController
 @RequestMapping("/api/v1/debug")
+@org.springframework.context.annotation.Profile({"dev", "test"})
 public class DebugController {
     
     private static final Logger logger = LoggerFactory.getLogger(DebugController.class);
@@ -132,6 +136,8 @@ public class DebugController {
             UUID userId = UUID.randomUUID();
             String email = "nativeuser" + timestamp + "@cafm.com";
             String username = "nativeuser" + timestamp;
+            // WARNING: Hardcoded password for development testing only
+            // This is acceptable only because this controller is profile-restricted to dev/test
             String passwordHash = passwordEncoder.encode("SecurePass123@");
             
             // Use native SQL to insert with cast workaround

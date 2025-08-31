@@ -1,0 +1,267 @@
+# Default values for cafm-backend
+replicaCount: 2
+
+image:
+  repository: ghcr.io/your-org/cafm-backend
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "/actuator/prometheus"
+  prometheus.io/port: "8080"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+    - ALL
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  name: cafm-backend
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: api.cafm.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: cafm-backend-tls
+      hosts:
+        - api.cafm.local
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+# Horizontal Pod Autoscaler
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# Vertical Pod Autoscaler (if enabled)
+vpa:
+  enabled: false
+  updateMode: "Auto"
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - cafm-backend
+        topologyKey: kubernetes.io/hostname
+
+# Health checks
+healthchecks:
+  livenessProbe:
+    httpGet:
+      path: /actuator/health/liveness
+      port: 8080
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+  
+  readinessProbe:
+    httpGet:
+      path: /actuator/health/readiness
+      port: 8080
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
+
+  startupProbe:
+    httpGet:
+      path: /actuator/health
+      port: 8080
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 30
+
+# Application configuration
+application:
+  profiles:
+    active: "production"
+  
+  jvm:
+    options: >-
+      -XX:+UseG1GC
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=75.0
+      -XX:+HeapDumpOnOutOfMemoryError
+      -XX:HeapDumpPath=/tmp/heapdump.hprof
+      -Djava.security.egd=file:/dev/./urandom
+
+  server:
+    port: 8080
+    shutdownGracePeriod: 30s
+
+# Environment variables
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: "production"
+  - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+    value: "when_authorized"
+  - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+    value: "health,info,metrics,prometheus"
+
+# Secret environment variables (loaded from external secrets)
+envFrom:
+  - secretRef:
+      name: cafm-backend-secrets
+  - configMapRef:
+      name: cafm-backend-config
+
+# Persistence (for temporary files, logs, etc.)
+persistence:
+  enabled: true
+  storageClass: "gp2"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  mountPath: /tmp
+
+# Network Policy
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: nginx-ingress
+      ports:
+      - protocol: TCP
+        port: 8080
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: monitoring
+      ports:
+      - protocol: TCP
+        port: 8080
+
+# Service Monitor for Prometheus
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  interval: 30s
+  scrapeTimeout: 10s
+  path: /actuator/prometheus
+  labels:
+    release: prometheus
+
+# Grafana Dashboard
+grafanaDashboard:
+  enabled: true
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+
+# PostgreSQL dependency
+postgresql:
+  enabled: false  # Use external PostgreSQL in production
+  auth:
+    postgresPassword: ""
+    username: cafm_user
+    password: ""
+    database: cafm_db
+
+# Redis dependency  
+redis:
+  enabled: false  # Use external Redis in production
+  auth:
+    enabled: true
+    password: ""
+
+# External services configuration
+externalServices:
+  postgresql:
+    host: ""
+    port: 5432
+    database: cafm_db
+    username: cafm_user
+    # Password loaded from secret
+  
+  redis:
+    host: ""
+    port: 6379
+    # Password loaded from secret
+
+# Backup configuration
+backup:
+  enabled: false
+  schedule: "0 2 * * *"
+  retention: 7
+
+# Rollback configuration
+rollback:
+  enabled: false
+  reason: ""
+
+# Feature flags
+featureFlags:
+  enableMetrics: true
+  enableTracing: true
+  enableAuditLogs: true
+
+# Testing
+testing:
+  enabled: false
+  image:
+    repository: ghcr.io/your-org/cafm-backend
+    tag: "test-latest"

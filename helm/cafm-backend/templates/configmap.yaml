@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cafm-backend.fullname" . }}-config
+  labels:
+    {{- include "cafm-backend.labels" . | nindent 4 }}
+data:
+  {{- with .Values.configMap.data }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+---
+{{- if .Values.monitoring.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cafm-backend.fullname" . }}-logback-config
+  labels:
+    {{- include "cafm-backend.labels" . | nindent 4 }}
+data:
+  logback-spring.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <configuration>
+        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+        
+        <!-- Console appender for local development -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp/>
+                    <version/>
+                    <logLevel/>
+                    <message/>
+                    <mdc/>
+                    <arguments/>
+                    <stackTrace/>
+                    <pattern>
+                        <pattern>
+                            {
+                                "app": "cafm-backend",
+                                "environment": "{{ .Values.app.environment }}",
+                                "version": "{{ .Values.app.version }}"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+        </appender>
+        
+        <!-- File appender for persistent logging -->
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/app/logs/application.log</file>
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp/>
+                    <version/>
+                    <logLevel/>
+                    <message/>
+                    <mdc/>
+                    <arguments/>
+                    <stackTrace/>
+                    <pattern>
+                        <pattern>
+                            {
+                                "app": "cafm-backend",
+                                "environment": "{{ .Values.app.environment }}",
+                                "version": "{{ .Values.app.version }}",
+                                "pod": "${HOSTNAME:-unknown}"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+            <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <fileNamePattern>/app/logs/application.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+                <totalSizeCap>1GB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+        
+        <!-- Async appender for better performance -->
+        <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="CONSOLE"/>
+            <queueSize>1024</queueSize>
+            <discardingThreshold>200</discardingThreshold>
+            <includeCallerData>false</includeCallerData>
+        </appender>
+        
+        <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+            <appender-ref ref="FILE"/>
+            <queueSize>1024</queueSize>
+            <discardingThreshold>200</discardingThreshold>
+            <includeCallerData>false</includeCallerData>
+        </appender>
+        
+        <!-- Logger configurations -->
+        <logger name="com.cafm" level="INFO"/>
+        <logger name="org.springframework.boot.actuate.endpoint.web" level="WARN"/>
+        <logger name="org.springframework.web.servlet.DispatcherServlet" level="WARN"/>
+        
+        <!-- Security and audit logging -->
+        <logger name="org.springframework.security" level="WARN"/>
+        <logger name="org.springframework.security.web.authentication" level="INFO"/>
+        <logger name="org.springframework.security.web.access" level="INFO"/>
+        
+        <!-- Database logging -->
+        <logger name="org.hibernate.SQL" level="WARN"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="WARN"/>
+        
+        <!-- Root logger -->
+        <springProfile name="production">
+            <root level="WARN">
+                <appender-ref ref="ASYNC_CONSOLE"/>
+                <appender-ref ref="ASYNC_FILE"/>
+            </root>
+        </springProfile>
+        
+        <springProfile name="staging">
+            <root level="INFO">
+                <appender-ref ref="ASYNC_CONSOLE"/>
+                <appender-ref ref="ASYNC_FILE"/>
+            </root>
+        </springProfile>
+        
+        <springProfile name="development,dev">
+            <root level="DEBUG">
+                <appender-ref ref="CONSOLE"/>
+            </root>
+        </springProfile>
+    </configuration>
+{{- end }}

@@ -1,0 +1,103 @@
+# Development environment overrides
+app:
+  environment: development
+
+# Use smaller resource requirements for dev
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+# Disable autoscaling in dev
+autoscaling:
+  enabled: false
+
+# Use NodePort for easier local access
+service:
+  type: NodePort
+  nodePort: 30080
+
+# Dev ingress configuration
+ingress:
+  hosts:
+    - host: api-dev.cafm.company.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: cafm-backend-dev-tls
+      hosts:
+        - api-dev.cafm.company.com
+
+# More verbose logging in dev
+env:
+  SPRING_PROFILES_ACTIVE: "development"
+  LOGGING_LEVEL_COM_CAFM: "DEBUG"
+  LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: "DEBUG"
+
+# Enable development tools
+configMap:
+  data:
+    application.yml: |
+      spring:
+        application:
+          name: cafm-backend
+        profiles:
+          active: development
+        jpa:
+          hibernate:
+            ddl-auto: create-drop
+          show-sql: true
+          properties:
+            hibernate:
+              format_sql: true
+        flyway:
+          enabled: false
+        devtools:
+          restart:
+            enabled: true
+      
+      server:
+        port: 8080
+      
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: "*"
+        endpoint:
+          health:
+            show-details: always
+      
+      logging:
+        level:
+          com.cafm: DEBUG
+          org.springframework.web: DEBUG
+          org.hibernate.SQL: DEBUG
+          org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Use local storage class for dev
+persistence:
+  storageClass: "local-path"
+  size: 5Gi
+
+# Disable network policies in dev for easier debugging
+networkPolicy:
+  enabled: false
+
+# Use embedded databases for dev if needed
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "dev-password"
+    database: "cafm_dev_db"
+
+redis:
+  enabled: true
+  auth:
+    enabled: false

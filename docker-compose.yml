@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: cafm_db
       POSTGRES_USER: cafm_user
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-cafm_password_2024}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
@@ -27,13 +27,13 @@ services:
     image: redis:7-alpine
     container_name: cafm-redis
     restart: unless-stopped
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_password_2024}
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_password_2024}", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,8 +47,8 @@ services:
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minio_admin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minio_password_2024}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       # MINIO_DEFAULT_BUCKETS is deprecated, buckets will be created via mc client
     ports:
       - "9000:9000"  # API port
@@ -70,7 +70,7 @@ services:
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@cafm.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-pgadmin_password_2024}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
     ports:
@@ -90,7 +90,7 @@ services:
     container_name: cafm-redis-commander
     restart: unless-stopped
     environment:
-      REDIS_HOSTS: local:cafm-redis:6379:0:${REDIS_PASSWORD:-redis_password_2024}
+      REDIS_HOSTS: local:cafm-redis:6379:0:${REDIS_PASSWORD}
     ports:
       - "8081:8081"
     depends_on:

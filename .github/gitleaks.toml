@@ -1,0 +1,97 @@
+# GitLeaks configuration for CAFM Backend
+# This file configures secret detection patterns and exclusions
+
+title = "GitLeaks Config for CAFM Backend"
+
+[extend]
+# Extend default GitLeaks rules
+useDefault = true
+
+[[rules]]
+id = "aws-access-key-id"
+description = "AWS Access Key ID"
+regex = '''AKIA[0-9A-Z]{16}'''
+keywords = ["AKIA"]
+
+[[rules]]
+id = "aws-secret-access-key"
+description = "AWS Secret Access Key"
+regex = '''[A-Za-z0-9\/+=]{40}'''
+keywords = ["aws_secret_access_key", "aws-secret-access-key"]
+
+[[rules]]
+id = "jwt-secret"
+description = "JWT Secret"
+regex = '''jwt[._-]?secret[._-]?[=:]\s*["\']?([A-Za-z0-9+/=]{32,})["\']?'''
+keywords = ["jwt", "secret"]
+
+[[rules]]
+id = "database-password"
+description = "Database Password"
+regex = '''(db[._-]?password|database[._-]?password)[._-]?[=:]\s*["\']?([^\s"\']{8,})["\']?'''
+keywords = ["password", "db", "database"]
+
+[[rules]]
+id = "redis-password"
+description = "Redis Password"
+regex = '''redis[._-]?password[._-]?[=:]\s*["\']?([^\s"\']{6,})["\']?'''
+keywords = ["redis", "password"]
+
+[[rules]]
+id = "minio-credentials"
+description = "MinIO Credentials"
+regex = '''minio[._-]?(access[._-]?key|secret[._-]?key)[._-]?[=:]\s*["\']?([^\s"\']{8,})["\']?'''
+keywords = ["minio", "access", "secret"]
+
+[[rules]]
+id = "spring-security-key"
+description = "Spring Security Key"
+regex = '''spring[._-]?security[._-]?[a-z]*[._-]?key[._-]?[=:]\s*["\']?([A-Za-z0-9+/=]{16,})["\']?'''
+keywords = ["spring", "security", "key"]
+
+# Allowlist - exclude false positives
+[allowlist]
+description = "Allowlist for CAFM Backend"
+paths = [
+    '''\.git/''',
+    '''target/''',
+    '''\.github/gitleaks\.toml''',
+    '''README\.md''',
+    '''CONTRIBUTING\.md''',
+    '''\.github/workflows/.*\.yml''',
+]
+
+regexes = [
+    '''test-secret-key-for-ci-testing-only''',
+    '''example\.com''',
+    '''localhost''',
+    '''127\.0\.0\.1''',
+    '''cafm_password_2024''',  # Example password in docker-compose
+    '''minioadmin''',          # Default MinIO credentials
+    '''cafm_test''',           # Test database names
+    '''cafm_dev''',            # Development database names
+]
+
+# Commit allowlist - exclude specific commits if needed
+commits = []
+
+# Stopwords - additional keywords to look for
+stopwords = [
+    "password",
+    "secret",
+    "key",
+    "token",
+    "credential",
+    "auth",
+    "api-key",
+    "private-key",
+    "access-key",
+]
+
+# File extensions to scan
+[scan]
+timeout = "10m"
+threads = 4
+
+# File size limit (in bytes)
+maxFileSize = "10MB"

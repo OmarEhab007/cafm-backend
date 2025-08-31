@@ -3,9 +3,11 @@ package com.cafm.cafmbackend.api.controllers;
 import com.cafm.cafmbackend.dto.auth.*;
 import com.cafm.cafmbackend.security.event.SecurityEventLogger;
 import com.cafm.cafmbackend.application.service.AuthService;
+import com.cafm.cafmbackend.configuration.web.SwaggerExamples;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -48,14 +50,93 @@ public class AuthController {
      * Authenticate user and return JWT tokens.
      */
     @PostMapping("/login")
-    @Operation(summary = "Login", description = "Authenticate with email and password")
+    @Operation(
+        summary = "User Authentication", 
+        description = "Authenticate user with email and password to obtain JWT tokens for API access. " +
+                      "Supports multi-tenant authentication with automatic tenant detection.",
+        tags = {"Authentication"}
+    )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Login successful",
-                    content = @Content(schema = @Schema(implementation = LoginResponse.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid credentials"),
-        @ApiResponse(responseCode = "403", description = "Account locked or inactive")
+        @ApiResponse(
+            responseCode = "200", 
+            description = "Authentication successful",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = LoginResponse.class),
+                examples = @ExampleObject(
+                    name = "Successful Login",
+                    summary = "Example of successful login response",
+                    value = SwaggerExamples.Auth.LOGIN_RESPONSE
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400", 
+            description = "Invalid request parameters",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(ref = "#/components/schemas/ErrorResponse"),
+                examples = @ExampleObject(
+                    name = "Validation Error",
+                    summary = "Invalid email format or missing password",
+                    value = SwaggerExamples.Error.VALIDATION_ERROR
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "401", 
+            description = "Invalid credentials",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(ref = "#/components/schemas/ErrorResponse"),
+                examples = @ExampleObject(
+                    name = "Invalid Credentials",
+                    summary = "Wrong email or password",
+                    value = SwaggerExamples.Auth.ERROR_RESPONSE
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "403", 
+            description = "Account locked, inactive, or suspended",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(ref = "#/components/schemas/ErrorResponse"),
+                examples = @ExampleObject(
+                    name = "Account Locked",
+                    summary = "User account is locked or inactive",
+                    value = SwaggerExamples.Error.FORBIDDEN_ERROR
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "429", 
+            description = "Too many login attempts",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(ref = "#/components/schemas/ErrorResponse"),
+                examples = @ExampleObject(
+                    name = "Rate Limited",
+                    summary = "Too many failed login attempts",
+                    value = SwaggerExamples.Error.RATE_LIMIT_ERROR
+                )
+            )
+        )
     })
     public ResponseEntity<LoginResponse> login(
+            @Parameter(
+                description = "Login credentials with email and password",
+                required = true,
+                content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = LoginRequest.class),
+                    examples = @ExampleObject(
+                        name = "Admin Login",
+                        summary = "Example admin login request",
+                        value = SwaggerExamples.Auth.LOGIN_REQUEST
+                    )
+                )
+            )
             @Valid @RequestBody LoginRequest request,
             HttpServletRequest httpRequest) {
 

@@ -1,0 +1,175 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cafm-production
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cafm-config
+  namespace: cafm-production
+data:
+  application.properties: |
+    # Connect to existing Docker Compose PostgreSQL
+    server.port=8080
+    spring.application.name=cafm-backend
+    
+    # Database configuration - connects to Docker Compose postgres
+    spring.datasource.url=jdbc:postgresql://192.168.8.198:5432/cafm_db
+    spring.datasource.username=cafm_user
+    spring.datasource.password=${DB_PASSWORD}
+    spring.datasource.driver-class-name=org.postgresql.Driver
+    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+    spring.jpa.hibernate.ddl-auto=none
+    
+    # Disable Flyway for now due to migration conflicts
+    spring.flyway.enabled=false
+    
+    # Health checks
+    management.endpoints.web.exposure.include=health,info,prometheus,metrics
+    management.endpoint.health.show-details=always
+    
+    # Cache configuration (simple for now, can add Redis later)
+    spring.cache.type=simple
+    
+    # Logging
+    logging.level.root=INFO
+    logging.level.com.cafm=DEBUG
+    logging.level.org.hibernate.SQL=DEBUG
+    
+    # Security (relaxed for local testing)
+    spring.security.debug=false
+    
+    # Actuator endpoints
+    management.server.port=8080
+    management.endpoints.web.base-path=/actuator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cafm-backend
+  namespace: cafm-production
+  labels:
+    app: cafm-backend
+    version: local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cafm-backend
+  template:
+    metadata:
+      labels:
+        app: cafm-backend
+        version: local
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+      - name: cafm-backend
+        image: cafm-backend:java21-v2
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "docker"
+        - name: SERVER_PORT
+          value: "8080"
+        - name: SPRING_CONFIG_ADDITIONAL_LOCATION
+          value: "file:/app/config/"
+        - name: DB_HOST
+          value: "192.168.8.198"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "cafm_db"
+        - name: DB_USERNAME
+          value: "cafm_user"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cafm-secrets
+              key: db-password
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 90
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 12
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: cafm-config
+      # Enable host network access for Docker Desktop
+      hostNetwork: false
+      dnsPolicy: ClusterFirst
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cafm-backend-service
+  namespace: cafm-production
+  labels:
+    app: cafm-backend
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/actuator/prometheus"
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30005
+    name: http
+  selector:
+    app: cafm-backend
+---
+# ServiceMonitor for Prometheus to scrape metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cafm-backend-metrics
+  namespace: cafm-production
+  labels:
+    app: cafm-backend
+spec:
+  selector:
+    matchLabels:
+      app: cafm-backend
+  endpoints:
+  - port: http
+    path: /actuator/prometheus
+    interval: 30s

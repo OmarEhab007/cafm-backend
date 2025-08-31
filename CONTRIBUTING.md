@@ -1,6 +1,6 @@
 # Contributing to CAFM Backend
 
-First off, thank you for considering contributing to CAFM Backend! It's people like you that make CAFM Backend such a great tool.
+Thank you for your interest in contributing to the CAFM Backend! This document provides comprehensive guidelines and information for contributors to our enterprise-grade facility management system.
 
 ## Code of Conduct
 
@@ -242,6 +242,44 @@ Performance improvement: ~80% faster response time
   - Maintainability
   - Test coverage
 
+## Security Considerations
+
+All contributions must follow our security guidelines:
+
+### Security Requirements
+
+- **No Hardcoded Secrets**: All credentials via environment variables
+- **Input Validation**: Validate all user inputs with Bean Validation
+- **SQL Injection Prevention**: Use parameterized queries only
+- **XSS Prevention**: Proper output encoding
+- **Authentication**: Respect existing JWT authentication
+- **Authorization**: Check user permissions appropriately
+
+### Security Review Process
+
+Security-sensitive changes require additional review:
+- Authentication/Authorization changes
+- Database query modifications
+- Input validation updates
+- Configuration changes
+- Dependency updates
+
+### Security Testing
+
+Include security tests for:
+```java
+@Test
+@WithMockUser(roles = "ADMIN")
+void shouldAllowAdminAccess() {
+    // Test admin-only functionality
+}
+
+@Test
+void shouldRejectUnauthorizedAccess() {
+    // Test unauthorized access is denied
+}
+```
+
 ## Documentation
 
 ### API Documentation
@@ -250,6 +288,7 @@ Performance improvement: ~80% faster response time
 - Include request/response examples
 - Document error responses
 - Keep Swagger descriptions updated
+- Security requirements documented
 
 ### Code Documentation
 
@@ -257,6 +296,7 @@ Performance improvement: ~80% faster response time
 - Explain complex algorithms
 - Document business logic decisions
 - Include examples where helpful
+- Security considerations documented
 
 ## Release Process
 

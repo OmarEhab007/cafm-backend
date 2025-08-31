@@ -2,6 +2,7 @@ package com.cafm.cafmbackend.dto.auth;
 
 import com.cafm.cafmbackend.shared.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -9,48 +10,89 @@ import java.util.UUID;
 /**
  * Login response DTO containing authentication tokens and user information.
  */
+@Schema(description = "Successful login response with tokens and user information")
 public record LoginResponse(
-    // Authentication tokens
+    @Schema(description = "JWT access token for API authentication", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
     String accessToken,
-    String refreshToken,
-    String tokenType,
-    Long expiresIn, // seconds until access token expires
     
-    // User information
+    @Schema(description = "JWT refresh token for token renewal", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
+    String refreshToken,
+    
+    @Schema(description = "Token type", example = "Bearer", defaultValue = "Bearer")
+    String tokenType,
+    
+    @Schema(description = "Access token expiration time in seconds", example = "3600")
+    Long expiresIn,
+    
+    @Schema(description = "Unique user identifier", example = "123e4567-e89b-12d3-a456-426614174000")
     UUID userId,
+    
+    @Schema(description = "User's email address", example = "john.doe@example.com")
     String email,
+    
+    @Schema(description = "User's first name", example = "John")
     String firstName,
+    
+    @Schema(description = "User's last name", example = "Doe")
     String lastName,
+    
+    @Schema(description = "User's first name in Arabic", example = "جون")
     String firstNameAr,
+    
+    @Schema(description = "User's last name in Arabic", example = "دو")
     String lastNameAr,
+    
+    @Schema(description = "User type/role in the system", example = "ADMIN")
     UserType userType,
+    
+    @Schema(description = "User's assigned roles", example = "[\"ADMIN\", \"USER\"]")
     Set<String> roles,
+    
+    @Schema(description = "User's specific permissions", example = "[\"READ_USERS\", \"WRITE_REPORTS\"]")
     Set<String> permissions,
     
-    // Company information
+    @Schema(description = "Company/tenant identifier", example = "123e4567-e89b-12d3-a456-426614174000")
     UUID companyId,
+    
+    @Schema(description = "Company name", example = "ACME School District")
     String companyName,
+    
+    @Schema(description = "Company account status", example = "ACTIVE")
     String companyStatus,
+    
+    @Schema(description = "Company subscription plan", example = "PREMIUM")
     String subscriptionPlan,
     
-    // Session information
+    @Schema(description = "Unique session identifier", example = "sess_123456789")
     String sessionId,
+    
+    @Schema(description = "Current login timestamp", example = "2024-01-15T10:30:00")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime loginTime,
+    
+    @Schema(description = "Previous login timestamp", example = "2024-01-14T09:15:00")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime lastLoginTime,
     
-    // User preferences
+    @Schema(description = "User's preferred language", example = "en", allowableValues = {"en", "ar"})
     String language,
+    
+    @Schema(description = "User's timezone", example = "Asia/Riyadh")
     String timezone,
+    
+    @Schema(description = "UI theme preference", example = "light", allowableValues = {"light", "dark"})
     String theme,
     
-    // Feature flags
+    @Schema(description = "Indicates if this is the user's first login", example = "false")
     Boolean isFirstLogin,
+    
+    @Schema(description = "Indicates if user must change password", example = "false")
     Boolean mustChangePassword,
+    
+    @Schema(description = "Indicates if two-factor authentication is enabled", example = "true")
     Boolean twoFactorEnabled,
     
-    // Avatar URL
+    @Schema(description = "URL to user's profile picture", example = "https://api.example.com/avatars/user123.jpg")
     String avatarUrl
 ) {
     /**
