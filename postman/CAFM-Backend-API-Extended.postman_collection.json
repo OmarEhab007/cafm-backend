@@ -1,0 +1,821 @@
+{
+  "info": {
+    "name": "🏫 CAFM Backend API - Complete Collection",
+    "description": "**Comprehensive Postman Collection for CAFM Backend API**\n\n🔐 **Computer-Aided Facility Management System** for Educational Institutions\n\nThis collection includes all API endpoints with proper authentication, test scripts, and realistic examples.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "cafm-backend-api-complete",
+    "version": {
+      "major": 1,
+      "minor": 0,
+      "patch": 0
+    }
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Generate test data for Saudi Arabia context",
+          "const arabicFirstNames = ['أحمد', 'محمد', 'عبدالله', 'سارة', 'فاطمة', 'عائشة', 'خالد', 'عبدالرحمن'];",
+          "const arabicLastNames = ['المحمد', 'الأحمد', 'العبدالله', 'الخالد', 'السعد', 'الحربي', 'العتيبي', 'القحطاني'];",
+          "const saudiCities = ['الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'الدمام', 'تبوك', 'بريدة', 'خميس مشيط'];",
+          "",
+          "pm.environment.set('testFirstNameAr', arabicFirstNames[Math.floor(Math.random() * arabicFirstNames.length)]);",
+          "pm.environment.set('testLastNameAr', arabicLastNames[Math.floor(Math.random() * arabicLastNames.length)]);",
+          "pm.environment.set('testCity', saudiCities[Math.floor(Math.random() * saudiCities.length)]);",
+          "pm.environment.set('testPhoneNumber', '+966' + Math.floor(Math.random() * 900000000 + 100000000));"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\", \"rememberMe\": false}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"refreshToken\": \"{{refreshToken}}\"}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/refresh"
+          }
+        }
+      ]
+    },
+    {
+      "name": "👥 User Management",
+      "item": [
+        {
+          "name": "Get All Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Users retrieved successfully', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is paginated', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('content');",
+                  "    pm.expect(responseJson).to.have.property('totalElements');",
+                  "    pm.expect(responseJson).to.have.property('totalPages');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/users?page=0&size=20&sort=createdAt,desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "users"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"},
+                {"key": "sort", "value": "createdAt,desc"},
+                {"key": "userType", "value": "", "disabled": true},
+                {"key": "status", "value": "", "disabled": true},
+                {"key": "search", "value": "", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create User - Supervisor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('User created successfully', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Response contains user ID', function () {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.expect(responseJson).to.have.property('id');",
+                  "    pm.environment.set('createdUserId', responseJson.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{testEmail}}\",\n  \"firstName\": \"{{testFirstName}}\",\n  \"lastName\": \"{{testLastName}}\",\n  \"firstNameAr\": \"{{testFirstNameAr}}\",\n  \"lastNameAr\": \"{{testLastNameAr}}\",\n  \"userType\": \"SUPERVISOR\",\n  \"phoneNumber\": \"{{testPhoneNumber}}\",\n  \"isActive\": true,\n  \"language\": \"ar\",\n  \"timezone\": \"Asia/Riyadh\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users"
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}"
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Updated {{testFirstName}}\",\n  \"lastName\": \"Updated {{testLastName}}\",\n  \"phoneNumber\": \"{{testPhoneNumber}}\",\n  \"isActive\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}"
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/users/{{createdUserId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏢 Company Management",
+      "item": [
+        {
+          "name": "Get All Companies",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/companies?page=0&size=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "companies"],
+              "query": [
+                {"key": "page", "value": "0"},
+                {"key": "size", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Company",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{testCity}} Education District\",\n  \"nameAr\": \"إدارة تعليم {{testCity}}\",\n  \"domain\": \"test-{{$randomInt}}.edu.sa\",\n  \"subdomain\": \"test{{$randomInt}}\",\n  \"address\": \"123 Education Street, {{testCity}}\",\n  \"addressAr\": \"شارع التعليم 123، {{testCity}}\",\n  \"city\": \"{{testCity}}\",\n  \"country\": \"Saudi Arabia\",\n  \"countryAr\": \"المملكة العربية السعودية\",\n  \"phoneNumber\": \"{{testPhoneNumber}}\",\n  \"subscriptionPlan\": \"STANDARD\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/companies"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏫 School Management",
+      "item": [
+        {
+          "name": "Get All Schools",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/schools"
+          }
+        },
+        {
+          "name": "Create School",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"King Abdulaziz Elementary School - {{$randomInt}}\",\n  \"nameAr\": \"مدرسة الملك عبدالعزيز الابتدائية - {{$randomInt}}\",\n  \"type\": \"ELEMENTARY\",\n  \"address\": \"{{$randomStreetAddress}}, {{testCity}}\",\n  \"addressAr\": \"{{$randomStreetAddress}}، {{testCity}}\",\n  \"city\": \"{{testCity}}\",\n  \"district\": \"{{testCity}} District\",\n  \"phoneNumber\": \"{{testPhoneNumber}}\",\n  \"capacity\": {{$randomInt}},\n  \"currentEnrollment\": {{$randomInt}},\n  \"establishedYear\": 2010,\n  \"isActive\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/schools"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏭 Asset Management",
+      "item": [
+        {
+          "name": "Get All Assets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/assets?page=0&size=20",
+              "query": [
+                {"key": "schoolId", "value": "", "disabled": true},
+                {"key": "category", "value": "", "disabled": true},
+                {"key": "status", "value": "", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Asset - HVAC System",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Central AC Unit - Building A\",\n  \"nameAr\": \"وحدة التكييف المركزي - المبنى أ\",\n  \"description\": \"Central air conditioning system for main building\",\n  \"descriptionAr\": \"نظام التكييف المركزي للمبنى الرئيسي\",\n  \"category\": \"HVAC\",\n  \"serialNumber\": \"AC-{{$randomInt}}\",\n  \"manufacturer\": \"Samsung\",\n  \"model\": \"DVM S ECO\",\n  \"purchaseDate\": \"2023-01-15\",\n  \"purchasePrice\": 25000.00,\n  \"warrantyExpiry\": \"2026-01-15\",\n  \"status\": \"ACTIVE\",\n  \"location\": \"Building A, Roof Level\",\n  \"locationAr\": \"المبنى أ، مستوى السطح\",\n  \"maintenanceSchedule\": \"QUARTERLY\",\n  \"lastMaintenanceDate\": \"2024-07-01\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/assets"
+          }
+        },
+        {
+          "name": "Update Asset Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/assets/{{testAssetId}}/status?status=MAINTENANCE&reason=Scheduled maintenance",
+              "query": [
+                {"key": "status", "value": "MAINTENANCE"},
+                {"key": "reason", "value": "Scheduled maintenance"}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Report Management",
+      "item": [
+        {
+          "name": "Get All Reports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/reports?page=0&size=20",
+              "query": [
+                {"key": "status", "value": "", "disabled": true},
+                {"key": "priority", "value": "", "disabled": true},
+                {"key": "category", "value": "", "disabled": true},
+                {"key": "schoolId", "value": "", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Report - AC Problem",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Air Conditioner Not Working - Classroom 205\",\n  \"titleAr\": \"مكيف الهواء لا يعمل - الفصل 205\",\n  \"description\": \"The air conditioning unit in classroom 205 has stopped working. The room is getting very hot and students are complaining. Needs immediate attention.\",\n  \"descriptionAr\": \"توقف مكيف الهواء في الفصل 205 عن العمل. الغرفة تصبح حارة جداً والطلاب يشتكون. يحتاج إلى اهتمام فوري.\",\n  \"category\": \"HVAC\",\n  \"priority\": \"HIGH\",\n  \"location\": \"Building A, Floor 2, Classroom 205\",\n  \"locationAr\": \"المبنى أ، الطابق الثاني، الفصل 205\",\n  \"estimatedCost\": 1500.00,\n  \"requiredDate\": \"2024-09-03T00:00:00\",\n  \"images\": [\n    \"https://example.com/images/ac-problem-1.jpg\",\n    \"https://example.com/images/ac-problem-2.jpg\"\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/reports"
+          }
+        },
+        {
+          "name": "Review Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"APPROVED\",\n  \"priority\": \"HIGH\",\n  \"reviewNotes\": \"Approved for immediate work order creation. High priority due to classroom impact.\",\n  \"reviewNotesAr\": \"تم الموافقة لإنشاء أمر عمل فوري. أولوية عالية بسبب تأثيره على الفصل الدراسي.\",\n  \"estimatedCost\": 2000.00\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/reports/{{testReportId}}/review"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔧 Work Order Management",
+      "item": [
+        {
+          "name": "Get All Work Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/work-orders?page=0&size=20",
+              "query": [
+                {"key": "status", "value": "", "disabled": true},
+                {"key": "priority", "value": "", "disabled": true},
+                {"key": "assignedToId", "value": "", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportId\": \"{{testReportId}}\",\n  \"title\": \"AC Repair - Classroom 205\",\n  \"titleAr\": \"إصلاح المكيف - الفصل 205\",\n  \"description\": \"Replace faulty compressor and clean filters for AC unit in classroom 205\",\n  \"descriptionAr\": \"استبدال الضاغط المعطل وتنظيف المرشحات لوحدة التكييف في الفصل 205\",\n  \"priority\": \"HIGH\",\n  \"scheduledDate\": \"2024-09-02T08:00:00\",\n  \"estimatedHours\": 4.0,\n  \"requiredParts\": [\n    \"AC Compressor Model ABC123\",\n    \"Air Filter Set\",\n    \"Refrigerant R410A - 2kg\"\n  ],\n  \"specialInstructions\": \"Ensure classroom is empty during repair. Work should be completed before 2 PM when classes resume.\",\n  \"specialInstructionsAr\": \"تأكد من أن الفصل فارغ أثناء الإصلاح. يجب إكمال العمل قبل الساعة 2 ظهراً عندما تستأنف الصفوف.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/work-orders"
+          }
+        },
+        {
+          "name": "Assign Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignedToId\": \"{{technicianUserId}}\",\n  \"assignmentNotes\": \"Urgent AC repair needed. Technician has experience with this model.\",\n  \"assignmentNotesAr\": \"إصلاح مكيف عاجل مطلوب. الفني لديه خبرة مع هذا النموذج.\",\n  \"scheduledDate\": \"2024-09-02T08:00:00\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/work-orders/{{testWorkOrderId}}/assign"
+          }
+        },
+        {
+          "name": "Start Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startNotes\": \"Started AC repair. Confirmed compressor failure.\",\n  \"startNotesAr\": \"بدء إصلاح المكيف. تأكد من عطل الضاغط.\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/work-orders/{{testWorkOrderId}}/start"
+          }
+        },
+        {
+          "name": "Complete Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completionNotes\": \"AC repair completed successfully. Replaced compressor and cleaned all filters. System tested and working properly.\",\n  \"completionNotesAr\": \"تم إصلاح المكيف بنجاح. تم استبدال الضاغط وتنظيف جميع المرشحات. تم اختبار النظام ويعمل بشكل صحيح.\",\n  \"actualHours\": 3.5,\n  \"actualCost\": 1800.00,\n  \"usedParts\": [\n    \"AC Compressor Model ABC123\",\n    \"Air Filter Set\"\n  ],\n  \"images\": [\n    \"https://example.com/images/repair-completed-1.jpg\",\n    \"https://example.com/images/repair-completed-2.jpg\"\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/work-orders/{{testWorkOrderId}}/complete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📦 Inventory Management",
+      "item": [
+        {
+          "name": "Get All Inventory Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/inventory/items"
+          }
+        },
+        {
+          "name": "Create Inventory Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"AC Air Filter 20x25x1\",\n  \"nameAr\": \"مرشح هواء المكيف 20x25x1\",\n  \"description\": \"High-efficiency air filter for HVAC systems\",\n  \"descriptionAr\": \"مرشح هواء عالي الكفاءة لأنظمة التكييف\",\n  \"category\": \"HVAC_PARTS\",\n  \"unit\": \"PIECE\",\n  \"minimumStock\": 10,\n  \"maximumStock\": 100,\n  \"reorderPoint\": 20,\n  \"unitCost\": 25.00,\n  \"supplier\": \"Al-Rashid HVAC Supplies\",\n  \"supplierAr\": \"مؤسسة الراشد لمعدات التكييف\",\n  \"barcode\": \"AC-FILTER-{{$randomInt}}\",\n  \"isActive\": true\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/inventory/items"
+          }
+        },
+        {
+          "name": "Stock In - Receive Items",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemId\": \"{{inventoryItemId}}\",\n  \"quantity\": 50,\n  \"unitCost\": 25.00,\n  \"totalCost\": 1250.00,\n  \"supplier\": \"Al-Rashid HVAC Supplies\",\n  \"invoiceNumber\": \"INV-{{$randomInt}}\",\n  \"receivedDate\": \"2024-08-31\",\n  \"notes\": \"Quarterly stock replenishment\",\n  \"notesAr\": \"تجديد المخزون الفصلي\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/inventory/stock-in"
+          }
+        },
+        {
+          "name": "Stock Out - Issue Items",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"itemId\": \"{{inventoryItemId}}\",\n  \"quantity\": 2,\n  \"reason\": \"WORK_ORDER\",\n  \"workOrderId\": \"{{testWorkOrderId}}\",\n  \"issuedToId\": \"{{technicianUserId}}\",\n  \"notes\": \"Issued for AC repair in classroom 205\",\n  \"notesAr\": \"تم الإصدار لإصلاح المكيف في الفصل 205\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/inventory/stock-out"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📱 Mobile Supervisor API",
+      "item": [
+        {
+          "name": "Get Dashboard Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/mobile/supervisor/dashboard"
+          }
+        },
+        {
+          "name": "Sync Mobile Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lastSyncTimestamp\": \"2024-08-31T00:00:00Z\",\n  \"deviceInfo\": {\n    \"deviceId\": \"mobile-{{$randomUUID}}\",\n    \"platform\": \"iOS\",\n    \"version\": \"17.0\",\n    \"appVersion\": \"1.2.3\"\n  }\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/mobile/supervisor/sync"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁 File Management",
+      "item": [
+        {
+          "name": "Upload File",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "/path/to/test-image.jpg"
+                },
+                {
+                  "key": "category",
+                  "value": "REPORT_IMAGE",
+                  "type": "text"
+                },
+                {
+                  "key": "entityId",
+                  "value": "{{testReportId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "AC unit problem photo",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "{{baseUrl}}/api/v1/files/upload"
+          }
+        },
+        {
+          "name": "Download File",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/files/{{fileId}}/download"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔔 Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/notifications?page=0&size=20&unreadOnly=false",
+              "query": [
+                {"key": "unreadOnly", "value": "false"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register FCM Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"fcm-token-{{$randomAlphaNumeric}}\",\n  \"deviceId\": \"device-{{$randomUUID}}\",\n  \"platform\": \"iOS\"\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/notifications/fcm-token"
+          }
+        },
+        {
+          "name": "Mark Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notificationIds\": [\n    \"{{notificationId1}}\",\n    \"{{notificationId2}}\"\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/notifications/mark-read"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Analytics & Reporting",
+      "item": [
+        {
+          "name": "Get Dashboard Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/analytics/dashboard?period=LAST_30_DAYS",
+              "query": [
+                {"key": "period", "value": "LAST_30_DAYS"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Reports to Excel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportType\": \"WORK_ORDERS\",\n  \"dateFrom\": \"2024-08-01\",\n  \"dateTo\": \"2024-08-31\",\n  \"schoolIds\": [],\n  \"categories\": [],\n  \"includeImages\": false\n}"
+            },
+            "url": "{{baseUrl}}/api/v1/reports/export/excel"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Audit Logs",
+      "item": [
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/audit/logs?page=0&size=50",
+              "query": [
+                {"key": "entityType", "value": "", "disabled": true},
+                {"key": "action", "value": "", "disabled": true},
+                {"key": "userId", "value": "", "disabled": true},
+                {"key": "dateFrom", "value": "", "disabled": true},
+                {"key": "dateTo", "value": "", "disabled": true}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Security Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/audit/security-events"
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚠️ Error Scenarios",
+      "item": [
+        {
+          "name": "Unauthorized Request (No Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should return 401 Unauthorized', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/v1/users"
+          }
+        },
+        {
+          "name": "Invalid Login Credentials",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should return 401 for invalid credentials', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"invalid@example.com\", \"password\": \"wrongpassword\"}"
+            },
+            "url": "{{baseUrl}}/api/v1/auth/login"
+          }
+        },
+        {
+          "name": "Resource Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should return 404 Not Found', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"}
+            ],
+            "url": "{{baseUrl}}/api/v1/users/00000000-0000-0000-0000-000000000000"
+          }
+        },
+        {
+          "name": "Validation Error",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Should return 400 Bad Request', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{accessToken}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"invalid-email\", \"firstName\": \"\", \"userType\": \"INVALID_TYPE\"}"
+            },
+            "url": "{{baseUrl}}/api/v1/users"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎯 Health Check",
+      "item": [
+        {
+          "name": "Application Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/health"
+          }
+        },
+        {
+          "name": "Actuator Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/actuator/health"
+          }
+        }
+      ]
+    }
+  ]
+}

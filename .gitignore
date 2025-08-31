@@ -201,6 +201,12 @@ session_*.json
 jwt_*.json
 *_credentials.json
 *_secrets.json
+# Login and authentication response files
+*login*.json
+login_result.json
+jwt_response.json
+admin_local_login.json
+fresh_login.json
 .secrets
 .credentials
 jwt-secret.txt
@@ -272,6 +278,9 @@ bin/
 *.old
 *~
 backup/
+*backup/
+refactoring-backup/
+*.backup/
 
 ### Postman ###
 *.postman_collection.json.backup
@@ -325,12 +334,16 @@ test-user-creation*.sh
 scripts/test/
 scripts/utils/
 
-# Postman collections
+# Postman collections (keep only organized ones in postman/ directory)
 *.postman_collection.json
 *postman*.json
 CAFM_*.json
 cafm-backend-postman*.json
 cafm_backend_collection*.json
+# Allow the organized postman directory
+!postman/
+!postman/*.json
+!postman/*.md
 
 # Log files from development
 app-startup.log
